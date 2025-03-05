@@ -1,0 +1,27 @@
+<mat-dialog-content>
+    <form (ngSubmit)="send()" [formGroup]="form">
+        <mat-form-field>
+            <mat-label>Sala</mat-label>
+            <mat-select formControlName="room" required>
+                @for (item of rooms; track $index) {
+                    <mat-option [value]="item">{{item}}</mat-option>
+                }
+            </mat-select>
+            <mat-error *ngIf="form.controls['room'].hasError('required')">Wymagane</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Wypożyczający</mat-label>
+            <!-- TODO: Add user selector -->
+            <input matInput placeholder="Nazwa użytkownika" formControlName="user" required>
+            <!-- <input #input matInput placeholder="Nazwa użytkownika" formControlName="user" required [matAutocomplete]="auto" (input)="filter()">
+            <mat-autocomplete requireSelection #auto="matAutocomplete">
+                @for (item of unames; track item) {
+                    <mat-option [value]="item">{{item}}</mat-option>
+                }
+            </mat-autocomplete> -->
+            <mat-error *ngIf="form.controls['user'].hasError('unf')">Zła nazwa użytkownika</mat-error>
+            <mat-error *ngIf="form.controls['user'].hasError('required')">Wymagane</mat-error>
+        </mat-form-field>
+        <button mat-button>Wyślij</button>
+    </form>
+</mat-dialog-content>

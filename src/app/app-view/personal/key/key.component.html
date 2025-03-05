@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Klucze</h1>
+<mat-dialog-content>
+    @for (item of keys; track $index) {
+        @if (item.taken) {
+            <div>{{item.room}}: Zajęte</div>
+        }
+        @else {
+            <div class="free">{{item.room}}: Wolne</div>
+        }
+    }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
+</mat-dialog-actions>

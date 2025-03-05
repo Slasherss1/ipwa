@@ -1,0 +1,116 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+$ipwa-palette: (
+  50: #e8ebf7,
+  100: #c6cceb,
+  200: #a0acdd,
+  300: #7a8bcf,
+  400: #5c71c5,
+  500: #3e58bb,
+  600: #3850b0,
+  700: #2e46a4,
+  800: #263c98,
+  900: #182a83,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: black,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white
+  )
+);
+
+$accent-palette: (
+  50: #fafae6,
+  100: #f2f1c1,
+  200: #e9ea99,
+  300: #e0e172,
+  400: #d9da53,
+  500: #d3d435,
+  600: #c5c330,
+  700: #b3ad29,
+  800: #a19723,
+  900: #837118,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: black,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white
+  )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$ipwa-primary: mat.define-palette($ipwa-palette, 700, 400, 900);
+$ipwa-accent: mat.define-palette($accent-palette, 700, 400, 900);
+
+// The warn palette is optional (defaults to red).
+$ipwa-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$ipwa-theme: mat.define-light-theme((
+  color: (
+    primary: $ipwa-primary,
+    accent: $ipwa-accent,
+    warn: $ipwa-warn,
+  )
+));
+
+$ipwa-dark: mat.define-dark-theme((
+  color: (
+    primary: $ipwa-primary,
+    accent: $ipwa-accent,
+    warn: $ipwa-warn,
+  ),
+  density: 0
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($ipwa-theme);
+@media (prefers-color-scheme: dark) {
+  @include mat.all-component-colors($ipwa-dark);
+}
+/* You can add global styles to this file, and also import other style files */
+
+html, body { 
+  height: 100%; 
+  overscroll-behavior-y: contain;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :link {
+    color: rgb(114, 192, 255)
+  }
+  :visited {
+    color: rgb(114, 114, 255)
+  }
+}

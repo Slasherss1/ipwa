@@ -1,0 +1,44 @@
+<!-- TODO: Remake the notifications module -->
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <div formGroupName="recp">
+        <mat-radio-group formControlName="type">
+            <mat-radio-button value="uname">
+                <mat-form-field>
+                    <mat-label>Nazwa użytkownika</mat-label>
+                    <input matInput type="text" formControlName="uname">
+                </mat-form-field>
+            </mat-radio-button>
+            <mat-radio-button value="room">
+                <mat-form-field>
+                    <mat-label>Pokój</mat-label>
+                    <input matInput type="number" formControlName="room">
+                </mat-form-field>
+            </mat-radio-button>
+            <mat-radio-button value="group" *ngIf="ls.capCheck(8)">
+                <mat-form-field>
+                    <mat-label>Grupa</mat-label>
+                    <mat-select formControlName="group">
+                        <mat-option *ngFor="let item of groups" [value]="item._id">{{item.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-radio-button>
+            <mat-radio-button value="all">Wychowankowie</mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <mat-form-field>
+        <mat-label>Tytuł</mat-label>
+        <input matInput type="text" formControlName="title">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <mat-label>Zawartość wiadomości</mat-label>
+        <textarea matInput cdkTextareaAutosize formControlName="body"></textarea>
+    </mat-form-field>
+    <br>
+    <button mat-fab extended type="submit">
+        <mat-icon>send</mat-icon>
+        Wyślij
+    </button>
+</form>
+
+<p *ngIf="success">Udało się wysłać {{success.sent}} z {{success.possible}} = {{success.sent/success.possible | percent}}</p>

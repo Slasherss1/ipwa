@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Dodawanie</h1>
+<mat-dialog-content>
+    <mat-radio-group [(ngModel)]="type">
+        <mat-radio-button value="day">Dzień</mat-radio-button>
+        <mat-radio-button value="week">Tydzień</mat-radio-button>
+        <mat-radio-button value="file">Plik</mat-radio-button>
+    </mat-radio-group>
+    <div>
+        @switch (type) {
+            @case ("day") {
+                <app-date-selector [filter]="filter" [(date)]="day"></app-date-selector>
+            }
+            @case ("week") {
+                <mat-form-field>
+                    <mat-label>Wybierz tydzień</mat-label>
+                    <mat-date-range-input [rangePicker]="picker" [formGroup]="range">
+                        <input matStartDate formControlName="start">
+                        <input matEndDate formControlName="end">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+            }
+            @case ("file") {
+                <button mat-flat-button color="accent" (click)="activateUpload()">Otwórz okno</button>
+            }
+        }
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="accent" (click)="submit()">Wyślij</button>
+    <button mat-button mat-dialog-close>Anuluj</button>
+</mat-dialog-actions>

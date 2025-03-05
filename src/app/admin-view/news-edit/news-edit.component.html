@@ -1,0 +1,25 @@
+<button mat-raised-button (click)="newPost()" color="accent">Nowy post</button>
+<mat-spinner *ngIf="loading"></mat-spinner>
+<mat-card *ngFor="let item of news">
+    <mat-card-header>
+        <mat-card-title>{{item.title}}</mat-card-title>
+        <mat-icon *ngIf="item.pinned">push_pin</mat-icon>
+        <mat-card-subtitle>{{item._id}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content [innerHTML]="item.formatted">
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-mini-fab (click)="editPost(item)"><mat-icon>edit</mat-icon></button>
+        <button mat-mini-fab (click)="pinToggle(item)"><mat-icon>push_pin</mat-icon></button>
+        <button mat-mini-fab (click)="visibleToggle(item)">
+            <div [ngSwitch]="item.visible">
+                <mat-icon *ngSwitchCase="true">visibility</mat-icon>
+                <mat-icon *ngSwitchDefault>visibility_off</mat-icon>
+            </div>
+        </button>
+        <button mat-mini-fab (click)="delete(item._id)"><mat-icon>delete_forever</mat-icon></button>
+    </mat-card-actions>
+    <mat-card-footer>
+        <p>{{item.date | date:'d-LL-yyyy HH:mm'}}</p>
+    </mat-card-footer>
+</mat-card>

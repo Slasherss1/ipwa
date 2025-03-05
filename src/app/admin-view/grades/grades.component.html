@@ -1,0 +1,26 @@
+<app-date-selector [(date)]="date" [filter]="filter" (dateChange)="downloadData()"></app-date-selector>
+<app-room-chooser [rooms]="rooms" (room)="roomNumber($event)"/>
+<form [formGroup]="form">
+    <p>Czystość pokoju {{room}} na dzień {{date.format("dddd")}}</p>
+    <p>Ocena: {{grade}}</p>
+    <button mat-flat-button (click)="downloadData()">Anuluj</button>
+    <!-- <button mat-flat-button (click)="calculate()">Oblicz</button> -->
+    <button mat-flat-button (click)="save()">Zapisz</button>
+    <button mat-raised-button color="warn" (click)="remove()" *ngIf="id">Usuń</button>
+    <div *ngFor="let item of things.controls; let i = index" formArrayName="things" id="things">
+        <div formGroupName="{{i}}">
+            <mat-checkbox formControlName="cb" #cb>
+                <span control="label"></span>
+                <span *ngIf="cb.checked">
+                    <button mat-icon-button (click)="group.sub(i)"><mat-icon>remove</mat-icon></button>
+                    <span control="weight"></span>
+                    <button mat-icon-button (click)="group.add(i)"><mat-icon>add</mat-icon></button>
+                </span>
+            </mat-checkbox>
+        </div>
+    </div>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Dodatkowe uwagi</mat-label>
+        <textarea matNativeControl cdkTextareaAutosize formControlName="tips"></textarea>
+    </mat-form-field>
+</form>

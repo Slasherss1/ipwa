@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Czystość</h1>
+<mat-dialog-content>
+    @if (grade) {
+        <h1>Twoja ocena: <span [ngStyle]="gradeColor()">{{grade}}</span></h1>
+    }
+    @else {
+        <h1>Nie oceniono</h1>
+    }
+    <p *ngIf="notes.length > 0">Uwagi:</p>
+    <ul>
+        <li *ngFor="let i of notes">{{i.label}}<span *ngIf="i.weight > 1"> ({{i.weight}})</span></li>
+    </ul>
+    <p>{{tips}}</p>
+    <app-date-selector [(date)]="day" [filter]="filter"/>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
+</mat-dialog-actions>

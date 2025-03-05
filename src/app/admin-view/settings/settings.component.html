@@ -1,0 +1,44 @@
+<mat-accordion>
+    <mat-expansion-panel>
+        <!-- TODO: Make more ergonomic -->
+        <mat-expansion-panel-header>
+            <mat-panel-title>Pokoje</mat-panel-title>
+            <mat-panel-description>Numery wszystkich pokoi</mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>Kliknij listę aby edytować</p>
+        <app-list-editor [converter]="usettings.rooms" (edit)="saveRoom($event)"></app-list-editor>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Powody nieczystości</mat-panel-title>
+            <mat-panel-description>Za co są przyznawane oceny za czystość</mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>Kliknij listę aby edytować</p>
+        <app-list-editor [list]="usettings.cleanThings" (edit)="saveCleanThings($event)"></app-list-editor>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Sale z kluczami</mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-list-editor [list]="usettings.keyrooms" (edit)="saveKeyrooms($event)"></app-list-editor>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Sterowanie programem</mat-panel-title>
+            <mat-panel-description><span style="color: red;">Zachowaj szczególną ostrożność przy tych ustawieniach!</span></mat-panel-description>
+        </mat-expansion-panel-header>
+        <!-- <button mat-fab extended color="warn">
+            <mat-icon>power_settings_new</mat-icon>
+            Restart
+        </button> -->
+        <button mat-fab extended (click)="reloadSettings()">
+            <mat-icon>refresh</mat-icon>
+            Przeładuj ustawienia
+        </button>
+        <!-- <button mat-fab extended color="warn">
+            <mat-icon>logout</mat-icon>
+            Wyloguj wszystkich użytkowników
+        </button> -->
+    </mat-expansion-panel>
+</mat-accordion>

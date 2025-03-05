@@ -1,0 +1,41 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    overflow: none;
+    height: 100%;
+}
+
+#cards {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: auto;
+}
+
+#alrg {
+    align-self: center;
+}
+
+mat-spinner {
+    align-self: center;
+}
+
+mat-card {
+    margin: 15px;
+    padding: 1ch;
+}
+
+#no-data {
+    color: #777;
+    @media (prefers-color-scheme: dark) {
+        color: #AAA
+    }
+}
+
+mat-card-title {
+    font-size: 1.5rem;
+}
+
+app-date-selector {
+    width: 100%;
+}

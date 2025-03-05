@@ -1,0 +1,111 @@
+<div id="upper-bar">
+    <mat-form-field>
+        <mat-label>Wybierz tydzień</mat-label>
+        <mat-date-range-input [rangePicker]="picker" [formGroup]="range">
+            <input matStartDate formControlName="start" (dateChange)="requestData()">
+            <input matEndDate formControlName="end" (dateChange)="requestData()">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <button mat-icon-button (click)="requestData()"><mat-icon>refresh</mat-icon></button>
+    <button mat-icon-button (click)="addDate()"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button (click)="print()"><mat-icon>print</mat-icon></button>
+</div>
+<mat-spinner *ngIf="loading"></mat-spinner>
+<table mat-table [dataSource]="dataSource">
+    <div matColumnDef="day">
+        <th mat-header-cell *matHeaderCellDef>Dzień</th>
+        <td mat-cell *matCellDef="let element">
+            <span>{{element.day.format('DD.MM.YYYY')}}r.</span>
+            <p>{{element.day.format('dddd')}}</p>
+            <app-field-editor category="Nazwa" [(word)]="element.dayTitle" (wordChange)="editTitle(element._id)"/><br><hr>
+            <button>Usuń dzień</button>
+        </td>
+    </div>
+    <div matColumnDef="sn">
+        <th mat-header-cell *matHeaderCellDef>Śniadanie</th>
+        <td mat-cell *matCellDef="let element">
+            <ul class="non-editable">
+                <li *ngFor="let i of ls.defaultItems.sn">{{i}}</li>
+            </ul><hr>
+            <app-list-editor [(list)]="element.sn.fancy" (edit)="editSn(element._id)" dataList="sn-fancy"/><hr>
+            <ul>
+                <li><app-field-editor category="II Śniadanie" [(word)]="element.sn.second" list="sn-second" (wordChange)="editSn(element._id)"/></li>
+            </ul>
+        </td>
+    </div>
+    <div matColumnDef="ob">
+        <th mat-header-cell *matHeaderCellDef>Obiad</th>
+        <td mat-cell *matCellDef="let element">
+            <ul>
+                <li><app-field-editor category="Zupa" [(word)]="element.ob.soup" list="ob-soup" (wordChange)="editOb(element._id)"/></li>
+                <li><app-field-editor category="Vege" [(word)]="element.ob.vege" list="ob-vege" (wordChange)="editOb(element._id)"/></li>
+                <li><app-field-editor category="Danie główne" [(word)]="element.ob.meal" list="ob-meal" (wordChange)="editOb(element._id)"/></li>
+            </ul><hr>
+            <app-list-editor [(list)]="element.ob.condiments" (edit)="editOb(element._id)" dataList="ob-condiments"/><hr>
+            <ul>
+                <li><app-field-editor category="Napój" [(word)]="element.ob.drink" list="ob-drink" (wordChange)="editOb(element._id)"/></li>
+            </ul><hr>
+            <app-list-editor [(list)]="element.ob.other" (edit)="editOb(element._id)" dataList="ob-other"/>
+            <button (click)="getStat(element.day, 'ob')">
+                Opinie wychowanków
+            </button>
+        </td>
+    </div>
+    <div matColumnDef="kol">
+        <th mat-header-cell *matHeaderCellDef>Kolacja</th>
+        <td mat-cell *matCellDef="let element">
+            <div [ngSwitch]="element.day.isoWeekday()">
+                <div *ngSwitchDefault>
+                    <ul class="non-editable">
+                        <li *ngFor="let i of ls.defaultItems.kol">{{i}}</li>
+                    </ul><hr>
+                    <ul>
+                        <li><app-field-editor category="Kolacja" [(word)]="element.kol" list="kol" (wordChange)="editKol(element._id)"/></li>
+                    </ul>
+                    <button (click)="getStat(element.day, 'kol')">
+                        Opinie wychowanków
+                    </button>
+                </div>
+                <div *ngSwitchCase="5" class="non-editable">
+                    <p>Kolacja w domu!</p>
+                    <p>(Nie edytowalne)</p>
+                </div>
+            </div>
+        </td>
+    </div>
+    
+    <tr mat-header-row *matHeaderRowDef="dcols"></tr>
+    <tr mat-row *matRowDef="let row; columns: dcols"></tr>
+</table>
+
+<ng-component *ngIf="options">
+    <datalist id="sn-fancy">
+        <option *ngFor="let i of options.sn.fancy">{{i}}</option>
+    </datalist>
+    <datalist id="sn-second">
+        <option *ngFor="let i of options.sn.second">{{i}}</option>
+    </datalist>
+    <datalist id="ob-soup">
+        <option *ngFor="let i of options.ob.soup">{{i}}</option>
+    </datalist>
+    <datalist id="ob-vege">
+        <option *ngFor="let i of options.ob.vege">{{i}}</option>
+    </datalist>
+    <datalist id="ob-meal">
+        <option *ngFor="let i of options.ob.meal">{{i}}</option>
+    </datalist>
+    <datalist id="ob-condiments">
+        <option *ngFor="let i of options.ob.condiments">{{i}}</option>
+    </datalist>
+    <datalist id="ob-drink">
+        <option *ngFor="let i of options.ob.drink">{{i}}</option>
+    </datalist>
+    <datalist id="ob-other">
+        <option *ngFor="let i of options.ob.other">{{i}}</option>
+    </datalist>
+    <datalist id="kol">
+        <option *ngFor="let i of options.kol">{{i}}</option>
+    </datalist>
+</ng-component>

@@ -1,0 +1,25 @@
+<div>
+    <mat-form-field>
+        <mat-label>Wybierz tydzień</mat-label>
+        <mat-date-range-input [rangePicker]="picker" [formGroup]="dateSelector">
+            <input matStartDate formControlName="start">
+            <input matEndDate formControlName="end">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <button mat-icon-button><mat-icon>query_stats</mat-icon></button>
+</div>
+<table mat-table [dataSource]="data" matSort>
+    <div matColumnDef="room">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Pokój</th>
+        <td mat-cell *matCellDef="let item">{{item.room}}</td>
+    </div>
+    <div matColumnDef="avg">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Średnia</th>
+        <td mat-cell *matCellDef="let item">{{item.avg}}</td>
+    </div>
+
+    <tr mat-header-row *matHeaderRowDef="collumns"></tr>
+    <tr mat-row *matRowDef="let rowData; columns: collumns"></tr>
+</table>

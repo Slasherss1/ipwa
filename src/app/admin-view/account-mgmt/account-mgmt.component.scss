@@ -1,0 +1,23 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+mat-paginator {
+    margin-top: auto;
+}
+
+mat-form-field {
+    flex-grow: 1;
+}
+
+#upper-bar {
+    display: flex;
+}
+
+button[mat-icon-button] {
+    margin-left: 4pt;
+    margin-right: 4pt;
+    margin-top: 4pt;
+}

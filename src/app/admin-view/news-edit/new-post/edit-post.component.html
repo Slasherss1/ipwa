@@ -1,0 +1,11 @@
+<form [formGroup]="form" (ngSubmit)="makePost()">
+    <mat-form-field appearance="outline">
+        <mat-label>Tytuł</mat-label>
+        <input type="text" matInput required formControlName="title">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Treść</mat-label>
+        <textarea matInput required formControlName="content" cdkTextareaAutosize></textarea>
+    </mat-form-field>
+    <button mat-stroked-button>Wyślij</button>
+</form>

@@ -1,0 +1,12 @@
+<div>
+    <h1>Witamy w aplikacji!</h1>
+    <p>Dostępne funkcje:</p>
+    <mat-nav-list>
+        @for (link of LINKS; track $index) {
+            <mat-list-item [routerLink]="link.href">
+                <a matListItemTitle>{{link.title}}</a>
+                <mat-icon matListItemIcon>{{link.icon}}</mat-icon>
+            </mat-list-item>
+        }
+    </mat-nav-list>
+</div>

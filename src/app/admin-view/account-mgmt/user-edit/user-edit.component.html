@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="editUser()">
+    <mat-form-field appearance="outline">
+        <mat-label>Imię</mat-label>
+        <input type="text" matInput formControlName="fname">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Nazwisko</mat-label>
+        <input type="text" matInput formControlName="surname">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Pokój</mat-label>
+        <input type="text" matInput formControlName="room">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Nazwa użytkownika</mat-label>
+        <input type="text" matInput required formControlName="uname">
+    </mat-form-field>
+    <mat-form-field *ngIf="this.ls.permChecker(32)">
+        <mat-label>Uprawnienia</mat-label>
+        <mat-select multiple formControlName="flags">
+            <mat-option [value]="1" *ngIf="ls.capCheck(1)">Wiadomości</mat-option>
+            <mat-option [value]="2" *ngIf="ls.capCheck(2)">Jadłospis</mat-option>
+            <mat-option [value]="4" *ngIf="ls.capCheck(4)">Powiadomienia</mat-option>
+            <mat-option [value]="8" *ngIf="ls.capCheck(8)">Grupy</mat-option>
+            <mat-option [value]="16">Konta</mat-option>
+            <mat-option [value]="64" *ngIf="ls.capCheck(32)">Klucze</mat-option>
+            <mat-option [value]="128" *ngIf="ls.capCheck(16)">Czystość</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-stroked-button>Wyślij</button>
+</form>

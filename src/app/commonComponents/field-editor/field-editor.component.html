@@ -1,0 +1,15 @@
+@if (!focused) {
+    @if (word != "") {
+        <span>{{word}}</span>
+    } @else {
+        <span class="empty">{{category}}</span>
+    }
+
+} @else {
+    <span>
+        <input type="text" [attr.list]="list" autocomplete="on" #input (keyup.enter)="save($event, input.value)" [value]="word" [cdkTrapFocus]="focused" cdkTrapFocusAutoCapture>
+        <br>
+        <button (click)="save($event, input.value)">Zapisz</button>
+        <button (click)="cancel($event)">Anuluj</button>
+    </span>
+}

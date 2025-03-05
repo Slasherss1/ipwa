@@ -1,0 +1,7 @@
+<button mat-icon-button (click)="prevDay()"><mat-icon>chevron_left</mat-icon></button>
+<p (click)="picker.open()">{{date.format('dddd, D.MM')}}</p>
+<mat-form-field style="display: none;">
+    <input #dateinput matInput [matDatepicker]="picker" [formControl]="dateInput" [matDatepickerFilter]="filter">
+    <mat-datepicker touchUi #picker></mat-datepicker>
+</mat-form-field>
+<button mat-icon-button (click)="nextDay()"><mat-icon>chevron_right</mat-icon></button>
