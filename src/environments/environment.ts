@@ -1,8 +1,6 @@
 export const environment = {
-    apiEndpoint: `https://${process.env['ORIGIN']}/api`,
+    apiEndpoint: `${window.location.origin}/api`,
     version: "v1.0.0",
-    vapid: {
-        pubkey: `${process.env['VAPID']}`
-    },
+    vapid: { pubkey: "" },
     production: true
 };

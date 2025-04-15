@@ -1,21 +1,13 @@
-FROM node:18-alpine as build
+FROM node:18-alpine AS build
 WORKDIR /build
 ADD . .
 RUN [ "npm", "ci" ]
-COPY <<EOF src/environments/environment.ts
-export const environment = {
-    apiEndpoint: `http://localhost/api`,
-    version: "v1.0.0",
-    vapid: {
-        pubkey: `${VAPID}`
-    },
-    production: true
-};
-EOF
 RUN [ "npm", "run", "build" ]
 
-FROM httpd:alpine as runtime
+FROM httpd:alpine AS runtime
+RUN apk add --no-cache certbot certbot-apache
 COPY httpd.conf /usr/local/apache2/conf/httpd.conf
+COPY cli.ini /etc/letsencrypt/cli.ini
 COPY --from=build /build/dist /usr/local/apache2/htdocs/
 COPY <<EOF /usr/local/apache2/htdocs/ipwa/.htaccess
 RewriteEngine on
@@ -25,4 +17,7 @@ RewriteRule ^ - [L]
 RewriteRule ^ /ipwa/index.html
 EOF
 RUN chmod +rx /usr/local/apache2/htdocs/ipwa/.htaccess
+COPY entrypoint.sh entrypoint.sh
 EXPOSE 80
+EXPOSE 443
+CMD ["sh", "entrypoint.sh"]
