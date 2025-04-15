@@ -6,10 +6,7 @@ ServerAdmin $EMAIL
     ServerName $DOMAIN
 </VirtualHost>
 EOF
-
-http -k start
+httpd -k start
 certbot --apache -n --keep -d $DOMAIN -m $EMAIL
 httpd -k stop
-
-
 httpd-foreground
