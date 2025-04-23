@@ -20,7 +20,7 @@
             <span>{{element.day.format('DD.MM.YYYY')}}r.</span>
             <p>{{element.day.format('dddd')}}</p>
             <app-field-editor category="Nazwa" [(word)]="element.dayTitle" (wordChange)="editTitle(element._id)"/><br><hr>
-            <button (click)="">Usuń dzień</button>
+            <button (click)="remove(element._id)">Usuń dzień</button>
         </td>
     </div>
     <div matColumnDef="sn">
