@@ -20,7 +20,7 @@
             <span>{{element.day.format('DD.MM.YYYY')}}r.</span>
             <p>{{element.day.format('dddd')}}</p>
             <app-field-editor category="Nazwa" [(word)]="element.dayTitle" (wordChange)="editTitle(element._id)"/><br><hr>
-            <button>Usuń dzień</button>
+            <button (click)="">Usuń dzień</button>
         </td>
     </div>
     <div matColumnDef="sn">
@@ -80,7 +80,7 @@
     <tr mat-row *matRowDef="let row; columns: dcols"></tr>
 </table>
 
-<ng-component *ngIf="options">
+<ng-container *ngIf="options">
     <datalist id="sn-fancy">
         <option *ngFor="let i of options.sn.fancy">{{i}}</option>
     </datalist>
@@ -108,4 +108,4 @@
     <datalist id="kol">
         <option *ngFor="let i of options.kol">{{i}}</option>
     </datalist>
-</ng-component>
+</ng-container>

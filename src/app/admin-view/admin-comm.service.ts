@@ -76,6 +76,9 @@ export class AdminCommService {
       range: (start: Moment, count: number) => {
         return this.http.post<Status>(environment.apiEndpoint+`/admin/menu/${start.toISOString()}/${count}/`, null, {withCredentials: true})
       }
+    },
+    rm: (id: string) => {
+      return this.http.delete<Status>(environment.apiEndpoint+`/admin/menu/${id}`, {withCredentials: true})
     }
   }
   

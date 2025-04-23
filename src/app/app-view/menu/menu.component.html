@@ -14,6 +14,7 @@
             <ul>
                 <li *ngFor="let i of ls.defaultItems.sn">{{i}}</li>
                 <li *ngFor="let i of getsn.fancy">{{i.charAt(0).toUpperCase()+i.substring(1)}}</li>
+                <li *ngIf="getsn.second">{{getsn.second.charAt(0).toUpperCase()+getsn.second.substring(1)}}</li>
             </ul>
         </mat-card-content>
     </mat-card>
