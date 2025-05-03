@@ -77,6 +77,7 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { AttendenceComponent } from './admin-view/grades/attendence/attendence.component';
 import { AttendenceSummaryComponent } from './admin-view/grades/attendence-summary/attendence-summary.component';
 import { HourDisplayComponent } from './admin-view/grades/attendence-summary/hour-display/hour-display.component';
+import { AboutComponent } from './app-view/personal/about/about.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { HourDisplayComponent } from './admin-view/grades/attendence-summary/hou
     AttendenceComponent,
     AttendenceSummaryComponent,
     HourDisplayComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,

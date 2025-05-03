@@ -9,6 +9,7 @@ import { AppUpdateService } from 'src/app/services/app-update.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { KeyComponent } from './key/key.component';
 import { CleanComponent } from './clean/clean.component';
+import { AboutComponent } from './about/about.component';
 
 @Component({
   selector: 'app-personal',
@@ -60,5 +61,9 @@ export class PersonalComponent {
       error: () => this.checking = "err"
     })
     this.ac.check()
+  }
+
+  protected openAbout() {
+    this.dialog.open(AboutComponent)
   }
 }
