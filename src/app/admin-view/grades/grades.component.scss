@@ -2,3 +2,9 @@ div#things {
     display: flex;
     flex-direction: column;
 }
+
+div#buttons {
+    * {
+        margin: 0 2px 0 2px;
+    }
+}

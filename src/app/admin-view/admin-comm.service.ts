@@ -228,6 +228,17 @@ export class AdminCommService {
       getSummary: (start: moment.Moment, end: moment.Moment) => {
         return this.http.get<{room: number, avg: number}[]>(environment.apiEndpoint+`/admin/clean/summary/${start.toISOString()}/${end.toISOString()}`, {withCredentials: true})
       }
+    },
+    attendence: {
+      getUsers: (room: string) => {
+        return this.http.get<{users: {fname: string, surname: string, _id: string}[], attendence?: {id: string, hour?: string}[]}>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, {withCredentials: true})
+      },
+      postAttendence: (room: string, attendence: {id: string, hour?: string}[]) => {
+        return this.http.post<Status>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, attendence, {withCredentials: true})
+      },
+      getSummary: () => {
+        return this.http.get<{room: string, hours: string[]}[]>(environment.apiEndpoint+`/admin/clean/attendenceSummary`, {withCredentials: true})
+      }
     }
   }
   //#endregion

@@ -1,0 +1,18 @@
+<span mat-dialog-title>Obecność w {{room}}</span>
+<mat-dialog-content>
+    <form [formGroup]="this.form">
+        <div formArrayName="users">
+            @for (item of users.controls; track i; let i = $index) {
+                <div [formGroupName]="i">
+                    <mat-checkbox formControlName="att" #cb>
+                        <span control="label"></span>:
+                        <input type="time" formControlName="hour" (input)="cb.writeValue(true)">
+                    </mat-checkbox>
+                </div>
+            }
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="save()">Zapisz</button>
+</mat-dialog-actions>

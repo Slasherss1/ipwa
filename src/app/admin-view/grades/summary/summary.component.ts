@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ToolbarService } from '../../toolbar.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminCommService } from '../../admin-comm.service';
 import * as moment from 'moment';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder } from '@angular/forms';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-summary',
@@ -20,6 +21,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
     start: this.fb.control(moment.utc().startOf('day')),
     end: this.fb.control(moment.utc().endOf('day'))
   })
+
+  @ViewChild(MatSort, {static: false}) set content(sort: MatSort) {
+    this.data.sort = sort
+  }
 
   constructor (private toolbar: ToolbarService, private router: Router, private route: ActivatedRoute, private ac: AdminCommService, private fb: FormBuilder) {
     this.toolbar.comp = this

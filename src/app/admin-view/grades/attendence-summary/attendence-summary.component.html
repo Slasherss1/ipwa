@@ -1,0 +1,21 @@
+<div id="guide">
+    <p><b>Uwaga:</b> Obecność resetuje się o codziennie o 00:00</p>
+    <div id="legend">
+        <b>Legenda: </b>
+        <span class="circle">Wychowanek obecny</span>
+        <span class="circle">Wyjście w ciągu 30 min.</span>
+        <span class="circle">Wychowanek nieobecny</span>
+    </div>
+</div>
+<table mat-table [dataSource]="data" matSort>
+    <div matColumnDef="room">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Pokój</th>
+        <td mat-cell *matCellDef="let item">{{item.room}}</td>
+    </div>
+    <div matColumnDef="hours">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Godziny</th>
+        <td mat-cell *matCellDef="let item"><span *ngFor="let i of item.hours.sort().reverse(); let isLast=last"><app-hour-display [value]="i"></app-hour-display>{{ isLast ? '' : ', '}}</span></td>
+    </div>
+    <tr mat-header-row *matHeaderRowDef="collumns"></tr>
+    <tr mat-row *matRowDef="let rowData; columns: collumns"></tr>
+</table>

@@ -74,6 +74,9 @@ import { FieldEditorComponent } from './commonComponents/field-editor/field-edit
 import { A11yModule } from '@angular/cdk/a11y';
 import { PortalModule } from '@angular/cdk/portal';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { AttendenceComponent } from './admin-view/grades/attendence/attendence.component';
+import { AttendenceSummaryComponent } from './admin-view/grades/attendence-summary/attendence-summary.component';
+import { HourDisplayComponent } from './admin-view/grades/attendence-summary/hour-display/hour-display.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +116,9 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
     SettingsComponent,
     MenuAddComponent,
     FieldEditorComponent,
+    AttendenceComponent,
+    AttendenceSummaryComponent,
+    HourDisplayComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,8 @@ import { AdminCommService } from '../admin-comm.service';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { NewKeyComponent } from './new-key/new-key.component';
+import { catchError, throwError } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-key',
@@ -33,7 +35,7 @@ export class AdminKeyComponent implements AfterViewInit, OnInit {
   loading = true
   @ViewChild(MatPaginator) paginator!: MatPaginator
   
-  constructor (private ac: AdminCommService, private dialog: MatDialog) {
+  constructor (private ac: AdminCommService, private dialog: MatDialog, private sb: MatSnackBar) {
     this.filters = []
   }
   
@@ -71,7 +73,12 @@ export class AdminKeyComponent implements AfterViewInit, OnInit {
   new() {
     this.dialog.open(NewKeyComponent).afterClosed().subscribe(v => {
       if (v) {
-        this.ac.keys.postKey(v.room, v.user).subscribe((s) => {
+        this.ac.keys.postKey(v.room, v.user).pipe(catchError((err,caught)=>{
+          if (err.status == 404) {
+            this.sb.open("Nie znaleziono użytkownika", undefined, {duration: 2500})
+          } 
+          return throwError(() => new Error(err.message))
+        })).subscribe((s) => {
           if (s.status == 201) {
             this.fetchData()
           }

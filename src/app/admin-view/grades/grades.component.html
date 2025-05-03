@@ -3,10 +3,12 @@
 <form [formGroup]="form">
     <p>Czystość pokoju {{room}} na dzień {{date.format("dddd")}}</p>
     <p>Ocena: {{grade}}</p>
-    <button mat-flat-button (click)="downloadData()">Anuluj</button>
-    <!-- <button mat-flat-button (click)="calculate()">Oblicz</button> -->
-    <button mat-flat-button (click)="save()">Zapisz</button>
-    <button mat-raised-button color="warn" (click)="remove()" *ngIf="id">Usuń</button>
+    <div id="buttons">
+        <button mat-mini-fab (click)="downloadData()" color="accent"><mat-icon>cancel</mat-icon></button>
+        <button mat-mini-fab (click)="attendence()" color="accent"><mat-icon>overview</mat-icon></button>
+        <button mat-mini-fab (click)="save()" color="accent"><mat-icon>save</mat-icon></button>
+        <button mat-mini-fab color="warn" (click)="remove()" *ngIf="id"><mat-icon>delete</mat-icon></button>
+    </div>
     <div *ngFor="let item of things.controls; let i = index" formArrayName="things" id="things">
         <div formGroupName="{{i}}">
             <mat-checkbox formControlName="cb" #cb>

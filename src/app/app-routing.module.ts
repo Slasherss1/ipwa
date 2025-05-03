@@ -11,13 +11,13 @@ import { NewsEditComponent } from './admin-view/news-edit/news-edit.component';
 import { AccountMgmtComponent } from './admin-view/account-mgmt/account-mgmt.component';
 import { MenuNewComponent } from './admin-view/menu-new/menu-new.component';
 import { adminGuard } from './admin.guard';
-// import { NotificationsComponent } from './admin-view/notifications/notifications.component';
 import { GroupsComponent } from './admin-view/groups/groups.component';
 import { StartComponent } from './app-view/start/start.component';
 import { AdminKeyComponent } from './admin-view/key/key.component';
 import { GradesComponent } from './admin-view/grades/grades.component';
 import { SummaryComponent } from './admin-view/grades/summary/summary.component';
 import { SettingsComponent } from './admin-view/settings/settings.component';
+import { AttendenceSummaryComponent } from './admin-view/grades/attendence-summary/attendence-summary.component';
 
 const routes: Routes = [
   {path: "", redirectTo: "login", pathMatch: "full"},
@@ -37,7 +37,8 @@ const routes: Routes = [
     {path: "keys", title: "Klucze", component: AdminKeyComponent},
     {path: "grades", children: [
       {path: "", pathMatch: "full", title: "Oceny", component: GradesComponent},
-      {path: "summary", title: "Podsumowanie ocen", component: SummaryComponent}
+      {path: "summary", title: "Podsumowanie ocen", component: SummaryComponent},
+      {path: "attendenceSummary", title: "Obecność", component: AttendenceSummaryComponent}
     ]},
     {path: "settings", title: "Ustawienia", component: SettingsComponent}
   ]}

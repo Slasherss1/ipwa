@@ -6,6 +6,8 @@ import { weekendFilter } from 'src/app/fd.da';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ToolbarService } from '../toolbar.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { AttendenceComponent } from './attendence/attendence.component';
 
 @Component({
   selector: 'app-grades',
@@ -42,12 +44,13 @@ export class GradesComponent implements OnInit, OnDestroy {
     })
   }
 
-  constructor(private ac: AdminCommService, private fb: FormBuilder, private sb: MatSnackBar, private toolbar: ToolbarService, private router: Router, private route: ActivatedRoute) {
+  constructor(private ac: AdminCommService, private fb: FormBuilder, private sb: MatSnackBar, private toolbar: ToolbarService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog) {
     this.date = moment.utc().startOf('day')
     if (!this.filter(this.date)) this.date.isoWeekday(8);
     this.toolbar.comp = this
     this.toolbar.menu = [
-      { title: "Podsumowanie", check: true, fn: "summary", icon: "analytics" }
+      { title: "Podsumowanie", check: true, fn: "summary", icon: "analytics" },
+      { title: "Obecność", check: true, fn: "attendenceSummary", icon: "overview"}
     ]
     this.form.valueChanges.subscribe((v) => {
       this.calculate()
@@ -65,6 +68,10 @@ export class GradesComponent implements OnInit, OnDestroy {
 
   summary() {
     this.router.navigate(["summary"], { relativeTo: this.route })
+  }
+
+  attendenceSummary() {
+    this.router.navigate(["attendenceSummary"], {relativeTo: this.route})
   }
 
   ngOnInit(): void {
@@ -139,6 +146,7 @@ export class GradesComponent implements OnInit, OnDestroy {
     }
     this.ac.clean.postClean(obj).subscribe((s) => {
       this.sb.open("Zapisano!", undefined, { duration: 1500 })
+      this.downloadData()
     })
   }
 
@@ -153,5 +161,24 @@ export class GradesComponent implements OnInit, OnDestroy {
   roomNumber(value: number) {
     this.room = value
     this.downloadData()
+  }
+
+  attendence() {
+    this.dialog.open(AttendenceComponent, {data: {room: this.room}}).afterClosed().subscribe((v: {room: string, users: {att: boolean, id: string, hour: string}[]}) => {
+      let x: {room: string, users: {id: string, hour?: string}[]} = {
+        room: v.room,
+        users: []
+      }
+      v.users.forEach(i => {
+        if (i.att && i.hour) {
+          x.users.push({id: i.id, hour: i.hour})
+        }
+      })
+      this.ac.clean.attendence.postAttendence(x.room, x.users).subscribe((s) => {
+        if (s.status == 200) {
+          this.sb.open("Zapisano obecność!", undefined, {duration: 1500})
+        }
+      })
+    })
   }
 }
