@@ -9,6 +9,7 @@ import { UserEditComponent } from './user-edit/user-edit.component';
 import { catchError, throwError } from 'rxjs';
 import { UserResetComponent } from './user-reset/user-reset.component';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { Group } from 'src/app/types/group';
 
 @Component({
   selector: 'app-account-mgmt',
@@ -18,6 +19,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 
 export class AccountMgmtComponent implements OnInit, AfterViewInit {
+  protected groups: Group[] = []
   users: MatTableDataSource<any>
   loading = false
   @ViewChild(MatPaginator) paginator!: MatPaginator
@@ -45,7 +47,8 @@ export class AccountMgmtComponent implements OnInit, AfterViewInit {
     this.loading = true
     this.ac.accs.getAccs().subscribe((data)=>{
       this.loading = false
-      this.users.data = data
+      this.users.data = data.users
+      this.groups = data.groups
     })
   }
 
@@ -55,7 +58,7 @@ export class AccountMgmtComponent implements OnInit, AfterViewInit {
   }
 
   edit(item: any) {
-    this.dialog.open(UserEditComponent, {data: item}).afterClosed().subscribe(reply => {
+    this.dialog.open(UserEditComponent, {data: {user: item, groups: this.groups}}).afterClosed().subscribe(reply => {
       if (reply) {
         this.ac.accs.putAcc(item._id, reply).pipe(catchError((err)=>{
           this.sb.open("Wystąpił błąd. Skontaktuj się z obsługą programu.")
@@ -73,7 +76,7 @@ export class AccountMgmtComponent implements OnInit, AfterViewInit {
   }
 
   new() {
-    this.dialog.open(UserEditComponent).afterClosed().subscribe(reply => {
+    this.dialog.open(UserEditComponent, {data: {groups: this.groups}}).afterClosed().subscribe(reply => {
       if (reply) {
         this.ac.accs.postAcc(reply).pipe(catchError((err)=>{
           this.sb.open("Wystąpił błąd. Skontaktuj się z obsługą programu.")

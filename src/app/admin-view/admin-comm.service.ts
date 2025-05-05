@@ -120,7 +120,20 @@ export class AdminCommService {
   //#region amgmt
   accs = {
     getAccs: () => {
-      return this.http.get<any[]>(environment.apiEndpoint+`/admin/accs`, {withCredentials: true})
+      return this.http.get<{
+        users: {
+          _id: string;
+          uname: string;
+          pass: string;
+          room?: string;
+          admin?: number;
+          locked?: boolean;
+          fname?: string;
+          surname?: string;
+          groups: string[];
+        }[],
+        groups: Group[]
+      }>(environment.apiEndpoint+`/admin/accs`, {withCredentials: true})
     },
 
     postAcc: (item: any) => {
@@ -144,14 +157,6 @@ export class AdminCommService {
   groups = {
     getGroups: () => {
       return this.http.get<Group[]>(environment.apiEndpoint+`/admin/groups`, {withCredentials: true})
-    },
-    
-    editRooms: (id: string, rooms: number[]) => {
-      return this.putGroups(id, {rooms: rooms})
-    },
-
-    editUsers: (id: string, users: string[]) => {
-      return this.putGroups(id, {unames: users})
     },
 
     newGroup: (name: string) => {

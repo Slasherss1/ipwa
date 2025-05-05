@@ -15,6 +15,14 @@
         <mat-label>Nazwa użytkownika</mat-label>
         <input type="text" matInput required formControlName="uname">
     </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Grupy</mat-label>
+        <mat-select multiple formControlName="groups">
+            @for (item of groups; track $index) {
+                <mat-option [value]="item._id">{{item.name}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
     <mat-form-field *ngIf="this.ls.permChecker(32)">
         <mat-label>Uprawnienia</mat-label>
         <mat-select multiple formControlName="flags">

@@ -38,14 +38,6 @@ export class GroupsComponent implements OnInit {
     return groups.flatMap((g) => g.name)
   }
 
-  protected editRooms(id: string, rooms: string[]) {
-    this.acs.groups.editRooms(id, rooms.map(Number)).subscribe((s) => this.refreshIfGood(s))
-  }
-
-  protected editUsers(id: string, users: string[]) {
-    this.acs.groups.editUsers(id, users).subscribe((s) => this.refreshIfGood(s))
-  }
-
   protected nameEdit(id: string, name: string | string[]) {
     name = name as string
     this.acs.groups.editName(id, name).subscribe((s) => this.refreshIfGood(s))
