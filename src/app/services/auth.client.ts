@@ -37,11 +37,7 @@ export class AuthClient {
         this.ls.capFlag = data.features
         document.location.reload()
       }
-      if (data.room) {
-        this.ls.room = data.room
-      } else {
-        this.ls.room = undefined
-      }
+      this.ls.room = data.room
       if (data.menu.defaultItems) {
         this.ls.defaultItems = data.menu.defaultItems
       }

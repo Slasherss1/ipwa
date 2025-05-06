@@ -218,10 +218,10 @@ export class AdminCommService {
   //#region Clean
   clean = {
     getConfig: () => {
-      return this.http.get<{rooms: number[], things: string[]}>(environment.apiEndpoint+`/admin/clean/config`, {withCredentials: true})
+      return this.http.get<{rooms: string[], things: string[]}>(environment.apiEndpoint+`/admin/clean/config`, {withCredentials: true})
     },
-    getClean: (date: moment.Moment, room: number) => {
-      return this.http.get<{_id: string, date: string, grade: number, gradeDate: string, notes: {label: string, weight: number}[], room: number, tips: string} | null>(environment.apiEndpoint+`/admin/clean/${date.toISOString()}/${room}`, {withCredentials: true})
+    getClean: (date: moment.Moment, room: string) => {
+      return this.http.get<{_id: string, date: string, grade: number, gradeDate: string, notes: {label: string, weight: number}[], room: string, tips: string} | null>(environment.apiEndpoint+`/admin/clean/${date.toISOString()}/${room}`, {withCredentials: true})
     },
     postClean: (obj: Object) => {
       return this.http.post<Status>(environment.apiEndpoint+`/admin/clean/`, obj, {withCredentials: true})
@@ -231,7 +231,7 @@ export class AdminCommService {
     },
     summary: {
       getSummary: (start: moment.Moment, end: moment.Moment) => {
-        return this.http.get<{room: number, avg: number}[]>(environment.apiEndpoint+`/admin/clean/summary/${start.toISOString()}/${end.toISOString()}`, {withCredentials: true})
+        return this.http.get<{room: string, avg: number}[]>(environment.apiEndpoint+`/admin/clean/summary/${start.toISOString()}/${end.toISOString()}`, {withCredentials: true})
       }
     },
     attendence: {

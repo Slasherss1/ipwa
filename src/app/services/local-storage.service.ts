@@ -20,19 +20,20 @@ export class LocalStorageService {
   public hasRoom() {
     if (localStorage.getItem('room')) {
       return true
+    } else {
+      return false
     }
-    return false
   }
 
   get room() {
-    return Number.parseInt(localStorage.getItem('room')!)
+    return localStorage.getItem('room')!
   }
 
-  set room(value: number | undefined) {
-    if (value == undefined) {
+  set room(value: string) {
+    if (value == "") {
       localStorage.removeItem('room')
     } else {
-      localStorage.setItem('room', value.toString())
+      localStorage.setItem('room', value)
     }
   }
 

@@ -27,7 +27,7 @@ export class NotificationsComponent implements OnInit {
   form = new FormGroup<NotificationForm>({
     recp: new FormGroup({
       uname: new FormControl<string>(''),
-      room: new FormControl<number|null>(null),
+      room: new FormControl<string|null>(null),
       group: new FormControl<string>(''),
       type: new FormControl<"all" | "room" | "uname" | "group">('uname', {nonNullable: true})
     }),
@@ -47,7 +47,7 @@ interface NotificationForm {
   title: FormControl<string>;
   recp: FormGroup<{
       uname: FormControl<string | null>;
-      room: FormControl<number | null>;
+      room: FormControl<string | null>;
       group: FormControl<string | null>;
       type: FormControl<"all" | "room" | "uname" | "group">;
   }>

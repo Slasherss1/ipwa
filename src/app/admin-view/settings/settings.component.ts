@@ -19,7 +19,7 @@ export class SettingsComponent implements OnInit {
   }
 
   saveRoom(event: string[]) {
-    this.usettings.rooms = event.map(Number)
+    this.usettings.rooms = event
     this.send()
   }
   saveCleanThings(event: string[]) {
@@ -61,6 +61,6 @@ export class SettingsComponent implements OnInit {
 
 export interface IUSettings {
   keyrooms: string[];
-  rooms: number[];
+  rooms: string[];
   cleanThings: string[];
 }

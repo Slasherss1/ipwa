@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
   styleUrl: './room-chooser.component.scss'
 })
 export class RoomChooserComponent implements OnChanges {
-  @Input() rooms: number[] = []
+  @Input() rooms: string[] = []
   private _roomIndex: number = 0;
   public get roomIndex(): number {
     return this._roomIndex;
@@ -17,15 +17,15 @@ export class RoomChooserComponent implements OnChanges {
     }
     this._roomIndex = value;
   }
-  private _room: number = this.rooms[this.roomIndex];
-  protected get room_1(): number {
+  private _room: string = this.rooms[this.roomIndex];
+  protected get room_1() {
     return this._room;
   }
-  protected set room_1(value: number) {
+  protected set room_1(value) {
     this.room.emit(value)
     this._room = value;
   }
-  @Output() room: EventEmitter<number> = new EventEmitter<number>();
+  @Output() room: EventEmitter<string> = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["rooms"] && this.rooms) {

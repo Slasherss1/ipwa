@@ -14,7 +14,7 @@ import { MatSort } from '@angular/material/sort';
 })
 export class SummaryComponent implements OnInit, OnDestroy {
 
-  data: MatTableDataSource<{room: number, avg: number}> = new MatTableDataSource<{room: number, avg: number}>();
+  data: MatTableDataSource<{room: string, avg: number}> = new MatTableDataSource<{room: string, avg: number}>();
   collumns = ['room', 'avg']
 
   dateSelector = this.fb.group({

@@ -5,7 +5,7 @@ interface UKey {
 
 interface AKey {
     room: string;
-    whom?: {_id: string, uname: string, room: number};
+    whom?: {_id: string, uname: string, room: string};
     borrow?: moment.Moment;
     tb?: moment.Moment;
 }

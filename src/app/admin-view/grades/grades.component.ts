@@ -15,8 +15,8 @@ import { AttendenceComponent } from './attendence/attendence.component';
   styleUrl: './grades.component.scss'
 })
 export class GradesComponent implements OnInit, OnDestroy {
-  rooms!: number[]
-  room: number = 0;
+  rooms!: string[]
+  room: string = "0";
   date: moment.Moment;
   grade: number = 6
   gradeDate?: moment.Moment;
@@ -158,7 +158,7 @@ export class GradesComponent implements OnInit, OnDestroy {
     })
   }
 
-  roomNumber(value: number) {
+  roomNumber(value: string) {
     this.room = value
     this.downloadData()
   }

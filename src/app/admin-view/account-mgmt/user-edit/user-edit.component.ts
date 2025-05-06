@@ -23,7 +23,7 @@ export class UserEditComponent {
         admin: 0
       }
     }
-    this.groups = data.groups
+    this.groups = data.groups ? data.groups : []
     var flags: Array<number> = []
     if (data.user.admin) {
       if ((data.user.admin & 1) == 1) flags.push(1)
@@ -45,13 +45,11 @@ export class UserEditComponent {
     })
   }
 
-  protected editUser() {
-    console.log(this.form.value);
-    
+  protected editUser() {    
     this.dialogRef.close({
       fname: this.form.get('fname')?.value,
       surname: this.form.get('surname')?.value,
-      room: this.form.get('room')?.value.length == 0 ? undefined : this.form.get('room')?.value,
+      room: this.form.get('room')?.value,
       uname: this.form.get('uname')?.value,
       groups: this.form.get('groups')?.value,
       flags: (() => {

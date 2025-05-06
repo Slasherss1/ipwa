@@ -3,7 +3,7 @@ export interface Notification {
     title: string;
     recp: {
         uname: string | null;
-        room: number | null;
+        room: string | null;
         type: "all" | "room" | "uname"
     }
 }
