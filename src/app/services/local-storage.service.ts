@@ -135,4 +135,11 @@ export class LocalStorageService {
   }
 
   public newsflag: number | false = false;
+
+  public get vapid(): string {
+    return localStorage.getItem('vapid')!
+  }
+  public set vapid(value: string) {
+    localStorage.setItem("vapid", value)
+  }
 }
