@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthClient } from '../services/auth.client';
 import { SwPush } from '@angular/service-worker';
-import { environment } from 'src/environments/environment';
 import { UpdatesService } from '../services/updates.service';
 import { Link } from '../types/link';
 import { LocalStorageService } from '../services/local-storage.service';
@@ -14,7 +13,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./app-view.component.scss']
 })
 export class AppViewComponent implements OnInit {
-  readonly VAPID_PUK = environment.vapid.pubkey
   private readonly _LINKS: Link[] = [
     { title: "Jadłospis", href: "menu", icon: "restaurant_menu", enabled: this.ls.capCheck(2) },
     { title: "Wiadomości", href: "news", icon: "newspaper", enabled: this.ls.capCheck(1) },
@@ -32,7 +30,7 @@ export class AppViewComponent implements OnInit {
   subscribeToNotif() {
     if (this.swPush.isEnabled && this.ls.capCheck(4)) {
       this.swPush.requestSubscription({
-        serverPublicKey: this.VAPID_PUK
+        serverPublicKey: this.ls.vapid
       }).then(sub => {
         this.us.postNotif(sub)
       })

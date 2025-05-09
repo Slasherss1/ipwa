@@ -29,7 +29,7 @@ export class NotificationsComponent implements OnInit {
       uname: new FormControl<string>(''),
       room: new FormControl<string|null>(null),
       group: new FormControl<string>(''),
-      type: new FormControl<"all" | "room" | "uname" | "group">('uname', {nonNullable: true})
+      type: new FormControl<"room" | "uname" | "group">('uname', {nonNullable: true})
     }),
     title: new FormControl('', {nonNullable: true}),
     body: new FormControl('', {nonNullable: true})
@@ -49,6 +49,6 @@ interface NotificationForm {
       uname: FormControl<string | null>;
       room: FormControl<string | null>;
       group: FormControl<string | null>;
-      type: FormControl<"all" | "room" | "uname" | "group">;
+      type: FormControl<"room" | "uname" | "group">;
   }>
 }

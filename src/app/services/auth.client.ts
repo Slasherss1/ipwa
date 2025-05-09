@@ -38,6 +38,7 @@ export class AuthClient {
         document.location.reload()
       }
       this.ls.room = data.room
+      this.ls.vapid = data.vapid
       if (data.menu.defaultItems) {
         this.ls.defaultItems = data.menu.defaultItems
       }
