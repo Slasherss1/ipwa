@@ -29,13 +29,12 @@ export class AccountMgmtComponent implements OnInit, AfterViewInit {
     this.users = new MatTableDataSource<Omit<User, "pass">>();
     this.users.filterPredicate = (data: Record<string, any>, filter: string): boolean => {
       const dataStr = Object.keys(data).reduce((curr: string, key: string) => {
-        if (["_id", "admin", "groups"].find(v => v == key)) {
-          return ''
+        if (["_id", "admin", "groups", "__v", "locked"].find(v => v == key)) {
+          return curr + ''
         }
         return curr + data[key] + '⫂'
       }, '').toLowerCase()
       const filternew = filter.trim().toLowerCase()
-
       return dataStr.indexOf(filternew) != -1
     }
   }
