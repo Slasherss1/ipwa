@@ -10,6 +10,7 @@ import { catchError, throwError } from 'rxjs';
 import { UserResetComponent } from './user-reset/user-reset.component';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { Group } from 'src/app/types/group';
+import User from 'src/app/types/user';
 
 @Component({
   selector: 'app-account-mgmt',
@@ -20,15 +21,15 @@ import { Group } from 'src/app/types/group';
 
 export class AccountMgmtComponent implements OnInit, AfterViewInit {
   protected groups: Group[] = []
-  users: MatTableDataSource<any>
+  users: MatTableDataSource<Omit<User, "pass">>
   loading = false
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
   constructor(readonly ac:AdminCommService, private dialog: MatDialog, private sb: MatSnackBar, protected readonly ls: LocalStorageService) {
-    this.users = new MatTableDataSource<any>();
+    this.users = new MatTableDataSource<Omit<User, "pass">>();
     this.users.filterPredicate = (data: Record<string, any>, filter: string): boolean => {
       const dataStr = Object.keys(data).reduce((curr: string, key: string) => {
-        if (key == "_id") {
+        if (["_id", "admin", "groups"].find(v => v == key)) {
           return ''
         }
         return curr + data[key] + '⫂'

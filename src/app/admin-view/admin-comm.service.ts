@@ -11,6 +11,7 @@ import { News } from '../types/news';
 import { AKey } from '../types/key';
 import * as moment from 'moment';
 import { IUSettings } from './settings/settings.component';
+import User from '../types/user';
 
 @Injectable({
   providedIn: 'root'
@@ -121,17 +122,7 @@ export class AdminCommService {
   accs = {
     getAccs: () => {
       return this.http.get<{
-        users: {
-          _id: string;
-          uname: string;
-          pass: string;
-          room?: string;
-          admin?: number;
-          locked?: boolean;
-          fname?: string;
-          surname?: string;
-          groups: string[];
-        }[],
+        users: Omit<User, "pass">[],
         groups: Group[]
       }>(environment.apiEndpoint+`/admin/accs`, {withCredentials: true})
     },
