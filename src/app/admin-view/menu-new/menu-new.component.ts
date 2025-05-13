@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DATE_RANGE_SELECTION_STRATEGY } from '@angular/material/datepicker';
 import { Moment } from 'moment';
@@ -54,10 +54,10 @@ export class MenuNewComponent {
       if (data) {
         switch (data.type) {
           case "day":
-            this.ac.menu.new.single(data.value).subscribe()
+            this.ac.menu.new.single(data.value).subscribe(s => this.refreshIfGood(s))
             break;
           case "week":
-            this.ac.menu.new.range(data.value.start, data.value.count).subscribe()
+            this.ac.menu.new.range(data.value.start, data.value.count).subscribe(s => this.refreshIfGood(s))
             break;
           case "file":
             this.requestData()
@@ -87,7 +87,7 @@ export class MenuNewComponent {
   }
 
   private refreshIfGood(s: Status) {
-    if (s.status == 200) {
+    if (s.status.toString().match(/2\d\d/)) {
       this.requestData()
     }
   }
@@ -100,25 +100,20 @@ export class MenuNewComponent {
     })
   }
 
-  editDay(v: string | string[], element: Menu) {
-    v = v as string
-    element.day = moment(v, "DD.MM.YYYY", true).utc(true).startOf('day')
-  }
-
   editSn(id: string) {
-    this.ac.menu.editSn(id, this.dataSource.data.find(v => v._id == id)?.sn).subscribe(this.refreshIfGood)
+    this.ac.menu.editSn(id, this.dataSource.data.find(v => v._id == id)?.sn).subscribe(s => this.refreshIfGood(s))
   }
 
   editOb(id: string) {
-    this.ac.menu.editOb(id, this.dataSource.data.find(v => v._id == id)?.ob).subscribe(this.refreshIfGood)
+    this.ac.menu.editOb(id, this.dataSource.data.find(v => v._id == id)?.ob).subscribe(s => this.refreshIfGood(s))
   }
 
   editKol(id: string) {
-    this.ac.menu.editKol(id, this.dataSource.data.find(v => v._id == id)?.kol).subscribe(this.refreshIfGood)
+    this.ac.menu.editKol(id, this.dataSource.data.find(v => v._id == id)?.kol).subscribe(s => this.refreshIfGood(s))
   }
 
   editTitle(id: string) {
-    this.ac.menu.editTitle(id, this.dataSource.data.find(v => v._id == id)?.dayTitle).subscribe(this.refreshIfGood)
+    this.ac.menu.editTitle(id, this.dataSource.data.find(v => v._id == id)?.dayTitle).subscribe(s => this.refreshIfGood(s))
   }
 
   getStat(day: moment.Moment, m: "ob" | "kol") {
@@ -126,6 +121,6 @@ export class MenuNewComponent {
   }
 
   remove(id: string) {
-    this.ac.menu.rm(id).subscribe(this.refreshIfGood)
+    this.ac.menu.rm(id).subscribe(s => this.refreshIfGood(s))
   }
 }
