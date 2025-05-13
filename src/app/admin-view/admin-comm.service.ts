@@ -11,6 +11,7 @@ import { News } from '../types/news';
 import { AKey } from '../types/key';
 import * as moment from 'moment';
 import { IUSettings } from './settings/settings.component';
+import User from '../types/user';
 
 @Injectable({
   providedIn: 'root'
@@ -121,17 +122,7 @@ export class AdminCommService {
   accs = {
     getAccs: () => {
       return this.http.get<{
-        users: {
-          _id: string;
-          uname: string;
-          pass: string;
-          room?: string;
-          admin?: number;
-          locked?: boolean;
-          fname?: string;
-          surname?: string;
-          groups: string[];
-        }[],
+        users: Omit<User, "pass">[],
         groups: Group[]
       }>(environment.apiEndpoint+`/admin/accs`, {withCredentials: true})
     },
@@ -236,13 +227,16 @@ export class AdminCommService {
     },
     attendence: {
       getUsers: (room: string) => {
-        return this.http.get<{users: {fname: string, surname: string, _id: string}[], attendence?: {id: string, hour?: string}[]}>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, {withCredentials: true})
+        return this.http.get<{users: {fname: string, surname: string, _id: string}[], attendence?: {auto: {id: string, hour?: string}[], notes: string}}>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, {withCredentials: true})
       },
-      postAttendence: (room: string, attendence: {id: string, hour?: string}[]) => {
+      postAttendence: (room: string, attendence: {auto: {id: string, hour?: string}[], notes: string}) => {
         return this.http.post<Status>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, attendence, {withCredentials: true})
       },
       getSummary: () => {
-        return this.http.get<{room: string, hours: string[]}[]>(environment.apiEndpoint+`/admin/clean/attendenceSummary`, {withCredentials: true})
+        return this.http.get<{room: string, hours: string[], notes: string}[]>(environment.apiEndpoint+`/admin/clean/attendenceSummary`, {withCredentials: true})
+      },
+      deleteRoom: (room: string) => {
+        return this.http.delete<Status>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, {withCredentials: true})
       }
     }
   }

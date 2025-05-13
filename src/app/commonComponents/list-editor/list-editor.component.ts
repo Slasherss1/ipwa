@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 
 @Component({
   selector: 'app-list-editor[list], app-list-editor[converter]',
@@ -15,9 +15,14 @@ export class ListEditorComponent implements OnChanges {
   @Input() dropdown?: boolean;
   @Input() dataList?: string;
   @Output() edit = new EventEmitter<string[]>();
+
+  @ViewChildren('input') inputList!: QueryList<ElementRef>
+
   protected _list: string[] = [];
   workList: string[] = [];
   focused = false;
+
+  constructor (private cdRef: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.list) {
@@ -54,6 +59,8 @@ export class ListEditorComponent implements OnChanges {
 
   addPos(index: number) {
     this.workList.splice(index+1, 0, '')
+    this.cdRef.detectChanges()
+    this.inputList.get(index+1)?.nativeElement.focus()
   }
 
   trackByIndex(index: number, _entry:any) {

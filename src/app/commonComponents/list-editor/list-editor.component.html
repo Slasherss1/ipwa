@@ -13,7 +13,7 @@
     <div cdkDropList class="vertical" (cdkDropListDropped)="drop($event)">
         @for (item of workList; track $index) {
             <span cdkDrag>
-                <input type="text" [(ngModel)]="workList[$index]" [attr.list]="dataList">
+                <input type="text" [(ngModel)]="workList[$index]" [attr.list]="dataList" (keyup.enter)="addPos($index)" #input>
                 <select *ngIf="dropdown" [(ngModel)]="workList[$index]">
                     <option *ngFor="let option of options" [value]="option.id" [selected]="option.id == item">{{option.text}}</option>
                 </select>
