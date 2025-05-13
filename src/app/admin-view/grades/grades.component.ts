@@ -164,7 +164,8 @@ export class GradesComponent implements OnInit, OnDestroy {
   }
 
   attendence() {
-    this.dialog.open(AttendenceComponent, {data: {room: this.room}}).afterClosed().subscribe((v: {room: string, users: {att: boolean, id: string, hour: string}[]}) => {
+    this.dialog.open(AttendenceComponent, {data: {room: this.room}}).afterClosed().subscribe((v: {room: string, users: {att: boolean, id: string, hour: string}[], notes: string}) => {
+      if (!v) return
       let x: {room: string, users: {id: string, hour?: string}[]} = {
         room: v.room,
         users: []
@@ -174,7 +175,7 @@ export class GradesComponent implements OnInit, OnDestroy {
           x.users.push({id: i.id, hour: i.hour})
         }
       })
-      this.ac.clean.attendence.postAttendence(x.room, x.users).subscribe((s) => {
+      this.ac.clean.attendence.postAttendence(x.room, {auto: x.users, notes: v.notes}).subscribe((s) => {
         if (s.status == 200) {
           this.sb.open("Zapisano obecność!", undefined, {duration: 1500})
         }

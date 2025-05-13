@@ -227,13 +227,16 @@ export class AdminCommService {
     },
     attendence: {
       getUsers: (room: string) => {
-        return this.http.get<{users: {fname: string, surname: string, _id: string}[], attendence?: {id: string, hour?: string}[]}>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, {withCredentials: true})
+        return this.http.get<{users: {fname: string, surname: string, _id: string}[], attendence?: {auto: {id: string, hour?: string}[], notes: string}}>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, {withCredentials: true})
       },
-      postAttendence: (room: string, attendence: {id: string, hour?: string}[]) => {
+      postAttendence: (room: string, attendence: {auto: {id: string, hour?: string}[], notes: string}) => {
         return this.http.post<Status>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, attendence, {withCredentials: true})
       },
       getSummary: () => {
-        return this.http.get<{room: string, hours: string[]}[]>(environment.apiEndpoint+`/admin/clean/attendenceSummary`, {withCredentials: true})
+        return this.http.get<{room: string, hours: string[], notes: string}[]>(environment.apiEndpoint+`/admin/clean/attendenceSummary`, {withCredentials: true})
+      },
+      deleteRoom: (room: string) => {
+        return this.http.delete<Status>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, {withCredentials: true})
       }
     }
   }
