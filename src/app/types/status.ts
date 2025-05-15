@@ -1,3 +1,4 @@
 export interface Status {
-    status: number
+    status: number,
+    message?: string
 }

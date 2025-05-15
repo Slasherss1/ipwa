@@ -26,22 +26,10 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  errorParser(err: any) {
-    switch (err.status) {
-      case 401:
-        this.error = "Zła nazwa użytkownika lub hasło"
-        break;
-    
-      default:
-        this.error = "Nieznany błąd"
-        break;
-    }
-  }
-
   submit() {
     const val = this.form.value
     this.ac.login(val.uname, val.pass).pipe(catchError((err,caught)=>{
-      this.errorParser(err)
+      this.error = err.error.message
       return throwError(() => new Error(err.message))
     })).subscribe((data) => {
       this.ls.loggedIn = true
