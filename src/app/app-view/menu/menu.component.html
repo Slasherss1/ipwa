@@ -13,8 +13,8 @@
         <mat-card-content>
             <ul>
                 <li *ngFor="let i of ls.defaultItems.sn">{{i}}</li>
-                <li *ngFor="let i of getsn.fancy">{{i.charAt(0).toUpperCase()+i.substring(1)}}</li>
-                <li *ngIf="getsn.second">{{getsn.second.charAt(0).toUpperCase()+getsn.second.substring(1)}}</li>
+                <li *ngFor="let i of getsn.fancy">{{capitalize(i)}}</li>
+                <li *ngIf="getsn.second">{{capitalize(getsn.second)}}</li>
             </ul>
         </mat-card-content>
     </mat-card>
@@ -51,7 +51,7 @@
             <button mat-icon-button (click)="vote('kol', '-')"><mat-icon [color]="menu!.kolv == '-' ? 'warn' : null">thumb_down</mat-icon></button>
         </mat-card-actions>
     </mat-card>
-    <mat-card *ngIf="!(getkol || getob || getsn || loading)">
+    <mat-card *ngIf="!(getkol || getob || getsn || loading || gettitle)">
         <mat-card-content id="no-data">
             Brak danych, wybierz inny dzień.
         </mat-card-content>

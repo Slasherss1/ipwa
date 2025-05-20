@@ -32,17 +32,34 @@ export class MenuComponent {
     }
     
     menu?: Menu;
-    get getsn() {return (this.menu && this.menu.sn) ? this.menu.sn : null}
-    get getob() {return (this.menu && this.menu.ob) ? this.menu.ob : null}
+    get getsn() {return (this.menu && this.checkIfAnyProperty(this.menu.sn)) ? this.menu.sn : null}
+    get getob() {return (this.menu && this.checkIfAnyProperty(this.menu.ob)) ? this.menu.ob : null}
     get getkol() {return (this.menu && this.menu.kol) ? this.menu.kol : null}
     get gettitle() {return (this.menu && this.menu.dayTitle && this.menu.dayTitle != "") ? this.menu.dayTitle : null}
     
+    private checkIfAnyProperty(obj: { [x: string]: string | string[];}) {
+      for (let i in obj) {
+        if (Array.isArray(obj[i])) {
+          if (obj[i].length > 0) return true
+        } else {
+          if (!!obj[i]) return true
+        }
+      }
+      return false
+    }
+
+    capitalize(str: string) {
+      return str.charAt(0).toUpperCase()+str.substring(1)
+    }
+
     updateMenu(silent?: boolean) {
       this.loading = !silent
       if (!silent) this.menu = undefined
       this.uc.getMenu(this.day).subscribe(m => {
         this.loading = false
         this.menu = m
+        console.log(m);
+        
       })
     }
 
