@@ -1,16 +1,16 @@
 {
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
-  "index": "./index.html",
+  "index": "/ipwa/index.html",
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
       "resources": {
         "files": [
-          "/favicon.ico",
-          "/manifest.webmanifest",
-          "/*.css",
-          "/*.js"
+          "/ipwa/favicon.ico",
+          "/ipwa/manifest.webmanifest",
+          "/ipwa/*.css",
+          "/ipwa/*.js"
         ]
       }
     },
@@ -20,8 +20,8 @@
       "updateMode": "prefetch",
       "resources": {
         "files": [
-          "./assets/**",
-          "/**/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+          "/ipwa/assets/**",
+          "/ipwa/**/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
         ]
       }
     }

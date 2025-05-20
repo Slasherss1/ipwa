@@ -8,7 +8,21 @@ import { catchError, concat, first, from, interval, tap, throwError } from 'rxjs
 })
 export class AppUpdateService implements OnInit {
 
-  constructor(readonly appRef: ApplicationRef, readonly update: SwUpdate, readonly sb: MatSnackBar) { }
+  constructor(readonly appRef: ApplicationRef, readonly update: SwUpdate, readonly sb: MatSnackBar) {
+    this.update.versionUpdates.subscribe((evt) => {
+      switch (evt.type) {
+        case 'VERSION_DETECTED':
+          console.log(`Downloading ${evt.version.hash}`);
+          break;
+        case 'VERSION_READY':
+          console.log(`Current: ${evt.currentVersion.hash}, new: ${evt.latestVersion.hash}`);
+          break;
+        case 'VERSION_INSTALLATION_FAILED':
+          console.error(`Failed to install ${evt.version.hash}: ${evt.error}`);
+          break;    
+      }
+    })
+  }
   
   ngOnInit(): void {
     const appIsStable = this.appRef.isStable.pipe(first(isStable => isStable === true))

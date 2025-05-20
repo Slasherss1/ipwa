@@ -70,6 +70,30 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "swDevelopment": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.swdev.ts"
+                }
+              ],
+              "assets": [
+                {
+                  "glob": "ngsw-worker.js",
+                  "input": "node_modules/@angular/servce-worker",
+                  "output": "."
+                },
+                "src/ngsw.json",
+                "src/manifest.webmanifest"
+              ]
             }
           },
           "defaultConfiguration": "production"

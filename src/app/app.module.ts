@@ -78,6 +78,7 @@ import { AttendenceComponent } from './admin-view/grades/attendence/attendence.c
 import { AttendenceSummaryComponent } from './admin-view/grades/attendence-summary/attendence-summary.component';
 import { HourDisplayComponent } from './admin-view/grades/attendence-summary/hour-display/hour-display.component';
 import { AboutComponent } from './app-view/personal/about/about.component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -160,7 +161,7 @@ import { AboutComponent } from './app-view/personal/about/about.component';
     A11yModule,
     MatAutocompleteModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
+      enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
