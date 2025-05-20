@@ -31,7 +31,7 @@ export class MenuAddComponent {
   submit() {
     switch (this.type) {
       case "day":
-        this.dialogRef.close({type: "day", value: this.day.utc()})
+        this.dialogRef.close({type: "day", value: this.day.utc().startOf('day')})
         break;
       case "week":
         this.dialogRef.close({type: "week", value: {start: this.range.value.start?.utc().hours(24), count: 5}})
