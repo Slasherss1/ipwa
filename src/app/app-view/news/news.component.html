@@ -10,3 +10,8 @@
         <p>{{item.date | date:'d-LL-yyyy HH:mm'}}</p>
     </mat-card-footer>
 </mat-card>
+<mat-card *ngIf="news.length == 0">
+    <p>
+        Brak wiadomości.
+    </p>
+</mat-card>
