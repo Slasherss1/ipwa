@@ -131,7 +131,7 @@ export class AdminCommService {
       return this.http.post<Status>(environment.apiEndpoint+`/admin/accs`, item, {withCredentials: true})
     },
 
-    putAcc: (id: string, update: object) => {
+    putAcc: (id: string, update: Partial<User>) => {
       return this.http.put<Status>(environment.apiEndpoint+`/admin/accs/${id}`, update, {withCredentials: true})
     },
 
@@ -141,6 +141,14 @@ export class AdminCommService {
     
     deleteAcc: (id: string) => {
       return this.http.delete<Status>(environment.apiEndpoint+`/admin/accs/${id}`, {withCredentials: true})
+    },
+
+    getUser: (id: string) => {
+      return this.http.get<Omit<User, "pass"> & {lockout: boolean}>(environment.apiEndpoint+`/admin/accs/${id}`, {withCredentials: true})
+    },
+
+    clearLockout: (id: string) => {
+      return this.http.delete<Status>(environment.apiEndpoint+`/admin/accs/${id}/lockout`, {withCredentials: true})
     }
   }
   //#endregion

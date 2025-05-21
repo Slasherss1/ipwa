@@ -4,7 +4,29 @@
 }
 
 form {
+    margin-top: 1ch !important;
     display: flex;
-    flex-direction: column;
+    grid-auto-flow: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
+    column-gap: 3ch;
+    div {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 1fr);
+        align-items: center;
+        button {
+            align-self: stretch;
+            justify-self: stretch;
+            height: auto;
+            margin-bottom: 1lh;
+        }
+    }
+}
+
+mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
 }
