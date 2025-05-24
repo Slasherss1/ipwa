@@ -55,7 +55,7 @@ export class AccountMgmtComponent implements OnInit, AfterViewInit {
   }
 
   openUserCard(id?: string) {
-    this.dialog.open(UserEditComponent, {data: {id: id, type: id ? "edit" : "new", groups: this.groups}}).afterClosed().subscribe(r => {
+    this.dialog.open<UserEditComponent, UserEditComponent.InputData, UserEditComponent.ReturnData>(UserEditComponent, {data: {id: id, type: id ? "edit" : "new", groups: this.groups}}).afterClosed().subscribe(r => {
       if (r) this.ngOnInit()
     })
   }

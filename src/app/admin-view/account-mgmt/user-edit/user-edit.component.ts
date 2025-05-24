@@ -11,12 +11,17 @@ import { catchError, throwError } from 'rxjs';
 import { Moment } from 'moment';
 import * as moment from 'moment';
 
+export namespace UserEditComponent {
+  export type InputData = {type: "new" | "edit", id?: string, groups: Group[]}
+  export type ReturnData = true | undefined
+}
+
 @Component({
   selector: 'app-user-edit',
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.scss']
 })
-export class UserEditComponent {
+export class UserEditComponent { 
   lockout = false;
   locked = false;
   loading = false;
@@ -33,7 +38,7 @@ export class UserEditComponent {
   regDate?: Moment;
   constructor (
     public dialogRef: MatDialogRef<UserEditComponent>, 
-    @Inject(MAT_DIALOG_DATA) public data: ({type: "edit", id: string} | {type: "new"}) & {groups: Group[]}, 
+    @Inject(MAT_DIALOG_DATA) public data: UserEditComponent.InputData, 
     readonly ls: LocalStorageService, 
     readonly acu: AdminCommService, 
     private dialog: MatDialog,
@@ -42,7 +47,7 @@ export class UserEditComponent {
     this.groups = data.groups
     if (data.type == "edit") {
       this.id = data.id
-      this.acu.accs.getUser(data.id).subscribe((r) => {
+      this.acu.accs.getUser(data.id!).subscribe((r) => {
         this.regDate = moment(r.regDate)
         var flags: Array<number> = []
         if (r.admin) {

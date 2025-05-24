@@ -4,6 +4,6 @@ import { LocalStorageService } from './services/local-storage.service';
 
 export const adminGuard: CanActivateChildFn = (childRoute, state) => {
   const router = inject(Router)
-  if (inject(LocalStorageService).admin == false) return router.parseUrl('/')
+  if (inject(LocalStorageService).admin == undefined) return router.parseUrl('/')
   return true
 };

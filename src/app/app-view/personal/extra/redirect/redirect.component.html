@@ -1,0 +1,13 @@
+<h1>Domyślna strona po logowaniu</h1>
+<mat-dialog-content>
+    <p>Wpisz link względem /ipwa/ w poniższym polu.</p>
+    <p>Przykład: /app/menu</p>
+    <mat-form-field>
+        <input matInput type="text" [(ngModel)]="redirect">
+        <mat-label>Link</mat-label>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-dialog-close mat-button>Anuluj</button>
+    <button (click)="save()" mat-flat-button>Zapisz</button>
+</mat-dialog-actions>

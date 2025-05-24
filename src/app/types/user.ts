@@ -11,4 +11,5 @@ export default interface User {
     surname?: string;
     groups: string[];
     regDate: Moment;
+    defaultPage?: string;
 }

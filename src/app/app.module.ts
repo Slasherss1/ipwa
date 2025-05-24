@@ -79,6 +79,8 @@ import { AttendenceSummaryComponent } from './admin-view/grades/attendence-summa
 import { HourDisplayComponent } from './admin-view/grades/attendence-summary/hour-display/hour-display.component';
 import { AboutComponent } from './app-view/personal/about/about.component';
 import { environment } from 'src/environments/environment';
+import { ExtraComponent } from './app-view/personal/extra/extra.component';
+import { RedirectComponent } from './app-view/personal/extra/redirect/redirect.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +124,8 @@ import { environment } from 'src/environments/environment';
     AttendenceSummaryComponent,
     HourDisplayComponent,
     AboutComponent,
+    ExtraComponent,
+    RedirectComponent,
   ],
   imports: [
     BrowserModule,

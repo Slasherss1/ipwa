@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (this.ls.loggedIn) {
-      this.router.navigateByUrl('app')
+      this.router.navigateByUrl(this.ac.redirect || 'app')
     }
   }
 
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       return throwError(() => new Error(err.message))
     })).subscribe((data) => {
       this.ls.loggedIn = true
-      this.router.navigateByUrl('app')
+      this.router.navigateByUrl(this.ac.redirect || 'app')
       if (data.admin) {
         this.ls.admin = data.admin
       }
