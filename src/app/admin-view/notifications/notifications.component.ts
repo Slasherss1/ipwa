@@ -1,25 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AdminCommService } from '../admin-comm.service';
 import { Notification } from 'src/app/types/notification';
 import { Group } from 'src/app/types/group';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { ToolbarService } from '../toolbar/toolbar.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.scss']
 })
-export class NotificationsComponent implements OnInit {
+export class NotificationsComponent implements OnInit, OnDestroy {
 
   groups!: Group[]
 
-  constructor (private readonly acs: AdminCommService, readonly ls: LocalStorageService) { }
+  constructor (private readonly acs: AdminCommService, readonly ls: LocalStorageService, private toolbar: ToolbarService, private router: Router, private route: ActivatedRoute ) {
+    this.toolbar.comp = this
+    this.toolbar.menu = [
+      { title: "Wysłane", fn: "outbox", icon: "outbox" }
+    ]
+  }
+  
+  outbox() {
+    this.router.navigate(["outbox"], { relativeTo: this.route })
+  }
 
   ngOnInit(): void {
     this.acs.notif.getGroups().subscribe((v) => {
       this.groups = v
     })
+  }
+
+  ngOnDestroy(): void {
+    this.toolbar.comp = undefined
+    this.toolbar.menu = undefined
+  }
+
+  public inbox() {
+    
   }
 
   success?: { sent: number; possible: number; };

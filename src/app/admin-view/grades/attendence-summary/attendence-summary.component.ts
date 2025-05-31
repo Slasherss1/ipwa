@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToolbarService } from '../../toolbar.service';
+import { ToolbarService } from '../../toolbar/toolbar.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { AdminCommService } from '../../admin-comm.service';

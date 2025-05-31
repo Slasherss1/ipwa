@@ -19,6 +19,7 @@ import { SummaryComponent } from './admin-view/grades/summary/summary.component'
 import { SettingsComponent } from './admin-view/settings/settings.component';
 import { AttendenceSummaryComponent } from './admin-view/grades/attendence-summary/attendence-summary.component';
 import { NotificationsComponent } from './admin-view/notifications/notifications.component';
+import { OutboxComponent } from './admin-view/notifications/outbox/outbox.component';
 
 const routes: Routes = [
   {path: "", redirectTo: "login", pathMatch: "full"},
@@ -33,7 +34,10 @@ const routes: Routes = [
     {path: "news", title: "Edytowanie wiadomości", component: NewsEditComponent},
     {path: "menu", title: "Edytowanie jadłospisu", component: MenuNewComponent},
     {path: "accounts", title: "Użytkownicy", component: AccountMgmtComponent},
-    {path: "notifications", title: "Powiadomienia", component: NotificationsComponent},
+    {path: "notifications", children: [
+      {path: "", pathMatch: "full", title: "Powiadomienia", component: NotificationsComponent},
+      {path: "outbox", title: "Wysłane", component: OutboxComponent}
+    ]},
     {path: "groups", title: "Grupy", component: GroupsComponent},
     {path: "keys", title: "Klucze", component: AdminKeyComponent},
     {path: "grades", children: [

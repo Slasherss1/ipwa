@@ -182,6 +182,11 @@ export class AdminCommService {
     },
     getGroups: () => {
       return this.http.get<Group[]>(environment.apiEndpoint+"/admin/notif/groups", {withCredentials: true})
+    },
+    outbox: {
+      getSent: () => {
+        return this.http.get<any[]>(environment.apiEndpoint+"/admin/notif/outbox", {withCredentials: true})
+      }
     }
   }
   //#endregion

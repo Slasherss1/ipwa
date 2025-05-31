@@ -81,6 +81,8 @@ import { AboutComponent } from './app-view/personal/about/about.component';
 import { environment } from 'src/environments/environment';
 import { ExtraComponent } from './app-view/personal/extra/extra.component';
 import { RedirectComponent } from './app-view/personal/extra/redirect/redirect.component';
+import { OutboxComponent } from './admin-view/notifications/outbox/outbox.component';
+import { ToolbarComponent } from './admin-view/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -126,6 +128,8 @@ import { RedirectComponent } from './app-view/personal/extra/redirect/redirect.c
     AboutComponent,
     ExtraComponent,
     RedirectComponent,
+    OutboxComponent,
+    ToolbarComponent,
   ],
   imports: [
     BrowserModule,

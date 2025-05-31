@@ -1,0 +1,10 @@
+.cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1ch;
+    margin: 1ch;
+}
+
+mat-card-title {
+    font-size: 24pt;
+}
