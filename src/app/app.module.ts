@@ -83,6 +83,8 @@ import { ExtraComponent } from './app-view/personal/extra/extra.component';
 import { RedirectComponent } from './app-view/personal/extra/redirect/redirect.component';
 import { OutboxComponent } from './admin-view/notifications/outbox/outbox.component';
 import { ToolbarComponent } from './admin-view/toolbar/toolbar.component';
+import { MessageComponent } from './admin-view/notifications/outbox/message/message.component';
+import { NotifDialogComponent } from './app-view/notif-dialog/notif-dialog.component';
 
 @NgModule({
   declarations: [
@@ -130,6 +132,8 @@ import { ToolbarComponent } from './admin-view/toolbar/toolbar.component';
     RedirectComponent,
     OutboxComponent,
     ToolbarComponent,
+    MessageComponent,
+    NotifDialogComponent,
   ],
   imports: [
     BrowserModule,

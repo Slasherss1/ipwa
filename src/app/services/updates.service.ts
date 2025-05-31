@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { map } from 'rxjs';
 import { UKey } from '../types/key';
 import { CleanNote } from '../types/clean-note';
+import { Status } from '../types/status';
 
 @Injectable({
   providedIn: 'root'
@@ -54,5 +55,13 @@ export class UpdatesService {
 
   getClean(date: moment.Moment) {
     return this.http.get<{grade: number, notes: CleanNote[], tips: string}>(environment.apiEndpoint+`/app/clean/${date.toISOString()}`, {withCredentials: true})
+  }
+
+  getNotifCheck() {
+    return this.http.get<{_id: string, message: {title: string, body: string}, sentDate: moment.Moment}[]>(environment.apiEndpoint+`/app/notif/check`, {withCredentials: true})
+  }
+
+  postInfoAck(id: string) {
+    return this.http.post<Status>(environment.apiEndpoint+`/app/notif/${id}/ack`, undefined, {withCredentials: true})
   }
 }

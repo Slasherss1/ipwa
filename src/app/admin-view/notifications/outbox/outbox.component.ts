@@ -11,7 +11,11 @@ import * as moment from 'moment';
 })
 export class OutboxComponent implements OnInit {
 
-  messages!: any[]
+  messages!: {
+    _id: string;
+    sentDate: moment.Moment;
+    title: string;
+  }[]
 
   constructor (private readonly acs: AdminCommService, private toolbar: ToolbarService, private router: Router, private route: ActivatedRoute ) {
     this.toolbar.comp = this

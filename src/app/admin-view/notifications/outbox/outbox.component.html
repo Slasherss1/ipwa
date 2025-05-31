@@ -1,28 +1,6 @@
 <p>Wysłane wiadomości:</p>
 <div class="cardContainer">
     @for (item of messages; track $index) {
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title-group>
-                    <mat-card-title>
-                        {{item.message.title}}
-                    </mat-card-title>
-                    <mat-card-subtitle>{{item.sentDate.format('[Wysłano] dddd DD MMMM YYYYr. o HH:mm')}}</mat-card-subtitle>
-                </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content>
-                <p>
-                    {{item.message.body}}
-                </p>
-                <hr>
-                <ul>
-                    @for (user of item.rcpt; track $index) {
-                        <li>
-                            <span *ngIf="user.room">{{user.room}}: </span>{{user.fname}} {{user.surname}} <span style="color: gray" >({{user.uname}})</span>
-                        </li>
-                    }
-                </ul>
-            </mat-card-content>
-        </mat-card>
+        <app-message [item]="item"></app-message>
     }
 </div>

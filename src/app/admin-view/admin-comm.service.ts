@@ -185,7 +185,13 @@ export class AdminCommService {
     },
     outbox: {
       getSent: () => {
-        return this.http.get<any[]>(environment.apiEndpoint+"/admin/notif/outbox", {withCredentials: true})
+        return this.http.get<{_id: string, sentDate: moment.Moment, title: string}[]>(environment.apiEndpoint+"/admin/notif/outbox", {withCredentials: true})
+      },
+      getBody: (id: string) => {
+        return this.http.get(environment.apiEndpoint+`/admin/notif/outbox/${id}/message`, {withCredentials: true, responseType: "text"})
+      },
+      getRcpts: (id: string) => {
+        return this.http.get<{_id: string, uname: string, room?: string, fname?: string, surname?: string}[]>(environment.apiEndpoint+`/admin/notif/outbox/${id}/rcpts`, {withCredentials: true})
       }
     }
   }
