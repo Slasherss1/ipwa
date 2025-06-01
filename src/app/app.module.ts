@@ -85,6 +85,7 @@ import { OutboxComponent } from './admin-view/notifications/outbox/outbox.compon
 import { ToolbarComponent } from './admin-view/toolbar/toolbar.component';
 import { MessageComponent } from './admin-view/notifications/outbox/message/message.component';
 import { NotifDialogComponent } from './app-view/notif-dialog/notif-dialog.component';
+import { UserSearchComponent } from './commonComponents/user-search/user-search.component';
 import { StartAdminComponent } from './admin-view/start/start.component';
 
 @NgModule({
@@ -135,6 +136,7 @@ import { StartAdminComponent } from './admin-view/start/start.component';
     ToolbarComponent,
     MessageComponent,
     NotifDialogComponent,
+    UserSearchComponent,
     StartAdminComponent,
   ],
   imports: [
