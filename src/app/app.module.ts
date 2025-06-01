@@ -85,6 +85,7 @@ import { OutboxComponent } from './admin-view/notifications/outbox/outbox.compon
 import { ToolbarComponent } from './admin-view/toolbar/toolbar.component';
 import { MessageComponent } from './admin-view/notifications/outbox/message/message.component';
 import { NotifDialogComponent } from './app-view/notif-dialog/notif-dialog.component';
+import { StartAdminComponent } from './admin-view/start/start.component';
 
 @NgModule({
   declarations: [
@@ -134,6 +135,7 @@ import { NotifDialogComponent } from './app-view/notif-dialog/notif-dialog.compo
     ToolbarComponent,
     MessageComponent,
     NotifDialogComponent,
+    StartAdminComponent,
   ],
   imports: [
     BrowserModule,

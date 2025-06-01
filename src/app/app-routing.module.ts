@@ -20,6 +20,7 @@ import { SettingsComponent } from './admin-view/settings/settings.component';
 import { AttendenceSummaryComponent } from './admin-view/grades/attendence-summary/attendence-summary.component';
 import { NotificationsComponent } from './admin-view/notifications/notifications.component';
 import { OutboxComponent } from './admin-view/notifications/outbox/outbox.component';
+import { StartAdminComponent } from './admin-view/start/start.component';
 
 const routes: Routes = [
   {path: "", redirectTo: "login", pathMatch: "full"},
@@ -31,6 +32,7 @@ const routes: Routes = [
     {path: "grades", component: PersonalComponent, title: "Konto"}
   ]},
   {path: "admin", component: AdminViewComponent, title: "Panel administracyjny", canActivateChild: [authGuard, adminGuard], children: [
+    {path: "", pathMatch: "full", component: StartAdminComponent},
     {path: "news", title: "Edytowanie wiadomości", component: NewsEditComponent},
     {path: "menu", title: "Edytowanie jadłospisu", component: MenuNewComponent},
     {path: "accounts", title: "Użytkownicy", component: AccountMgmtComponent},
