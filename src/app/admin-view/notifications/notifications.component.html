@@ -1,10 +1,10 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
     <div formGroupName="recp">
         <mat-radio-group formControlName="type">
-            <mat-radio-button value="uname">
+            <mat-radio-button value="uid">
                 <mat-form-field>
-                    <mat-label>Nazwa użytkownika</mat-label>
-                    <input matInput type="text" formControlName="uname">
+                    <mat-label>Użytkownik</mat-label>
+                    <app-user-search formControlName="uid" required/>
                 </mat-form-field>
             </mat-radio-button>
             <mat-radio-button value="room">

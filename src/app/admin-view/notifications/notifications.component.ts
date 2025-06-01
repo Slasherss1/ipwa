@@ -6,6 +6,7 @@ import { Group } from 'src/app/types/group';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ToolbarService } from '../toolbar/toolbar.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserSearchResult } from 'src/app/commonComponents/user-search/user-search.component';
 
 @Component({
   selector: 'app-notifications',
@@ -44,9 +45,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   success?: { sent: number; possible: number; };
 
-  form = new FormGroup<NotificationForm>({
+  form = new FormGroup({
     recp: new FormGroup({
-      uname: new FormControl<string>(''),
+      uid: new FormControl<UserSearchResult | null>(null),
       room: new FormControl<string|null>(null),
       group: new FormControl<string>(''),
       type: new FormControl<"room" | "uname" | "group">('uname', {nonNullable: true})
@@ -56,19 +57,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   })
 
   submit() {
-    this.acs.notif.send(this.form.value as Notification).subscribe((data) => {
+    this.acs.notif.send({...this.form.value, recp: {...this.form.get("recp")?.value, uid: this.form.controls['recp'].controls['uid'].value?._id}} as Notification).subscribe((data) => {
       this.success = data
     })
   }
-}
-
-interface NotificationForm {
-  body: FormControl<string>;
-  title: FormControl<string>;
-  recp: FormGroup<{
-      uname: FormControl<string | null>;
-      room: FormControl<string | null>;
-      group: FormControl<string | null>;
-      type: FormControl<"room" | "uname" | "group">;
-  }>
 }

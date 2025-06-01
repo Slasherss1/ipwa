@@ -1,8 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdminCommService } from '../../admin-comm.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
-import { startWith } from 'rxjs';
+import { UserSearchResult } from 'src/app/commonComponents/user-search/user-search.component';
 
 @Component({
   selector: 'app-new-key',
@@ -10,11 +10,10 @@ import { startWith } from 'rxjs';
   styleUrl: './new-key.component.scss'
 })
 export class NewKeyComponent implements OnInit {
-  // @ViewChild('input') input!: ElementRef<HTMLInputElement>
   rooms: string[] = []
   form = new FormGroup({
     room: new FormControl<string>(""),
-    user: new FormControl<string>("")
+    user: new FormControl<UserSearchResult | null>(null)
   })
   unames: any[] = []
   constructor ( private ac: AdminCommService, public dialogRef: MatDialogRef<NewKeyComponent> ) {}
@@ -24,26 +23,11 @@ export class NewKeyComponent implements OnInit {
       this.rooms = v
     })
   }
-  
-  // filter() {
-  //   const v = this.input.nativeElement.value
-  //   console.log(v);
-    
-  //   if (v) {
-  //     this.ac.userFilter(v.toLowerCase()).subscribe((v) => {
-  //       this.unames = v
-  //     })
-  //   } else {
-  //     this.unames = []
-  //   }
-  // }
 
   send() {
     if (this.form.valid) {
       this.dialogRef.close(this.form.value)
-    } else {
-      this.form.controls['user'].setErrors({unf: true})
-    }
+    } 
   }
 
 }
