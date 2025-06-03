@@ -1,0 +1,18 @@
+:host {
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+}
+
+.room {
+    color: gray;
+}
+
+input {
+    border: none;
+    background: none;
+    padding: 0;
+    outline: 0;
+    font: inherit;
+    color: currentColor;
+}

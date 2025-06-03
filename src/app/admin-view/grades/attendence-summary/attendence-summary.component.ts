@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToolbarService } from '../../toolbar.service';
+import { ToolbarService } from '../../toolbar/toolbar.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { AdminCommService } from '../../admin-comm.service';
@@ -11,7 +11,7 @@ import { AdminCommService } from '../../admin-comm.service';
 })
 export class AttendenceSummaryComponent implements OnInit {
 
-  data: MatTableDataSource<{room: string, hours: string[], notes: string}> = new MatTableDataSource<{room: string, hours: string[], notes: string}>();
+  data: MatTableDataSource<{room: string, hours: string[], notes: string, auto: boolean}> = new MatTableDataSource<{room: string, hours: string[], notes: string, auto: boolean}>();
   collumns = ['room', 'hours', 'actions']
 
   constructor (private toolbar: ToolbarService, private router: Router, private route: ActivatedRoute, private ac: AdminCommService) {

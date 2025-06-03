@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Dodatkowe ustawienia</h1>
+<mat-dialog-content>
+    <mat-action-list>
+        @for (link of LINKS; track link) {
+            <button mat-list-item (click)="open(link.component)">
+                <mat-icon matListItemIcon *ngIf="link.icon">{{link.icon}}</mat-icon>
+                <div matListItemTitle>{{link.title}}</div>
+            </button>
+        }
+    </mat-action-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-dialog-close mat-button>Zamknij</button>
+</mat-dialog-actions>

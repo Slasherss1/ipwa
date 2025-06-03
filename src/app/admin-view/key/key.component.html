@@ -8,7 +8,7 @@
     </mat-chip-listbox>
     <button mat-icon-button (click)="new()"><mat-icon>add</mat-icon></button>
 </div>
-<mat-spinner *ngIf="loading"></mat-spinner>
+<mat-spinner *ngIf="loading" color="accent"></mat-spinner>
 <table mat-table [dataSource]="keys">
     <div matColumnDef="room">
         <th mat-header-cell *matHeaderCellDef>Sala</th>

@@ -13,8 +13,8 @@ export class LocalStorageService {
   }
 
   logOut() {
-    this.loggedIn = false
-    this.admin = false
+    this.loggedIn = undefined
+    this.admin = undefined
   }
 
   public hasRoom() {
@@ -26,11 +26,11 @@ export class LocalStorageService {
   }
 
   get room() {
-    return localStorage.getItem('room')!
+    return localStorage.getItem('room') ?? undefined
   }
 
-  set room(value: string) {
-    if (value == "") {
+  set room(value: string | undefined) {
+    if (!value) {
       localStorage.removeItem('room')
     } else {
       localStorage.setItem('room', value)
@@ -49,10 +49,10 @@ export class LocalStorageService {
     if (localStorage.getItem("loggedIn")) {
       return true
     }
-    return false
+    return
   }
 
-  set loggedIn(is: boolean) {
+  set loggedIn(is: true | undefined) {
     if (is) {
       localStorage.setItem("loggedIn", "true")
     } else {
@@ -60,7 +60,7 @@ export class LocalStorageService {
     }
   }
 
-  set admin(newInt: number | false) {
+  set admin(newInt: number | undefined) {
     if (newInt) {
       localStorage.setItem("admin", newInt.toString())
     } else {
@@ -70,7 +70,7 @@ export class LocalStorageService {
 
   get admin() {
     var lsa = localStorage.getItem("admin")
-    return lsa ? Number.parseInt(lsa) : false
+    return lsa ? Number.parseInt(lsa) : undefined
   }
 
   set amgreg(toggle: boolean) {

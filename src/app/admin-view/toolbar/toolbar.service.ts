@@ -6,9 +6,6 @@ import { Injectable } from '@angular/core';
 export class ToolbarService {
 
   public comp?: any;
-  public menu?: {title: string, check: boolean, icon?: string, fn: string}[]
-
-  constructor() { }
-
-
+  public menu?: {title: string, check?: boolean, icon?: string, fn: string}[]
+  
 }

@@ -22,30 +22,18 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (this.ls.loggedIn) {
-      this.router.navigateByUrl('app')
-    }
-  }
-
-  errorParser(err: any) {
-    switch (err.status) {
-      case 401:
-        this.error = "Zła nazwa użytkownika lub hasło"
-        break;
-    
-      default:
-        this.error = "Nieznany błąd"
-        break;
+      this.router.navigateByUrl(this.ac.redirect || 'app')
     }
   }
 
   submit() {
     const val = this.form.value
     this.ac.login(val.uname, val.pass).pipe(catchError((err,caught)=>{
-      this.errorParser(err)
+      this.error = err.error.message
       return throwError(() => new Error(err.message))
     })).subscribe((data) => {
       this.ls.loggedIn = true
-      this.router.navigateByUrl('app')
+      this.router.navigateByUrl(this.ac.redirect || 'app')
       if (data.admin) {
         this.ls.admin = data.admin
       }

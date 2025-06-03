@@ -4,10 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserDeleteComponent } from './user-delete/user-delete.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
-import { catchError, throwError } from 'rxjs';
-import { UserResetComponent } from './user-reset/user-reset.component';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { Group } from 'src/app/types/group';
 import User from 'src/app/types/user';
@@ -57,75 +54,9 @@ export class AccountMgmtComponent implements OnInit, AfterViewInit {
     this.users.filter = value.toLowerCase().trim()
   }
 
-  edit(item: any) {
-    this.dialog.open(UserEditComponent, {data: {user: item, groups: this.groups}}).afterClosed().subscribe(reply => {
-      if (reply) {
-        this.ac.accs.putAcc(item._id, reply).pipe(catchError((err)=>{
-          this.sb.open("Wystąpił błąd. Skontaktuj się z obsługą programu.")
-          return throwError(()=> new Error(err.message))
-        })).subscribe((data)=> {
-          if (data.status == 200) {
-            this.sb.open("Użytkownik został zmodyfikowany.", undefined, {duration: 2500})
-            this.ngOnInit()
-          } else {
-            this.sb.open("Wystąpił błąd. Skontaktuj się z obsługą programu.")
-          }
-        })
-      }
-    })
-  }
-
-  new() {
-    this.dialog.open(UserEditComponent, {data: {groups: this.groups}}).afterClosed().subscribe(reply => {
-      if (reply) {
-        this.ac.accs.postAcc(reply).pipe(catchError((err)=>{
-          this.sb.open("Wystąpił błąd. Skontaktuj się z obsługą programu.")
-          return throwError(()=> new Error(err.message))
-        })).subscribe((data)=> {
-          if (data.status == 201) {
-            this.sb.open("Użytkownik został utworzony.", undefined, {duration: 2500})
-            this.ngOnInit()
-          } else {
-            this.sb.open("Wystąpił błąd. Skontaktuj się z obsługą programu.")
-          }
-        })
-      }
-    })
-  }
-
-  delete(id: string) {
-    this.dialog.open(UserDeleteComponent).afterClosed().subscribe(reply => {
-      if (reply) {
-        this.ac.accs.deleteAcc(id).subscribe((res) => {
-          if (res.status == 200) {
-            this.sb.open("Użytkownik został usunięty.", undefined, {duration: 2500})
-            this.ngOnInit()
-          } else {
-            this.sb.open("Wystąpił błąd. Skontaktuj się z obsługą programu.")
-            console.error(res);
-          }
-        })
-      }
-    })
-  }
-
-  resetPass(id: string) {
-    this.dialog.open(UserResetComponent).afterClosed().subscribe((res) => {
-      if (res == true) {
-        this.ac.accs.resetPass(id).subscribe((patch)=>{
-          if (patch.status == 200) {
-            this.sb.open("Hasło zostało zresetowane", undefined, {duration: 2500})
-          }
-        })
-      }
-    })
-  }
-
-  toggleLock(item: any) {
-    this.ac.accs.putAcc(item._id, {locked: !item.locked}).subscribe((res) => {
-      if (res.status == 200) {
-        item.locked = !item.locked
-      }
+  openUserCard(id?: string) {
+    this.dialog.open<UserEditComponent, UserEditComponent.InputData, UserEditComponent.ReturnData>(UserEditComponent, {data: {id: id, type: id ? "edit" : "new", groups: this.groups}}).afterClosed().subscribe(r => {
+      if (r) this.ngOnInit()
     })
   }
 

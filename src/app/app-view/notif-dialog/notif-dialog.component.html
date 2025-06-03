@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>{{data.message.title}}</h1>
+<mat-dialog-content>
+    <p>
+        {{data.message.body}}
+    </p>
+    <div>{{data.sentDate.format("[Wysłano] dddd DD MMMM YYYYr. o HH:mm")}}</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="ack()">Odczytano</button>
+</mat-dialog-actions>

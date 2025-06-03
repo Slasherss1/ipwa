@@ -1,17 +1,4 @@
-<mat-toolbar color="accent">
-    <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
-    <span>{{title.getTitle()}}</span>
-    <span style="flex: 1 1 auto"></span>
-    <button mat-icon-button *ngIf="toolbar.menu" [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
-</mat-toolbar>
-<mat-menu #menu="matMenu">
-    @for (item of toolbar.menu; track $index) {
-        <button mat-menu-item *ngIf="item.check" (click)="toolbar.comp[item.fn]()">
-            <mat-icon *ngIf="item.icon">{{item.icon}}</mat-icon>
-            <span>{{item.title}}</span>
-        </button>
-    }
-</mat-menu>
+<app-toolbar [drawer]="drawer"/>
 <mat-sidenav-container>
     <mat-sidenav #drawer mode="over" autoFocus="false">
         <mat-nav-list>

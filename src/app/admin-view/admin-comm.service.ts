@@ -131,7 +131,7 @@ export class AdminCommService {
       return this.http.post<Status>(environment.apiEndpoint+`/admin/accs`, item, {withCredentials: true})
     },
 
-    putAcc: (id: string, update: object) => {
+    putAcc: (id: string, update: Partial<User>) => {
       return this.http.put<Status>(environment.apiEndpoint+`/admin/accs/${id}`, update, {withCredentials: true})
     },
 
@@ -141,6 +141,14 @@ export class AdminCommService {
     
     deleteAcc: (id: string) => {
       return this.http.delete<Status>(environment.apiEndpoint+`/admin/accs/${id}`, {withCredentials: true})
+    },
+
+    getUser: (id: string) => {
+      return this.http.get<Omit<User, "pass"> & {lockout: boolean}>(environment.apiEndpoint+`/admin/accs/${id}`, {withCredentials: true})
+    },
+
+    clearLockout: (id: string) => {
+      return this.http.delete<Status>(environment.apiEndpoint+`/admin/accs/${id}/lockout`, {withCredentials: true})
     }
   }
   //#endregion
@@ -174,6 +182,17 @@ export class AdminCommService {
     },
     getGroups: () => {
       return this.http.get<Group[]>(environment.apiEndpoint+"/admin/notif/groups", {withCredentials: true})
+    },
+    outbox: {
+      getSent: () => {
+        return this.http.get<{_id: string, sentDate: moment.Moment, title: string}[]>(environment.apiEndpoint+"/admin/notif/outbox", {withCredentials: true})
+      },
+      getBody: (id: string) => {
+        return this.http.get(environment.apiEndpoint+`/admin/notif/outbox/${id}/message`, {withCredentials: true, responseType: "text"})
+      },
+      getRcpts: (id: string) => {
+        return this.http.get<{_id: string, uname: string, room?: string, fname?: string, surname?: string}[]>(environment.apiEndpoint+`/admin/notif/outbox/${id}/rcpts`, {withCredentials: true})
+      }
     }
   }
   //#endregion
@@ -233,7 +252,7 @@ export class AdminCommService {
         return this.http.post<Status>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, attendence, {withCredentials: true})
       },
       getSummary: () => {
-        return this.http.get<{room: string, hours: string[], notes: string}[]>(environment.apiEndpoint+`/admin/clean/attendenceSummary`, {withCredentials: true})
+        return this.http.get<{room: string, hours: string[], notes: string, auto: boolean}[]>(environment.apiEndpoint+`/admin/clean/attendenceSummary`, {withCredentials: true})
       },
       deleteRoom: (room: string) => {
         return this.http.delete<Status>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, {withCredentials: true})

@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { FormArray, FormBuilder } from '@angular/forms';
 import { weekendFilter } from 'src/app/fd.da';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ToolbarService } from '../toolbar.service';
+import { ToolbarService } from '../toolbar/toolbar.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AttendenceComponent } from './attendence/attendence.component';
@@ -49,8 +49,8 @@ export class GradesComponent implements OnInit, OnDestroy {
     if (!this.filter(this.date)) this.date.isoWeekday(8);
     this.toolbar.comp = this
     this.toolbar.menu = [
+      { title: "Pokoje do sprawdzenia", check: true, fn: "attendenceSummary", icon: "overview"},
       { title: "Podsumowanie", check: true, fn: "summary", icon: "analytics" },
-      { title: "Obecność", check: true, fn: "attendenceSummary", icon: "overview"}
     ]
     this.form.valueChanges.subscribe((v) => {
       this.calculate()

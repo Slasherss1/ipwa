@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../services/local-storage.service';
 import { Link } from '../types/link';
-import { ToolbarService } from './toolbar.service';
 
 @Component({
   selector: 'app-admin-view',
@@ -26,7 +24,7 @@ export class AdminViewComponent {
   public get LINKS(): Link[] {
     return this._LINKS.filter(v => v.enabled);
   }
-  constructor(readonly title: Title, readonly router: Router, readonly ls: LocalStorageService, protected toolbar: ToolbarService) { }
+  constructor(readonly router: Router, readonly ls: LocalStorageService) { }
   goNormal() {
     this.router.navigateByUrl('app')
   }

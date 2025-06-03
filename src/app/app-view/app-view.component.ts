@@ -6,6 +6,8 @@ import { Link } from '../types/link';
 import { LocalStorageService } from '../services/local-storage.service';
 import { interval } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { NotifDialogComponent } from './notif-dialog/notif-dialog.component';
 
 @Component({
   selector: 'app-app-view',
@@ -25,7 +27,14 @@ export class AppViewComponent implements OnInit {
     });
   }
 
-  constructor (private ac: AuthClient, readonly swPush: SwPush, private us: UpdatesService, private ls: LocalStorageService, private sb: MatSnackBar) {}
+  constructor (
+    private ac: AuthClient, 
+    readonly swPush: SwPush, 
+    private us: UpdatesService, 
+    private ls: LocalStorageService, 
+    private sb: MatSnackBar,
+    private dialog: MatDialog
+  ) {}
   
   subscribeToNotif() {
     if (this.swPush.isEnabled && this.ls.capCheck(4)) {
@@ -45,6 +54,13 @@ export class AppViewComponent implements OnInit {
   }
 
   newsCheck() {
+    if (this.ls.capCheck(4)) {
+      this.us.getNotifCheck().subscribe((s) => {
+        s.forEach(v => {
+          this.dialog.open(NotifDialogComponent, {data: v})
+        })
+      })
+    }
     if (this.ls.newsflag) return;
     this.us.newsCheck().subscribe((s) => {
       if (s.hash != this.ls.newsCheck.hash) {

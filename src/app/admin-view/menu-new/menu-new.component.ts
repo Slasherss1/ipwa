@@ -101,11 +101,11 @@ export class MenuNewComponent {
   }
 
   editSn(id: string) {
-    this.ac.menu.editSn(id, this.dataSource.data.find(v => v._id == id)?.sn).subscribe(s => this.refreshIfGood(s))
+    this.ac.menu.editSn(id, this.dataSource.data.find(v => v._id == id)!.sn).subscribe(s => this.refreshIfGood(s))
   }
 
   editOb(id: string) {
-    this.ac.menu.editOb(id, this.dataSource.data.find(v => v._id == id)?.ob).subscribe(s => this.refreshIfGood(s))
+    this.ac.menu.editOb(id, this.dataSource.data.find(v => v._id == id)!.ob).subscribe(s => this.refreshIfGood(s))
   }
 
   editKol(id: string) {

@@ -78,6 +78,15 @@ import { AttendenceComponent } from './admin-view/grades/attendence/attendence.c
 import { AttendenceSummaryComponent } from './admin-view/grades/attendence-summary/attendence-summary.component';
 import { HourDisplayComponent } from './admin-view/grades/attendence-summary/hour-display/hour-display.component';
 import { AboutComponent } from './app-view/personal/about/about.component';
+import { environment } from 'src/environments/environment';
+import { ExtraComponent } from './app-view/personal/extra/extra.component';
+import { RedirectComponent } from './app-view/personal/extra/redirect/redirect.component';
+import { OutboxComponent } from './admin-view/notifications/outbox/outbox.component';
+import { ToolbarComponent } from './admin-view/toolbar/toolbar.component';
+import { MessageComponent } from './admin-view/notifications/outbox/message/message.component';
+import { NotifDialogComponent } from './app-view/notif-dialog/notif-dialog.component';
+import { UserSearchComponent } from './commonComponents/user-search/user-search.component';
+import { StartAdminComponent } from './admin-view/start/start.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +130,14 @@ import { AboutComponent } from './app-view/personal/about/about.component';
     AttendenceSummaryComponent,
     HourDisplayComponent,
     AboutComponent,
+    ExtraComponent,
+    RedirectComponent,
+    OutboxComponent,
+    ToolbarComponent,
+    MessageComponent,
+    NotifDialogComponent,
+    UserSearchComponent,
+    StartAdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -160,7 +177,7 @@ import { AboutComponent } from './app-view/personal/about/about.component';
     A11yModule,
     MatAutocompleteModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
+      enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'

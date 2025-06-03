@@ -1,0 +1,6 @@
+<p>Wysłane wiadomości:</p>
+<div class="cardContainer">
+    @for (item of messages; track $index) {
+        <app-message [item]="item"></app-message>
+    }
+</div>

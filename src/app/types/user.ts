@@ -1,3 +1,5 @@
+import { Moment } from "moment";
+
 export default interface User {
     _id: string;
     uname: string;
@@ -8,4 +10,6 @@ export default interface User {
     fname?: string;
     surname?: string;
     groups: string[];
+    regDate: Moment;
+    defaultPage?: string;
 }

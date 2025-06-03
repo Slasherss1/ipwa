@@ -3,11 +3,11 @@ import { Moment } from "moment";
 export interface Menu {
   _id: string;
   day: Moment;
-  sn?: {
+  sn: {
     fancy: string[];
     second: string;
   };
-  ob?: {
+  ob: {
     soup: string;
     vege: string;
     meal: string;

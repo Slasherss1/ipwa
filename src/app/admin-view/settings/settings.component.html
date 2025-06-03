@@ -1,4 +1,5 @@
 <mat-accordion>
+    <!-- #region Rooms-->
     <mat-expansion-panel>
         <!-- TODO: Make more ergonomic -->
         <mat-expansion-panel-header>
@@ -8,6 +9,8 @@
         <p>Kliknij listę aby edytować</p>
         <app-list-editor [converter]="usettings.rooms" (edit)="saveRoom($event)"></app-list-editor>
     </mat-expansion-panel>
+    <!-- #endregion -->
+    <!-- #region Room grade reasons-->
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>Powody nieczystości</mat-panel-title>
@@ -16,6 +19,8 @@
         <p>Kliknij listę aby edytować</p>
         <app-list-editor [list]="usettings.cleanThings" (edit)="saveCleanThings($event)"></app-list-editor>
     </mat-expansion-panel>
+    <!-- #endregion -->
+    <!-- #region Key rooms-->
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>Sale z kluczami</mat-panel-title>
@@ -23,6 +28,68 @@
         </mat-expansion-panel-header>
         <app-list-editor [list]="usettings.keyrooms" (edit)="saveKeyrooms($event)"></app-list-editor>
     </mat-expansion-panel>
+    <!-- #endregion -->
+    <!-- #region Default menu items-->
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Domyślne wpisy jadłospisu</mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+        </mat-expansion-panel-header>
+        <table>
+            <caption>Domyślne wpisy w jadłospisie dla danych pozycji</caption>
+            <thead>
+                <tr>
+                    <th>Śniadanie</th>
+                    <th>Kolacja</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <app-list-editor [list]="usettings.menu.defaultItems.sn" (edit)="saveSn($event)"/>
+                    </td>
+                    <td>
+                        <app-list-editor [list]="usettings.menu.defaultItems.kol" (edit)="saveKol($event)"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-expansion-panel>
+    <!-- #endregion -->
+    <!-- #region Security-->
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Bezpieczeństwo</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-tab-group color="accent">
+            <mat-tab label="Konta">
+                <p>
+                    Domyślne hasło użytkownika po wygenerowaniu konto to <code>pierwszelogowanie</code><br>
+                    Reset hasła powoduje zmianę na <code>reset</code>
+                </p>
+                <form [formGroup]="accSec" (submit)="saveAccSecTimeouts()">
+                    <p>Ograniczenia logowania</p>
+                    <mat-form-field color="accent">
+                        <mat-label>Dozwolone próby logowania</mat-label>
+                        <input matInput type="number" formControlName="attempts">
+                    </mat-form-field><br>
+                    <mat-form-field color="accent">
+                        <mat-label>Okres liczenia prób</mat-label>
+                        <input matInput type="number" formControlName="time">
+                        <mat-hint>Podaj w minutach</mat-hint>
+                    </mat-form-field><br>
+                    <mat-form-field color="accent">
+                        <mat-label>Czas blokady konta</mat-label>
+                        <input matInput type="number" formControlName="lockout">
+                        <mat-hint>Podaj w minutach</mat-hint>
+                    </mat-form-field><br>
+                    <button mat-flat-button color="accent">Zapisz</button>
+                </form>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-expansion-panel>
+    <!-- #endregion -->
+    <!-- #region Program control-->
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>Sterowanie programem</mat-panel-title>
@@ -41,4 +108,5 @@
             Wyloguj wszystkich użytkowników
         </button> -->
     </mat-expansion-panel>
+    <!-- #endregion -->
 </mat-accordion>

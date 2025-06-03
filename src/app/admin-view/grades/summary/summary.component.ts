@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ToolbarService } from '../../toolbar.service';
+import { ToolbarService } from '../../toolbar/toolbar.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminCommService } from '../../admin-comm.service';
 import * as moment from 'moment';
