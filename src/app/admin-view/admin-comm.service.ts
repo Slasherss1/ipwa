@@ -252,7 +252,7 @@ export class AdminCommService {
         return this.http.post<Status>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, attendence, {withCredentials: true})
       },
       getSummary: () => {
-        return this.http.get<{room: string, hours: string[], notes: string}[]>(environment.apiEndpoint+`/admin/clean/attendenceSummary`, {withCredentials: true})
+        return this.http.get<{room: string, hours: string[], notes: string, auto: boolean}[]>(environment.apiEndpoint+`/admin/clean/attendenceSummary`, {withCredentials: true})
       },
       deleteRoom: (room: string) => {
         return this.http.delete<Status>(environment.apiEndpoint+`/admin/clean/attendence/${room}`, {withCredentials: true})
