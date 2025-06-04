@@ -1,14 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OutboxComponent } from './outbox.component';
+import { AdminCommService } from '../../admin-comm.service';
+import { RouterModule } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('OutboxComponent', () => {
   let component: OutboxComponent;
   let fixture: ComponentFixture<OutboxComponent>;
 
   beforeEach(async () => {
+    const acMock = {
+      notif: {
+        outbox: {
+          getSent: jasmine.createSpy("getSent").and.returnValue(of())
+        }
+      }
+    }
     await TestBed.configureTestingModule({
-      declarations: [OutboxComponent]
+      declarations: [OutboxComponent],
+      providers: [
+        {provide: AdminCommService, useValue: acMock}
+      ],
+      imports: [
+        RouterModule.forRoot([])
+      ]
     })
     .compileComponents();
     

@@ -9,7 +9,7 @@ import { FormBuilder } from '@angular/forms';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent implements OnInit {
-  usettings!: IUSettings
+  usettings: IUSettings = {cleanThings: [], keyrooms: [], menu: {defaultItems: {kol: [], sn: []}}, rooms: [], security: {loginTimeout: {attempts: 0, lockout: 0, time: 0}}}
   reloadTimeout: boolean = false;
 
   constructor (private readonly acu: AdminCommService, private readonly sb: MatSnackBar, private readonly fb: FormBuilder) { }

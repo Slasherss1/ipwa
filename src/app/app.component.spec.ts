@@ -1,16 +1,22 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { AppUpdateService } from './services/app-update.service';
+import { RouterModule } from '@angular/router';
 
 describe('AppComponent', () => {
+  let auMock
   beforeEach(async () => {
+    auMock = {}
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
       declarations: [
         AppComponent
       ],
+      providers: [
+        {provide: AppUpdateService, useValue: auMock}
+      ],
+      imports: [
+        RouterModule
+      ]
     }).compileComponents();
   });
 
@@ -20,7 +26,7 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'ipwa'`, () => {
+  it(`should have as title 'Internat'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('Internat');

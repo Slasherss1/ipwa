@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoomChooserComponent } from './room-chooser.component';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('RoomChooserComponent', () => {
   let component: RoomChooserComponent;
@@ -8,7 +9,8 @@ describe('RoomChooserComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RoomChooserComponent]
+      declarations: [RoomChooserComponent],
+      imports: [MatIconModule]
     })
     .compileComponents();
     

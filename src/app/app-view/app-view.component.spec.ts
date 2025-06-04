@@ -12,22 +12,24 @@ import { of } from 'rxjs';
 describe('AppViewComponent', () => {
   let component: AppViewComponent;
   let fixture: ComponentFixture<AppViewComponent>;
-  let authClient: jasmine.SpyObj<AuthClient>;
 
   beforeEach(() => {
     const authSpy = jasmine.createSpyObj('AuthClient', ['check'])
     const pushSpy = jasmine.createSpyObj('SwPush', ['requestSubscription'])
-    const updatesSpy = jasmine.createSpyObj('UpdatesService', ['postNotif'])
+    const updatesSpy = jasmine.createSpyObj('UpdatesService', {
+      newsCheck: of()
+    })
     TestBed.configureTestingModule({
       declarations: [AppViewComponent],
-      providers: [{provide: AuthClient, useValue: authSpy},
-      {provide: SwPush, useValue: pushSpy},
-      {provide: UpdatesService, useValue: updatesSpy}],
+      providers: [
+        {provide: AuthClient, useValue: authSpy},
+        {provide: SwPush, useValue: pushSpy},
+        {provide: UpdatesService, useValue: updatesSpy}
+      ],
       imports: [MatTabsModule, RouterModule.forRoot([]), MatIconModule]
     });
     fixture = TestBed.createComponent(AppViewComponent);
     component = fixture.componentInstance;
-    authClient = TestBed.inject(AuthClient) as jasmine.SpyObj<AuthClient>
 
     fixture.detectChanges();
   });
