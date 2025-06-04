@@ -19,7 +19,6 @@ export class AdminViewComponent {
     { title: "Czystość", icon: "cleaning_services", href: "grades", enabled: this.ls.permChecker(128) && this.ls.capCheck(16) },
     { title: "Frekwencja", icon: "checklist", href: "attendence", enabled: false },
     { title: "Ustawienia", icon: "settings_applications", href: "settings", enabled: this.ls.permChecker(32) },
-    { title: "Instrukcje", icon: "description", href: "guide", enabled: true }
   ];
   public get LINKS(): Link[] {
     return this._LINKS.filter(v => v.enabled);
