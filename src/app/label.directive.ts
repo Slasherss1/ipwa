@@ -6,7 +6,7 @@ import { ControlContainer } from '@angular/forms';
 })
 export class LabelDirective {
   @Input() control: string = ""
-  constructor(@Optional() private parent: ControlContainer) { }
+  constructor(@Optional() private parent?: ControlContainer) { }
 
   @HostBinding('textContent')
   get controlValue() {

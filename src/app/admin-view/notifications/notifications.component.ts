@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AdminCommService } from '../admin-comm.service';
 import { Notification } from 'src/app/types/notification';
 import { Group } from 'src/app/types/group';
@@ -14,10 +14,20 @@ import { UserSearchResult } from 'src/app/commonComponents/user-search/user-sear
   styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
-
+  
   groups!: Group[]
+  form = this.fb.group({
+    recp: this.fb.group({
+      uid: this.fb.control<UserSearchResult | null>(null),
+      room: this.fb.control<string|null>(null),
+      group: this.fb.control<string>(''),
+      type: this.fb.control<"room" | "uname" | "group">('uname', {nonNullable: true})
+    }),
+    title: this.fb.control('', {nonNullable: true}),
+    body: this.fb.control('', {nonNullable: true})
+  })
 
-  constructor (private readonly acs: AdminCommService, readonly ls: LocalStorageService, private toolbar: ToolbarService, private router: Router, private route: ActivatedRoute ) {
+  constructor (private readonly acs: AdminCommService, readonly ls: LocalStorageService, private toolbar: ToolbarService, private router: Router, private route: ActivatedRoute, private fb: FormBuilder ) {
     this.toolbar.comp = this
     this.toolbar.menu = [
       { title: "Wysłane", fn: "outbox", icon: "outbox" }
@@ -45,16 +55,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   success?: { sent: number; possible: number; };
 
-  form = new FormGroup({
-    recp: new FormGroup({
-      uid: new FormControl<UserSearchResult | null>(null),
-      room: new FormControl<string|null>(null),
-      group: new FormControl<string>(''),
-      type: new FormControl<"room" | "uname" | "group">('uname', {nonNullable: true})
-    }),
-    title: new FormControl('', {nonNullable: true}),
-    body: new FormControl('', {nonNullable: true})
-  })
 
   submit() {
     this.acs.notif.send({...this.form.value, recp: {...this.form.get("recp")?.value, uid: this.form.controls['recp'].controls['uid'].value?._id}} as Notification).subscribe((data) => {

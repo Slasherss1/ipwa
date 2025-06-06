@@ -11,21 +11,35 @@ import { of } from 'rxjs';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 describe('AccountMgmtComponent', () => {
   let component: AccountMgmtComponent;
   let fixture: ComponentFixture<AccountMgmtComponent>;
+  let acMock
 
   beforeEach(async () => {
-    const acMock = jasmine.createSpyObj("AdminCommService", {
-      getAccs: of()
-    })
+    acMock = {
+      accs: {
+        getAccs: jasmine.createSpy("getAccs").and.returnValue(of())
+      }
+    }
     await TestBed.configureTestingModule({
       declarations: [AccountMgmtComponent],
       providers: [
         {provide: AdminCommService, useValue: acMock}
       ],
-      imports: [MatDialogModule, MatSnackBarModule, MatFormFieldModule, MatIconModule, MatPaginatorModule, MatTableModule, MatInputModule, BrowserAnimationsModule]
+      imports: [
+        MatDialogModule, 
+        MatSnackBarModule, 
+        MatFormFieldModule, 
+        MatIconModule, 
+        MatPaginatorModule, 
+        MatTableModule, 
+        MatInputModule, 
+        BrowserAnimationsModule,
+        MatProgressSpinnerModule
+      ]
     }).compileComponents();
     fixture = TestBed.createComponent(AccountMgmtComponent);
     component = fixture.componentInstance;

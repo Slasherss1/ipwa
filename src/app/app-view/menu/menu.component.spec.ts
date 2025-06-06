@@ -14,13 +14,17 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { of } from 'rxjs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
 
   beforeEach(async () => {
-    const updatesSpy = jasmine.createSpyObj('UpdatesService', ['getMenu'])
+    const updatesSpy = jasmine.createSpyObj('UpdatesService', {
+      getMenu: of()
+    })
     await TestBed.configureTestingModule({
       declarations: [ MenuComponent, DateSelectorComponent],
       providers: [
@@ -30,7 +34,17 @@ describe('MenuComponent', () => {
         {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}, 
         {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
       ],
-      imports: [MatIconModule, MatFormFieldModule, MatDatepickerModule, MatCardModule, ReactiveFormsModule, MatInputModule, BrowserAnimationsModule, MatBottomSheetModule]
+      imports: [
+        MatIconModule, 
+        MatFormFieldModule, 
+        MatDatepickerModule, 
+        MatCardModule, 
+        ReactiveFormsModule, 
+        MatInputModule, 
+        BrowserAnimationsModule, 
+        MatBottomSheetModule,
+        MatProgressSpinnerModule
+      ]
     })
     .compileComponents();
 

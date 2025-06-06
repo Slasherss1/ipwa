@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StartComponent } from './start.component';
+import { RouterModule } from '@angular/router';
+import { MatListModule } from '@angular/material/list';
 
 describe('StartComponent', () => {
   let component: StartComponent;
@@ -8,7 +10,11 @@ describe('StartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StartComponent]
+      declarations: [StartComponent],
+      imports: [
+        RouterModule.forRoot([]),
+        MatListModule
+      ]
     })
     .compileComponents();
     
