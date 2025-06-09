@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminCommService } from '../../admin-comm.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToolbarService } from '../../toolbar/toolbar.service';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 
 @Component({
     selector: 'app-outbox',
@@ -14,7 +14,7 @@ export class OutboxComponent implements OnInit {
 
   messages!: {
     _id: string;
-    sentDate: moment.Moment;
+    sentDate: DateTime;
     title: string;
   }[]
 
@@ -31,12 +31,7 @@ export class OutboxComponent implements OnInit {
 
   ngOnInit(): void {
     this.acs.notif.outbox.getSent().subscribe((v) => {
-      this.messages = v.map(i => {
-        return {
-          ...i, 
-          sentDate: moment(i.sentDate)
-        }
-      })
+      this.messages = v
     })
   }
 

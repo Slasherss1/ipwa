@@ -4,20 +4,20 @@ import { GradesComponent } from './grades.component';
 import { AdminCommService } from '../admin-comm.service';
 import { RouterModule } from '@angular/router';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import * as moment from 'moment';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { of } from 'rxjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { DateTime } from 'luxon';
 
 @Component({
     selector: "app-date-selector", template: '',
     standalone: false
 })
 class DateSelectorStub {
-    @Input() date: moment.Moment = moment.utc().startOf('day');
+    @Input() date: string = DateTime.now().toISODate();
     @Output() dateChange = new EventEmitter<moment.Moment>();
     @Input() filter: (date: moment.Moment | null) => boolean = () => true
 }

@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DATE_RANGE_SELECTION_STRATEGY } from '@angular/material/datepicker';
-import { Moment } from 'moment';
 import { FDSelection } from 'src/app/fd.da';
 import { Menu } from 'src/app/types/menu';
 import { AdminCommService } from '../admin-comm.service';
 import { MatTableDataSource } from '@angular/material/table';
-import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { MenuUploadComponent } from './menu-upload/menu-upload.component';
 import { Status } from 'src/app/types/status';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MenuAddComponent } from './menu-add/menu-add.component';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { DateTime } from 'luxon';
 
 @Component({
     selector: 'app-menu-new',
@@ -27,17 +26,13 @@ export class MenuNewComponent {
   dcols: string[] = ['day', 'sn', 'ob', 'kol']
   dataSource: MatTableDataSource<Menu> = new MatTableDataSource<Menu>()
   range = new FormGroup({
-    start: new FormControl<Moment|null>(null),
-    end: new FormControl<Moment|null>(null),
+    start: new FormControl<DateTime|null>(null),
+    end: new FormControl<DateTime|null>(null),
   })
   loading = false
   public options: any;
 
-  constructor (private ac: AdminCommService, private dialog: MatDialog, private sb: MatSnackBar, readonly ls: LocalStorageService) { 
-    moment.updateLocale('pl', {
-      weekdays: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"]
-    })
-  }
+  constructor (private ac: AdminCommService, private dialog: MatDialog, private sb: MatSnackBar, readonly ls: LocalStorageService) { }
 
   print() {
     this.ac.menu.print(this.range.value.start, this.range.value.end)?.subscribe((r) => {
@@ -80,7 +75,7 @@ export class MenuNewComponent {
       this.dataSource.data = data.map((v) => {
         let newMenu: Menu = {
           ...v,
-          day: moment.utc(v.day)
+          day: DateTime.fromISO(v.day)
         }
         return newMenu
       })
@@ -117,7 +112,7 @@ export class MenuNewComponent {
     this.ac.menu.editTitle(id, this.dataSource.data.find(v => v._id == id)?.dayTitle).subscribe(s => this.refreshIfGood(s))
   }
 
-  getStat(day: moment.Moment, m: "ob" | "kol") {
+  getStat(day: DateTime, m: "ob" | "kol") {
     this.ac.menu.stat(day, m).subscribe((s) => this.sb.open(`${s.y} / ${s.y+s.n} = ${((s.y/(s.y+s.n))*100).toFixed(2)}%`, "Zamknij", {duration: 2500}))
   }
 

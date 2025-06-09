@@ -23,7 +23,7 @@
         </mat-select>
       </mat-form-field>
       @if (data.type == 'edit') {
-        <span>Data rejestracji:<br>{{regDate?.format('DD.MM.YYYY')}}</span>
+        <span>Data rejestracji:<br>{{regDate?.toFormat('D')}}</span>
       }
     </div>
     <div>

@@ -8,8 +8,7 @@ import { UserDeleteComponent } from '../user-delete/user-delete.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserResetComponent } from '../user-reset/user-reset.component';
 import { catchError, throwError } from 'rxjs';
-import { Moment } from 'moment';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 
 export namespace UserEditComponent {
   export type InputData = {type: "new" | "edit", id?: string, groups: Group[]}
@@ -36,7 +35,7 @@ export class UserEditComponent {
   })
   groups: Group[]
   id?: string
-  regDate?: Moment;
+  regDate?: DateTime;
   constructor (
     public dialogRef: MatDialogRef<UserEditComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: UserEditComponent.InputData, 
@@ -49,7 +48,7 @@ export class UserEditComponent {
     if (data.type == "edit") {
       this.id = data.id
       this.acu.accs.getUser(data.id!).subscribe((r) => {
-        this.regDate = moment(r.regDate)
+        this.regDate = DateTime.fromISO(r.regDate)
         var flags: Array<number> = []
         if (r.admin) {
           if ((r.admin & 1) == 1) flags.push(1)

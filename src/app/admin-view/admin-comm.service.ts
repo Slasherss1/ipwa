@@ -1,17 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Moment } from 'moment';
 import { environment } from 'src/environments/environment';
 import { Menu } from '../types/menu';
 import { Status } from '../types/status';
 import { Group } from '../types/group';
-import { map, of } from 'rxjs';
+import { map } from 'rxjs';
 import { Notification } from '../types/notification';
 import { News } from '../types/news';
 import { AKey } from '../types/key';
-import moment from 'moment';
 import { IUSettings } from './settings/settings.component';
 import User from '../types/user';
+import { DateTime } from 'luxon';
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +21,10 @@ export class AdminCommService {
 
   //#region Menu
   menu = {
-    getMenu: (start?: Moment | null, end?: Moment | null) => {
+    getMenu: (start?: DateTime | null, end?: DateTime | null) => {
       if (start && end) {
         const body = {start: start.toString(), end: end.toString()}
-        return this.http.get<Menu[]>(environment.apiEndpoint+"/admin/menu", {withCredentials: true, params: body})
+        return this.http.get<(Omit<Menu, "day"> & {day: string})[]>(environment.apiEndpoint+"/admin/menu", {withCredentials: true, params: body})
       }
       return
     },
@@ -59,7 +58,7 @@ export class AdminCommService {
       return this.putMenu(id, {dayTitle: content})
     },
 
-    print: (start?: Moment | null, end?: Moment | null) => {
+    print: (start?: DateTime | null, end?: DateTime | null) => {
       if (start && end) {
         const body = {start: start.toString(), end: end.toString()}
         return this.http.get(environment.apiEndpoint+"/admin/menu/print", {withCredentials: true, params: body, responseType: "text"})
@@ -67,15 +66,15 @@ export class AdminCommService {
       return
     },
 
-    stat: (day: Moment, m: "ob" | "kol") => {
-      return this.http.get<{y: number, n: number}>(environment.apiEndpoint+`/admin/menu/${day.toISOString()}/votes/${m}`, {withCredentials: true})
+    stat: (day: DateTime, m: "ob" | "kol") => {
+      return this.http.get<{y: number, n: number}>(environment.apiEndpoint+`/admin/menu/${day.toISO()}/votes/${m}`, {withCredentials: true})
     },
     new: {
-      single: (day: Moment) => {
-        return this.http.post<Status>(environment.apiEndpoint+`/admin/menu/${day.toISOString()}`, null, {withCredentials: true})
+      single: (day: DateTime) => {
+        return this.http.post<Status>(environment.apiEndpoint+`/admin/menu/${day.toISO()}`, null, {withCredentials: true})
       },
-      range: (start: Moment, count: number) => {
-        return this.http.post<Status>(environment.apiEndpoint+`/admin/menu/${start.toISOString()}/${count}/`, null, {withCredentials: true})
+      range: (start: DateTime, count: number) => {
+        return this.http.post<Status>(environment.apiEndpoint+`/admin/menu/${start.toISO()}/${count}/`, null, {withCredentials: true})
       }
     },
     rm: (id: string) => {
@@ -144,7 +143,7 @@ export class AdminCommService {
     },
 
     getUser: (id: string) => {
-      return this.http.get<Omit<User, "pass"> & {lockout: boolean}>(environment.apiEndpoint+`/admin/accs/${id}`, {withCredentials: true})
+      return this.http.get<Omit<User, "pass" | "regDate"> & {lockout: boolean, regDate: string}>(environment.apiEndpoint+`/admin/accs/${id}`, {withCredentials: true})
     },
 
     clearLockout: (id: string) => {
@@ -185,7 +184,10 @@ export class AdminCommService {
     },
     outbox: {
       getSent: () => {
-        return this.http.get<{_id: string, sentDate: moment.Moment, title: string}[]>(environment.apiEndpoint+"/admin/notif/outbox", {withCredentials: true})
+        return this.http.get<{_id: string, sentDate: string, title: string}[]>(environment.apiEndpoint+"/admin/notif/outbox", {withCredentials: true}).pipe(map(v => v.map(i => ({
+          ...i, 
+          sentDate: DateTime.fromISO(i.sentDate)
+        }))))
       },
       getBody: (id: string) => {
         return this.http.get(environment.apiEndpoint+`/admin/notif/outbox/${id}/message`, {withCredentials: true, responseType: "text"})
@@ -199,11 +201,12 @@ export class AdminCommService {
   //#region Keys
   keys = {
     getKeys: () => {
-      return this.http.get<AKey[]>(environment.apiEndpoint+`/admin/keys`, {withCredentials: true}).pipe(map((v) => {
+      return this.http.get<(Omit<AKey, "borrow" | "tb"> & {borrow: string, tb?: string})[]>(environment.apiEndpoint+`/admin/keys`, {withCredentials: true}).pipe(map((v) => {
         return v.map((r) => {
-          r.borrow = moment(r.borrow)
-          if (r.tb) r.tb = moment(r.tb) 
-          return r
+          let newkey: any = {...r}
+          newkey.borrow = DateTime.fromISO(r.borrow!)
+          if (newkey.tb) newkey.tb = DateTime.fromISO(r.tb!)
+          return newkey as AKey
         })
       }))
     },
@@ -217,7 +220,7 @@ export class AdminCommService {
     },
 
     returnKey: (id: string) => {
-      return this.putKeys(id, {tb: moment.utc()})
+      return this.putKeys(id, {tb: DateTime.now()})
     }
   }
 
@@ -230,8 +233,8 @@ export class AdminCommService {
     getConfig: () => {
       return this.http.get<{rooms: string[], things: string[]}>(environment.apiEndpoint+`/admin/clean/config`, {withCredentials: true})
     },
-    getClean: (date: moment.Moment, room: string) => {
-      return this.http.get<{_id: string, date: string, grade: number, gradeDate: string, notes: {label: string, weight: number}[], room: string, tips: string} | null>(environment.apiEndpoint+`/admin/clean/${date.toISOString()}/${room}`, {withCredentials: true})
+    getClean: (date: string, room: string) => {
+      return this.http.get<{_id: string, date: string, grade: number, gradeDate: string, notes: {label: string, weight: number}[], room: string, tips: string} | null>(environment.apiEndpoint+`/admin/clean/${date}/${room}`, {withCredentials: true})
     },
     postClean: (obj: Object) => {
       return this.http.post<Status>(environment.apiEndpoint+`/admin/clean/`, obj, {withCredentials: true})
@@ -240,8 +243,8 @@ export class AdminCommService {
       return this.http.delete<Status>(environment.apiEndpoint+`/admin/clean/${id}`, {withCredentials: true})
     },
     summary: {
-      getSummary: (start: moment.Moment, end: moment.Moment) => {
-        return this.http.get<{room: string, avg: number}[]>(environment.apiEndpoint+`/admin/clean/summary/${start.toISOString()}/${end.toISOString()}`, {withCredentials: true})
+      getSummary: (start: DateTime, end: DateTime) => {
+        return this.http.get<{room: string, avg: number}[]>(environment.apiEndpoint+`/admin/clean/summary/${start.toISO()}/${end.toISO()}`, {withCredentials: true})
       }
     },
     attendence: {

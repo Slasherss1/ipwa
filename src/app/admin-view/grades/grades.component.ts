@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AdminCommService } from '../admin-comm.service';
-import moment from 'moment';
 import { FormArray, FormBuilder } from '@angular/forms';
 import { weekendFilter } from 'src/app/fd.da';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,6 +7,7 @@ import { ToolbarService } from '../toolbar/toolbar.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AttendenceComponent } from './attendence/attendence.component';
+import { DateTime } from 'luxon';
 
 @Component({
     selector: 'app-grades',
@@ -18,9 +18,15 @@ import { AttendenceComponent } from './attendence/attendence.component';
 export class GradesComponent implements OnInit, OnDestroy {
   rooms!: string[]
   room: string = "0";
-  date: moment.Moment;
+  protected _date: DateTime;
+  public get date(): string {
+    return this._date.toISODate()!;
+  }
+  public set date(value: string) {
+    this._date = DateTime.fromISO(value);
+  }
   grade: number = 6
-  gradeDate?: moment.Moment;
+  gradeDate?: DateTime;
   id?: string
   filter = weekendFilter
 
@@ -46,8 +52,8 @@ export class GradesComponent implements OnInit, OnDestroy {
   }
 
   constructor(private ac: AdminCommService, private fb: FormBuilder, private sb: MatSnackBar, private toolbar: ToolbarService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog) {
-    this.date = moment.utc().startOf('day')
-    if (!this.filter(this.date)) this.date.isoWeekday(8);
+    this._date = DateTime.now()
+    // if (!this.filter(this.date)) this.date.isoWeekday(8);
     this.toolbar.comp = this
     this.toolbar.menu = [
       { title: "Pokoje do sprawdzenia", check: true, fn: "attendenceSummary", icon: "overview"},
@@ -95,7 +101,7 @@ export class GradesComponent implements OnInit, OnDestroy {
     this.ac.clean.getClean(this.date, this.room).subscribe((v) => {
       if (v) {
         this.notes = v.notes
-        this.gradeDate = moment(v.gradeDate)
+        this.gradeDate = DateTime.fromISO(v.gradeDate)
         this.grade = v.grade
         this.id = v._id
         this.form.get("tips")?.setValue(v.tips)
@@ -140,7 +146,7 @@ export class GradesComponent implements OnInit, OnDestroy {
     this.calculate()
     var obj = {
       grade: this.grade,
-      date: this.date.toDate(),
+      date: this.date,
       room: this.room,
       notes: this.notes,
       tips: this.form.get("tips")?.value

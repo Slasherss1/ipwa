@@ -8,14 +8,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 
 @Component({
     selector: "app-date-selector", template: '',
     standalone: false
 })
 class DateSelectorStub {
-    @Input() date: moment.Moment = moment.utc().startOf('day');
+    @Input() date: string = DateTime.now().toISODate();
     @Output() dateChange = new EventEmitter<moment.Moment>();
     @Input() filter: (date: moment.Moment | null) => boolean = () => true
 }

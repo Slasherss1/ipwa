@@ -23,7 +23,8 @@
             },
             "index": "src/index.html",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -107,7 +108,7 @@
           },
           "options": {
             "servePath": "/ipwa/",
-            "open": true
+            "open": false
           },
           "defaultConfiguration": "development"
         },
@@ -122,7 +123,8 @@
           "options": {
             "polyfills": [
               "zone.js",
-              "zone.js/testing"
+              "zone.js/testing",
+              "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
@@ -137,6 +139,9 @@
             "scripts": []
           }
         }
+      },
+      "i18n": {
+        "sourceLocale": "pl"
       }
     }
   },

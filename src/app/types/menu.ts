@@ -1,8 +1,8 @@
-import { Moment } from "moment";
+import { DateTime } from "luxon";
 
 export interface Menu {
   _id: string;
-  day: Moment;
+  day: DateTime;
   sn: {
     fancy: string[];
     second: string;

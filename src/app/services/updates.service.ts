@@ -3,11 +3,10 @@ import { HttpClient } from '@angular/common/http'
 import { Menu } from '../types/menu';
 import { environment } from 'src/environments/environment';
 import { News } from '../types/news';
-import moment from 'moment';
-import { map } from 'rxjs';
 import { UKey } from '../types/key';
 import { CleanNote } from '../types/clean-note';
 import { Status } from '../types/status';
+import { DateTime } from 'luxon';
 
 @Injectable({
   providedIn: 'root'
@@ -27,16 +26,16 @@ export class UpdatesService {
     return this.http.get<{ hash: string; count: number; }>(environment.apiEndpoint+`/app/news/check`, {withCredentials: true})
   }
 
-  getMenu(dom: moment.Moment) {
+  getMenu(dom: string) {
     const headers = {
       'Content-Type': 'application/json',
     }
-    return this.http.get<Menu>(environment.apiEndpoint+`/app/menu/${dom.valueOf()}`, {headers: headers, withCredentials: true})
+    return this.http.get<Menu>(environment.apiEndpoint+`/app/menu/${dom}`, {headers: headers, withCredentials: true})
   }
 
-  postVote(date: moment.Moment, type: "ob" | "kol", vote: "-" | "+" | "n") {
-    return this.http.post(environment.apiEndpoint+`/app/menu/${date.valueOf()}`, {
-      doc: moment().toISOString(true),
+  postVote(date: string, type: "ob" | "kol", vote: "-" | "+" | "n") {
+    return this.http.post(environment.apiEndpoint+`/app/menu/${date}`, {
+      doc: DateTime.now(),
       tom: type,
       vote: vote
     }, {withCredentials: true})
@@ -53,12 +52,12 @@ export class UpdatesService {
     return this.http.get<UKey[]>(environment.apiEndpoint+`/app/keys`, {withCredentials: true})
   }
 
-  getClean(date: moment.Moment) {
-    return this.http.get<{grade: number, notes: CleanNote[], tips: string}>(environment.apiEndpoint+`/app/clean/${date.toISOString()}`, {withCredentials: true})
+  getClean(date: string) {
+    return this.http.get<{grade: number, notes: CleanNote[], tips: string}>(environment.apiEndpoint+`/app/clean/${date}`, {withCredentials: true})
   }
 
   getNotifCheck() {
-    return this.http.get<{_id: string, message: {title: string, body: string}, sentDate: moment.Moment}[]>(environment.apiEndpoint+`/app/notif/check`, {withCredentials: true})
+    return this.http.get<{_id: string, message: {title: string, body: string}, sentDate: string}[]>(environment.apiEndpoint+`/app/notif/check`, {withCredentials: true})
   }
 
   postInfoAck(id: string) {

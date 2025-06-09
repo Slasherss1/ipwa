@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { weekendFilter } from 'src/app/fd.da';
 import { UpdatesService } from 'src/app/services/updates.service';
 import { CleanNote } from 'src/app/types/clean-note';
@@ -11,22 +11,14 @@ import { CleanNote } from 'src/app/types/clean-note';
     standalone: false
 })
 export class CleanComponent implements OnInit {
-  private _day: moment.Moment = moment()
-  public get day(): moment.Moment {
-    return this._day;
-  }
-  public set day(value: moment.Moment) {
-    if (!this.filter(value)) value.isoWeekday(5);
-    this._day = moment.utc(value).startOf('day');
-    this.update()
-  }
+  protected day: string
   grade: number | null = null
   notes: CleanNote[] = []
   tips: string = ""
   filter = weekendFilter
   
   constructor (private updates: UpdatesService) {
-    this.day = moment.utc();
+    this.day = DateTime.now().toISODate()
   }
 
   ngOnInit(): void {

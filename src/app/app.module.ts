@@ -3,10 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from "@angular/material/icon";
@@ -87,6 +85,7 @@ import { MessageComponent } from './admin-view/notifications/outbox/message/mess
 import { NotifDialogComponent } from './app-view/notif-dialog/notif-dialog.component';
 import { UserSearchComponent } from './commonComponents/user-search/user-search.component';
 import { StartAdminComponent } from './admin-view/start/start.component';
+import { provideLuxonDateAdapter } from "@angular/material-luxon-adapter";
 
 @NgModule({ declarations: [
         AppComponent,
@@ -138,7 +137,9 @@ import { StartAdminComponent } from './admin-view/start/start.component';
         UserSearchComponent,
         StartAdminComponent,
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    bootstrap: [AppComponent], 
+    imports: [
+        BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         MatTabsModule,
@@ -146,7 +147,6 @@ import { StartAdminComponent } from './admin-view/start/start.component';
         MatButtonModule,
         MatIconModule,
         MatDatepickerModule,
-        MatNativeDateModule,
         MatInputModule,
         ReactiveFormsModule,
         FormsModule,
@@ -179,10 +179,7 @@ import { StartAdminComponent } from './admin-view/start/start.component';
             // or after 30 seconds (whichever comes first).
             registrationStrategy: 'registerWhenStable:30000'
         })], providers: [
-        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_DATE_FORMATS, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
-        { provide: MAT_DATE_LOCALE, useValue: "pl-PL" },
-        { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+        provideLuxonDateAdapter(),
         FDSelection,
         provideHttpClient(withInterceptorsFromDi()),
     ] })

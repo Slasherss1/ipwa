@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 interface UKey {
     room: string;
     taken: boolean;
@@ -6,8 +8,8 @@ interface UKey {
 interface AKey {
     room: string;
     whom?: {_id: string, uname: string, room: string};
-    borrow?: moment.Moment;
-    tb?: moment.Moment;
+    borrow: DateTime;
+    tb?: DateTime;
 }
 
 export { UKey, AKey }

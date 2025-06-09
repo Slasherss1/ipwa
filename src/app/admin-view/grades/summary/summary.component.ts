@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ToolbarService } from '../../toolbar/toolbar.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminCommService } from '../../admin-comm.service';
-import * as moment from 'moment';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
+import { DateTime } from 'luxon';
 
 @Component({
     selector: 'app-summary',
@@ -19,8 +19,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
   collumns = ['room', 'avg']
 
   dateSelector = this.fb.group({
-    start: this.fb.control(moment.utc().startOf('day')),
-    end: this.fb.control(moment.utc().endOf('day'))
+    start: this.fb.control(DateTime.utc().startOf('day')),
+    end: this.fb.control(DateTime.utc().endOf('day'))
   })
 
   @ViewChild(MatSort, {static: false}) set content(sort: MatSort) {

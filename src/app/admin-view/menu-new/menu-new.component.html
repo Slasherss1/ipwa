@@ -19,8 +19,8 @@
   <div matColumnDef="day">
     <th mat-header-cell *matHeaderCellDef>Dzień</th>
     <td mat-cell *matCellDef="let element">
-      <span>{{element.day.format('DD.MM.YYYY')}}r.</span>
-      <p>{{element.day.format('dddd')}}</p>
+      <span>{{element.day.toFormat('dd.LL.yyyy')}}r.</span>
+      <p>{{element.day.toFormat('cccc') | titlecase }}</p>
       <app-field-editor category="Nazwa" [(word)]="element.dayTitle" (wordChange)="editTitle(element._id)"/><br><hr>
       <button (click)="remove(element._id)">Usuń dzień</button>
     </td>
@@ -61,7 +61,7 @@
     <th mat-header-cell *matHeaderCellDef>Kolacja</th>
     <td mat-cell *matCellDef="let element">
       <div>
-        @switch (element.day.isoWeekday()) {
+        @switch (element.day.weekday) {
           @default {
             <div>
               <ul class="non-editable">

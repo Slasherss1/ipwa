@@ -4,7 +4,7 @@
       <mat-card-title>
         {{item.title}}
       </mat-card-title>
-      <mat-card-subtitle>{{item.sentDate.format('[Wysłano] dddd DD MMMM YYYYr. o HH:mm')}}</mat-card-subtitle>
+      <mat-card-subtitle>Wysłano {{item.sentDate.toFormat("cccc dd LLLL yyyyr. 'o' HH:mm")}}</mat-card-subtitle>
     </mat-card-title-group>
   </mat-card-header>
   <mat-card-content>

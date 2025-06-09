@@ -1,4 +1,4 @@
-import { Moment } from "moment";
+import { DateTime } from "luxon";
 
 export default interface User {
     _id: string;
@@ -10,6 +10,6 @@ export default interface User {
     fname?: string;
     surname?: string;
     groups: string[];
-    regDate: Moment;
+    regDate: DateTime;
     defaultPage?: string;
 }

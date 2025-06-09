@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { AppUpdateService } from './services/app-update.service';
 import { MatIconRegistry } from '@angular/material/icon';
-import * as moment from 'moment';
+import { Settings } from 'luxon';
 
 @Component({
     selector: 'app-root',
@@ -10,12 +10,9 @@ import * as moment from 'moment';
     standalone: false
 })
 export class AppComponent {
-  constructor (readonly updates: AppUpdateService, mir: MatIconRegistry) {
+  constructor (readonly updates: AppUpdateService, mir: MatIconRegistry, @Inject(LOCALE_ID) lang: string) {
     mir.setDefaultFontSetClass("material-symbols-rounded")
-    moment.updateLocale('pl', {
-      weekdays: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"]
-    })
-    moment.locale('pl')
+    Settings.defaultLocale = lang
   }
   title = 'Internat';
 }

@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { UpdatesService } from 'src/app/services/updates.service';
 
 @Component({
@@ -11,12 +11,14 @@ import { UpdatesService } from 'src/app/services/updates.service';
 })
 export class NotifDialogComponent {
 
+  date: DateTime
+
   constructor (
-    @Inject(MAT_DIALOG_DATA) public data: {_id: string, message: {title: string, body: string}, sentDate: moment.Moment},
+    @Inject(MAT_DIALOG_DATA) public data: {_id: string, message: {title: string, body: string}, sentDate: string},
     public dialogRef: MatDialogRef<NotifDialogComponent>,
     private uc: UpdatesService
   ) {
-    data.sentDate = moment(data.sentDate)
+    this.date = DateTime.fromISO(data.sentDate)
   }
 
   ack () {

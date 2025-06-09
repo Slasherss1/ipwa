@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { DateTime } from 'luxon';
 import { AdminCommService } from 'src/app/admin-view/admin-comm.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { AdminCommService } from 'src/app/admin-view/admin-comm.service';
     standalone: false
 })
 export class MessageComponent {
-  @Input() item!: {_id: string, sentDate: moment.Moment, title: string}
+  @Input() item!: {_id: string, sentDate: DateTime, title: string}
   body?: string
   rcpts?: {_id: string, uname: string, room?: string, fname?: string, surname?: string}[]
   loading: boolean = false
