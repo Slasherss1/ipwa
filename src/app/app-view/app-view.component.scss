@@ -16,12 +16,12 @@
 
 :host {
     width: 100%;
-    @supports (-webkit-touch-callout: none) {
-        height: 95vh;
-    }
     height: 100vh;
     display: flex;
     flex-direction: column;
+    @supports (-webkit-touch-callout: none) {
+        height: 95vh;
+    }
 }
 
 a {

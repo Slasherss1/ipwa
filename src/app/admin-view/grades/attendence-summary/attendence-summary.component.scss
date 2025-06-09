@@ -7,10 +7,10 @@
 #legend {
     display: flex;
     justify-self: center;
+    gap: 3ch;
     * {
         margin: 2px;
     }
-    gap: 3ch;
 }
 
 .circle {
@@ -28,7 +28,7 @@
 
     @for $n from 1 through 3 {
         &:nth-of-type(#{$n})::before {
-            background-color: nth($list, $n);
+            background-color: list.nth($list, $n);
         }
     }
 }

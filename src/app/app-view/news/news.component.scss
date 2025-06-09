@@ -19,11 +19,11 @@ mat-card-title {
 mat-card-footer p {
     font-size: 0.8rem;
     color: #4a4a4a;
+    margin-bottom: 0;
+    text-align: end;
     @media (prefers-color-scheme: dark) {
         color: #999999
     }
-    margin-bottom: 0;
-    text-align: end;
 }
 
 mat-card-content p {
