@@ -4,9 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrl: './settings.component.scss'
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrl: './settings.component.scss',
+    standalone: false
 })
 export class SettingsComponent implements OnInit {
   usettings: IUSettings = {cleanThings: [], keyrooms: [], menu: {defaultItems: {kol: [], sn: []}}, rooms: [], security: {loginTimeout: {attempts: 0, lockout: 0, time: 0}}}

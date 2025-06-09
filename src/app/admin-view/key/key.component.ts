@@ -11,9 +11,10 @@ import { catchError, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-admin-key',
-  templateUrl: './key.component.html',
-  styleUrl: './key.component.scss'
+    selector: 'app-admin-key',
+    templateUrl: './key.component.html',
+    styleUrl: './key.component.scss',
+    standalone: false
 })
 export class AdminKeyComponent implements AfterViewInit, OnInit {
   keys: MatTableDataSource<AKey> = new MatTableDataSource<AKey>();

@@ -10,9 +10,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { NotifDialogComponent } from './notif-dialog/notif-dialog.component';
 
 @Component({
-  selector: 'app-app-view',
-  templateUrl: './app-view.component.html',
-  styleUrls: ['./app-view.component.scss']
+    selector: 'app-app-view',
+    templateUrl: './app-view.component.html',
+    styleUrls: ['./app-view.component.scss'],
+    standalone: false
 })
 export class AppViewComponent implements OnInit {
   private readonly _LINKS: Link[] = [

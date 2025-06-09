@@ -2,7 +2,8 @@ import { Directive, HostBinding, Input, Optional } from '@angular/core';
 import { ControlContainer } from '@angular/forms';
 
 @Directive({
-  selector: 'span[control]'
+    selector: 'span[control]',
+    standalone: false
 })
 export class LabelDirective {
   @Input() control: string = ""

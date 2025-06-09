@@ -9,9 +9,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserSearchResult } from 'src/app/commonComponents/user-search/user-search.component';
 
 @Component({
-  selector: 'app-notifications',
-  templateUrl: './notifications.component.html',
-  styleUrls: ['./notifications.component.scss']
+    selector: 'app-notifications',
+    templateUrl: './notifications.component.html',
+    styleUrls: ['./notifications.component.scss'],
+    standalone: false
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
   

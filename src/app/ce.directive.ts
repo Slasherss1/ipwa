@@ -1,7 +1,8 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Directive({
-  selector: '[appCe] [contenteditable]'
+    selector: '[appCe] [contenteditable]',
+    standalone: false
 })
 export class CeDirective {
   @Input() multiline: boolean = false

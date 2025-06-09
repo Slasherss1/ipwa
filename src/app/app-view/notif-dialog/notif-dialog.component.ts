@@ -4,9 +4,10 @@ import moment from 'moment';
 import { UpdatesService } from 'src/app/services/updates.service';
 
 @Component({
-  selector: 'app-notif-dialog',
-  templateUrl: './notif-dialog.component.html',
-  styleUrl: './notif-dialog.component.scss'
+    selector: 'app-notif-dialog',
+    templateUrl: './notif-dialog.component.html',
+    styleUrl: './notif-dialog.component.scss',
+    standalone: false
 })
 export class NotifDialogComponent {
 

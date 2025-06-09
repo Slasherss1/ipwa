@@ -5,9 +5,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { UserSearchResult } from 'src/app/commonComponents/user-search/user-search.component';
 
 @Component({
-  selector: 'app-new-key',
-  templateUrl: './new-key.component.html',
-  styleUrl: './new-key.component.scss'
+    selector: 'app-new-key',
+    templateUrl: './new-key.component.html',
+    styleUrl: './new-key.component.scss',
+    standalone: false
 })
 export class NewKeyComponent implements OnInit {
   rooms: string[] = []

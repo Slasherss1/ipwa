@@ -15,18 +15,19 @@ export interface UserSearchResult {
 }
 
 @Component({
-  selector: 'app-user-search',
-  templateUrl: './user-search.component.html',
-  styleUrl: './user-search.component.scss',
-  providers: [
-    {
-      provide: MatFormFieldControl,
-      useExisting: UserSearchComponent
-    }
-  ],
-  host: {
-    '(blur)': '_onTouched()'
-  }
+    selector: 'app-user-search',
+    templateUrl: './user-search.component.html',
+    styleUrl: './user-search.component.scss',
+    providers: [
+        {
+            provide: MatFormFieldControl,
+            useExisting: UserSearchComponent
+        }
+    ],
+    host: {
+        '(blur)': '_onTouched()'
+    },
+    standalone: false
 })
 export class UserSearchComponent implements ControlValueAccessor, MatFormFieldControl<UserSearchResult>, OnDestroy, DoCheck {
   protected loading: boolean = false

@@ -8,9 +8,10 @@ import { FormBuilder } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 
 @Component({
-  selector: 'app-summary',
-  templateUrl: './summary.component.html',
-  styleUrl: './summary.component.scss'
+    selector: 'app-summary',
+    templateUrl: './summary.component.html',
+    styleUrl: './summary.component.scss',
+    standalone: false
 })
 export class SummaryComponent implements OnInit, OnDestroy {
 

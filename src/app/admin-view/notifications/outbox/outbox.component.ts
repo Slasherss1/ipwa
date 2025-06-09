@@ -5,9 +5,10 @@ import { ToolbarService } from '../../toolbar/toolbar.service';
 import moment from 'moment';
 
 @Component({
-  selector: 'app-outbox',
-  templateUrl: './outbox.component.html',
-  styleUrl: './outbox.component.scss'
+    selector: 'app-outbox',
+    templateUrl: './outbox.component.html',
+    styleUrl: './outbox.component.scss',
+    standalone: false
 })
 export class OutboxComponent implements OnInit {
 

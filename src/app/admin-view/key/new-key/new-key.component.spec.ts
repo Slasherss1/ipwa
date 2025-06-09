@@ -11,15 +11,16 @@ import { AbstractControlDirective, ControlValueAccessor, FormsModule, NG_VALUE_A
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
-  selector: "app-user-search", template: '', providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => UserSearchStub),
-    multi: true,
-  },
-  {
-    provide: MatFormFieldControl,
-    useExisting: UserSearchStub
-  }]
+    selector: "app-user-search", template: '', providers: [{
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => UserSearchStub),
+            multi: true,
+        },
+        {
+            provide: MatFormFieldControl,
+            useExisting: UserSearchStub
+        }],
+    standalone: false
 })
 class UserSearchStub implements ControlValueAccessor, MatFormFieldControl<never> {
   value: null = null;

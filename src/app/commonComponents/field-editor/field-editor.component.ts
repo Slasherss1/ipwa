@@ -1,9 +1,10 @@
 import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-field-editor',
-  templateUrl: './field-editor.component.html',
-  styleUrl: './field-editor.component.scss'
+    selector: 'app-field-editor',
+    templateUrl: './field-editor.component.html',
+    styleUrl: './field-editor.component.scss',
+    standalone: false
 })
 export class FieldEditorComponent {
   @HostBinding('tabindex') tabindex = 0;

@@ -6,7 +6,8 @@ import { Link } from '../types/link';
 @Component({
   selector: 'app-admin-view',
   templateUrl: './admin-view.component.html',
-  styleUrls: ['./admin-view.component.scss']
+  styleUrls: ['./admin-view.component.scss'],
+  standalone: false
 })
 export class AdminViewComponent {
   private readonly _LINKS: Link[] = [

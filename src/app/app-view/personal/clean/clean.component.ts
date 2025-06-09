@@ -5,9 +5,10 @@ import { UpdatesService } from 'src/app/services/updates.service';
 import { CleanNote } from 'src/app/types/clean-note';
 
 @Component({
-  selector: 'app-clean',
-  templateUrl: './clean.component.html',
-  styleUrl: './clean.component.scss'
+    selector: 'app-clean',
+    templateUrl: './clean.component.html',
+    styleUrl: './clean.component.scss',
+    standalone: false
 })
 export class CleanComponent implements OnInit {
   private _day: moment.Moment = moment()

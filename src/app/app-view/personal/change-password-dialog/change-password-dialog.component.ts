@@ -7,9 +7,10 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
-  selector: 'app-change-password-dialog',
-  templateUrl: './change-password-dialog.component.html',
-  styleUrls: ['./change-password-dialog.component.scss']
+    selector: 'app-change-password-dialog',
+    templateUrl: './change-password-dialog.component.html',
+    styleUrls: ['./change-password-dialog.component.scss'],
+    standalone: false
 })
 export class ChangePasswordDialogComponent {
   error: string | null = null;

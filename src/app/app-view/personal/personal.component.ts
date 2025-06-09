@@ -13,9 +13,10 @@ import { AboutComponent } from './about/about.component';
 import { ExtraComponent } from './extra/extra.component';
 
 @Component({
-  selector: 'app-personal',
-  templateUrl: './personal.component.html',
-  styleUrls: ['./personal.component.scss']
+    selector: 'app-personal',
+    templateUrl: './personal.component.html',
+    styleUrls: ['./personal.component.scss'],
+    standalone: false
 })
 export class PersonalComponent {
   updateaval: boolean | unknown = false

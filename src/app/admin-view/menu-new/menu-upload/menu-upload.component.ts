@@ -3,9 +3,10 @@ import { AdminCommService } from '../../admin-comm.service';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-upload-edit',
-  templateUrl: './menu-upload.component.html',
-  styleUrls: ['./menu-upload.component.scss'],
+    selector: 'app-upload-edit',
+    templateUrl: './menu-upload.component.html',
+    styleUrls: ['./menu-upload.component.scss'],
+    standalone: false
 })
 export class MenuUploadComponent {
   constructor(private ac:AdminCommService, public dialogRef: MatDialogRef<MenuUploadComponent>) {}

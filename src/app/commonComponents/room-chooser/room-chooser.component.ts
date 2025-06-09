@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 @Component({
-  selector: 'app-room-chooser',
-  templateUrl: './room-chooser.component.html',
-  styleUrl: './room-chooser.component.scss'
+    selector: 'app-room-chooser',
+    templateUrl: './room-chooser.component.html',
+    styleUrl: './room-chooser.component.scss',
+    standalone: false
 })
 export class RoomChooserComponent implements OnChanges {
   @Input() rooms: string[] = []

@@ -8,12 +8,13 @@ import { MAT_DATE_RANGE_SELECTION_STRATEGY } from '@angular/material/datepicker'
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-menu-add',
-  templateUrl: './menu-add.component.html',
-  styleUrl: './menu-add.component.scss',
-  providers: [
-    {provide: MAT_DATE_RANGE_SELECTION_STRATEGY, useClass: FDSelection}
-  ]
+    selector: 'app-menu-add',
+    templateUrl: './menu-add.component.html',
+    styleUrl: './menu-add.component.scss',
+    providers: [
+        { provide: MAT_DATE_RANGE_SELECTION_STRATEGY, useClass: FDSelection }
+    ],
+    standalone: false
 })
 export class MenuAddComponent {
   type: string | undefined;

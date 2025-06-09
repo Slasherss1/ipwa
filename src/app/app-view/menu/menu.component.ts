@@ -8,9 +8,10 @@ import { weekendFilter } from "../../fd.da";
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+    selector: 'app-menu',
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.scss'],
+    standalone: false
 })
 export class MenuComponent {
     constructor(private uc:UpdatesService, readonly bs: MatBottomSheet, readonly ls: LocalStorageService) { 

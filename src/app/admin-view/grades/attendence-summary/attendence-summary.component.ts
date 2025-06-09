@@ -5,9 +5,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AdminCommService } from '../../admin-comm.service';
 
 @Component({
-  selector: 'app-attendence-summary',
-  templateUrl: './attendence-summary.component.html',
-  styleUrl: './attendence-summary.component.scss'
+    selector: 'app-attendence-summary',
+    templateUrl: './attendence-summary.component.html',
+    styleUrl: './attendence-summary.component.scss',
+    standalone: false
 })
 export class AttendenceSummaryComponent implements OnInit {
 

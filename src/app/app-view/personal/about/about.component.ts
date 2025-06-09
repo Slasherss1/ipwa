@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { Link } from 'src/app/types/link';
 
 @Component({
-  selector: 'app-about',
-  templateUrl: './about.component.html',
-  styleUrl: './about.component.scss'
+    selector: 'app-about',
+    templateUrl: './about.component.html',
+    styleUrl: './about.component.scss',
+    standalone: false
 })
 export class AboutComponent {
   LINKS: { title: string, info: string, icon: string, link: string }[] = [

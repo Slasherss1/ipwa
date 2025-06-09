@@ -3,9 +3,10 @@ import { FormControl } from '@angular/forms';
 import moment from 'moment';
 
 @Component({
-  selector: 'app-date-selector',
-  templateUrl: './date-selector.component.html',
-  styleUrls: ['./date-selector.component.scss']
+    selector: 'app-date-selector',
+    templateUrl: './date-selector.component.html',
+    styleUrls: ['./date-selector.component.scss'],
+    standalone: false
 })
 export class DateSelectorComponent implements OnChanges {
   @Input() date: moment.Moment = moment.utc().startOf('day');

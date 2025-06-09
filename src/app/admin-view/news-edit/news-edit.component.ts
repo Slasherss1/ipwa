@@ -8,9 +8,10 @@ import { News } from 'src/app/types/news';
 import { marked } from 'marked';
 
 @Component({
-  selector: 'app-news-edit',
-  templateUrl: './news-edit.component.html',
-  styleUrls: ['./news-edit.component.scss']
+    selector: 'app-news-edit',
+    templateUrl: './news-edit.component.html',
+    styleUrls: ['./news-edit.component.scss'],
+    standalone: false
 })
 export class NewsEditComponent implements OnInit {
   news:Array<News & {formatted: string}> = new Array<News & {formatted: string}>

@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import moment from 'moment';
 
 @Component({
-  selector: 'app-hour-display',
-  templateUrl: './hour-display.component.html',
-  styleUrl: './hour-display.component.scss'
+    selector: 'app-hour-display',
+    templateUrl: './hour-display.component.html',
+    styleUrl: './hour-display.component.scss',
+    standalone: false
 })
 export class HourDisplayComponent {
   @Input() value = "";

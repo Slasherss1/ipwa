@@ -3,9 +3,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { AuthClient } from 'src/app/services/auth.client';
 
 @Component({
-  selector: 'app-redirect',
-  templateUrl: './redirect.component.html',
-  styleUrl: './redirect.component.scss'
+    selector: 'app-redirect',
+    templateUrl: './redirect.component.html',
+    styleUrl: './redirect.component.scss',
+    standalone: false
 })
 export class RedirectComponent {
   protected redirect = ""

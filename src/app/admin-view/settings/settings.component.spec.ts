@@ -12,7 +12,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { MatInputModule } from '@angular/material/input';
 
-@Component({selector: 'app-list-editor', template: ''})
+@Component({
+    selector: 'app-list-editor', template: '',
+    standalone: false
+})
 class ListEditorStub {
   @Input() converter?: any[];
   @Input() list?: string[];

@@ -4,9 +4,10 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { Link } from 'src/app/types/link';
 
 @Component({
-  selector: 'app-start',
-  templateUrl: './start.component.html',
-  styleUrl: './start.component.scss'
+    selector: 'app-start',
+    templateUrl: './start.component.html',
+    styleUrl: './start.component.scss',
+    standalone: false
 })
 export class StartComponent {
   private readonly _LINKS: Link[] = [

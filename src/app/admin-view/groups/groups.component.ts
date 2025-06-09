@@ -6,9 +6,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { RemoveConfirmComponent } from './remove-confirm/remove-confirm.component';
 
 @Component({
-  selector: 'app-groups',
-  templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.scss']
+    selector: 'app-groups',
+    templateUrl: './groups.component.html',
+    styleUrls: ['./groups.component.scss'],
+    standalone: false
 })
 export class GroupsComponent implements OnInit {
   groups?: Group[]

@@ -4,9 +4,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AdminCommService } from '../../admin-comm.service';
 
 @Component({
-  selector: 'app-attendence',
-  templateUrl: './attendence.component.html',
-  styleUrl: './attendence.component.scss'
+    selector: 'app-attendence',
+    templateUrl: './attendence.component.html',
+    styleUrl: './attendence.component.scss',
+    standalone: false
 })
 export class AttendenceComponent implements OnInit {
 

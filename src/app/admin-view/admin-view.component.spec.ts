@@ -9,7 +9,10 @@ import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 import { Component, Input } from '@angular/core';
 
-@Component({selector: "app-toolbar", template: ''})
+@Component({
+    selector: "app-toolbar", template: '',
+    standalone: false
+})
 class ToolbarMock {
     @Input() drawer!: MatDrawer;
 }

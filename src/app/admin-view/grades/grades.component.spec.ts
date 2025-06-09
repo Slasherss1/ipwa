@@ -12,14 +12,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-@Component({selector: "app-date-selector", template: ''})
+@Component({
+    selector: "app-date-selector", template: '',
+    standalone: false
+})
 class DateSelectorStub {
     @Input() date: moment.Moment = moment.utc().startOf('day');
     @Output() dateChange = new EventEmitter<moment.Moment>();
     @Input() filter: (date: moment.Moment | null) => boolean = () => true
 }
 
-@Component({selector: "app-room-chooser", template: ''})
+@Component({
+    selector: "app-room-chooser", template: '',
+    standalone: false
+})
 class RoomSelectorStub {
   @Input() rooms: string[] = []
   @Output() room: EventEmitter<string> = new EventEmitter<string>();

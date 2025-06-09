@@ -17,9 +17,10 @@ export namespace UserEditComponent {
 }
 
 @Component({
-  selector: 'app-user-edit',
-  templateUrl: './user-edit.component.html',
-  styleUrls: ['./user-edit.component.scss']
+    selector: 'app-user-edit',
+    templateUrl: './user-edit.component.html',
+    styleUrls: ['./user-edit.component.scss'],
+    standalone: false
 })
 export class UserEditComponent { 
   lockout = false;

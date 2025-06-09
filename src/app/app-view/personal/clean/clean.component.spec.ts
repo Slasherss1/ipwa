@@ -10,7 +10,10 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as moment from 'moment';
 
-@Component({selector: "app-date-selector", template: ''})
+@Component({
+    selector: "app-date-selector", template: '',
+    standalone: false
+})
 class DateSelectorStub {
     @Input() date: moment.Moment = moment.utc().startOf('day');
     @Output() dateChange = new EventEmitter<moment.Moment>();

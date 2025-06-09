@@ -5,9 +5,10 @@ import { ToolbarService } from './toolbar.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
-  selector: 'app-toolbar',
-  templateUrl: './toolbar.component.html',
-  styleUrl: './toolbar.component.scss'
+    selector: 'app-toolbar',
+    templateUrl: './toolbar.component.html',
+    styleUrl: './toolbar.component.scss',
+    standalone: false
 })
 export class ToolbarComponent {
   @Input() drawer!: MatDrawer;

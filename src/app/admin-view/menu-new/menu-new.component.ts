@@ -15,12 +15,13 @@ import { MenuAddComponent } from './menu-add/menu-add.component';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
-  selector: 'app-menu-new',
-  templateUrl: './menu-new.component.html',
-  styleUrls: ['./menu-new.component.scss'],
-  providers: [
-    {provide: MAT_DATE_RANGE_SELECTION_STRATEGY, useClass: FDSelection}
-  ]
+    selector: 'app-menu-new',
+    templateUrl: './menu-new.component.html',
+    styleUrls: ['./menu-new.component.scss'],
+    providers: [
+        { provide: MAT_DATE_RANGE_SELECTION_STRATEGY, useClass: FDSelection }
+    ],
+    standalone: false
 })
 export class MenuNewComponent {
   dcols: string[] = ['day', 'sn', 'ob', 'kol']

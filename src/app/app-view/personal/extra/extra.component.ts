@@ -5,9 +5,10 @@ import { RedirectComponent } from './redirect/redirect.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-extra',
-  templateUrl: './extra.component.html',
-  styleUrl: './extra.component.scss'
+    selector: 'app-extra',
+    templateUrl: './extra.component.html',
+    styleUrl: './extra.component.scss',
+    standalone: false
 })
 export class ExtraComponent {
 

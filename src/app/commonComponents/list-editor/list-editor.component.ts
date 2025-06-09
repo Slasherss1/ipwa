@@ -2,9 +2,10 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 
 @Component({
-  selector: 'app-list-editor[list], app-list-editor[converter]',
-  templateUrl: './list-editor.component.html',
-  styleUrls: ['./list-editor.component.scss'],
+    selector: 'app-list-editor[list], app-list-editor[converter]',
+    templateUrl: './list-editor.component.html',
+    styleUrls: ['./list-editor.component.scss'],
+    standalone: false
 })
 export class ListEditorComponent implements OnChanges {
   @HostBinding('tabindex') tabindex = 0;

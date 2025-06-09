@@ -5,9 +5,10 @@ import { News } from 'src/app/types/news';
 import { marked } from 'marked';
 
 @Component({
-  selector: 'app-news',
-  templateUrl: './news.component.html',
-  styleUrls: ['./news.component.scss'],
+    selector: 'app-news',
+    templateUrl: './news.component.html',
+    styleUrls: ['./news.component.scss'],
+    standalone: false
 })
 export class NewsComponent implements OnInit {
   news:Array<News> = new Array<News>

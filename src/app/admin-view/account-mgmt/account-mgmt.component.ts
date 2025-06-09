@@ -10,9 +10,10 @@ import { Group } from 'src/app/types/group';
 import User from 'src/app/types/user';
 
 @Component({
-  selector: 'app-account-mgmt',
-  templateUrl: './account-mgmt.component.html',
-  styleUrls: ['./account-mgmt.component.scss']
+    selector: 'app-account-mgmt',
+    templateUrl: './account-mgmt.component.html',
+    styleUrls: ['./account-mgmt.component.scss'],
+    standalone: false
 })
 
 

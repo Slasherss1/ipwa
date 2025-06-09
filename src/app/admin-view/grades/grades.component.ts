@@ -10,9 +10,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { AttendenceComponent } from './attendence/attendence.component';
 
 @Component({
-  selector: 'app-grades',
-  templateUrl: './grades.component.html',
-  styleUrl: './grades.component.scss'
+    selector: 'app-grades',
+    templateUrl: './grades.component.html',
+    styleUrl: './grades.component.scss',
+    standalone: false
 })
 export class GradesComponent implements OnInit, OnDestroy {
   rooms!: string[]
