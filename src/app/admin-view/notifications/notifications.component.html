@@ -1,42 +1,48 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-    <div formGroupName="recp">
-        <mat-radio-group formControlName="type">
-            <mat-radio-button value="uid">
-                <mat-form-field>
-                    <mat-label>Użytkownik</mat-label>
-                    <app-user-search formControlName="uid" required/>
-                </mat-form-field>
-            </mat-radio-button>
-            <mat-radio-button value="room">
-                <mat-form-field>
-                    <mat-label>Pokój</mat-label>
-                    <input matInput type="text" formControlName="room">
-                </mat-form-field>
-            </mat-radio-button>
-            <mat-radio-button value="group" *ngIf="ls.capCheck(8)">
-                <mat-form-field>
-                    <mat-label>Grupa</mat-label>
-                    <mat-select formControlName="group">
-                        <mat-option *ngFor="let item of groups" [value]="item._id">{{item.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </mat-radio-button>
-        </mat-radio-group>
-    </div>
+  <div formGroupName="recp">
+    <mat-radio-group formControlName="type">
+      <mat-radio-button value="uid">
+        <mat-form-field>
+          <mat-label>Użytkownik</mat-label>
+          <app-user-search formControlName="uid" required/>
+        </mat-form-field>
+      </mat-radio-button>
+      <mat-radio-button value="room">
+        <mat-form-field>
+          <mat-label>Pokój</mat-label>
+          <input matInput type="text" formControlName="room">
+        </mat-form-field>
+      </mat-radio-button>
+      @if (ls.capCheck(8)) {
+        <mat-radio-button value="group">
+          <mat-form-field>
+            <mat-label>Grupa</mat-label>
+            <mat-select formControlName="group">
+              @for (item of groups; track item) {
+                <mat-option [value]="item._id">{{item.name}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </mat-radio-button>
+      }
+    </mat-radio-group>
+  </div>
+  <mat-form-field>
+    <mat-label>Tytuł</mat-label>
+    <input matInput type="text" formControlName="title">
+  </mat-form-field>
+  <br>
     <mat-form-field>
-        <mat-label>Tytuł</mat-label>
-        <input matInput type="text" formControlName="title">
+      <mat-label>Zawartość wiadomości</mat-label>
+      <textarea matInput cdkTextareaAutosize formControlName="body"></textarea>
     </mat-form-field>
     <br>
-    <mat-form-field>
-        <mat-label>Zawartość wiadomości</mat-label>
-        <textarea matInput cdkTextareaAutosize formControlName="body"></textarea>
-    </mat-form-field>
-    <br>
-    <button mat-fab extended type="submit">
+      <button mat-fab extended type="submit">
         <mat-icon>send</mat-icon>
         Wyślij
-    </button>
-</form>
+      </button>
+    </form>
 
-<p *ngIf="success">Udało się wysłać {{success.sent}} z {{success.possible}} = {{success.sent/success.possible | percent}}</p>
+    @if (success) {
+      <p>Udało się wysłać {{success.sent}} z {{success.possible}} = {{success.sent/success.possible | percent}}</p>
+    }

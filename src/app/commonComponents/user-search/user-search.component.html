@@ -1,15 +1,19 @@
 <div role="group" class="app-user-search-container" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)">
-    <input type="text" [matAutocomplete]="ac" [formControl]="control" #inputComponent class="input-element">
-    <mat-spinner color="accent" diameter="16" *ngIf="loading" matSuffix></mat-spinner>
-    <mat-autocomplete #ac="matAutocomplete" autoActiveFirstOption (optionSelected)="saveValue($event)" [displayWith]="displayFn">
-        @for (item of list; track $index) {
-            <mat-option [value]="item">
-                @if (item.fname) {
-                    {{item.fname}} {{item.surname}} <span *ngIf="item.room" class="room">({{item.room}})</span>
-                } @else {
-                    {{item.uname}}
-                }
-            </mat-option>
+  <input type="text" [matAutocomplete]="ac" [formControl]="control" #inputComponent class="input-element">
+  @if (loading) {
+    <mat-spinner color="accent" diameter="16" matSuffix></mat-spinner>
+  }
+  <mat-autocomplete #ac="matAutocomplete" autoActiveFirstOption (optionSelected)="saveValue($event)" [displayWith]="displayFn">
+    @for (item of list; track $index) {
+      <mat-option [value]="item">
+        @if (item.fname) {
+          {{item.fname}} {{item.surname}} @if (item.room) {
+          <span class="room">({{item.room}})</span>
         }
-    </mat-autocomplete>
+      } @else {
+        {{item.uname}}
+      }
+    </mat-option>
+  }
+</mat-autocomplete>
 </div>

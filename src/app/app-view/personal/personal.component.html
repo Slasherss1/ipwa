@@ -1,42 +1,58 @@
 <mat-action-list>
-     <button mat-list-item (click)="logout()">
-         <mat-icon matListItemIcon color="primary">logout</mat-icon>
-         <div matListItemTitle>Wyloguj</div>
-     </button>
-     <button mat-list-item (click)="openPassChange()">
-         <mat-icon matListItemIcon color="primary">manage_accounts</mat-icon>
-         <div matListItemTitle>Zmiana hasła</div>
-     </button>
-     <button mat-list-item (click)="checkUpdate()">
-        <div matListItemIcon [ngSwitch]="checking">
-            <mat-spinner diameter="25" *ngSwitchCase="true"></mat-spinner>
-            <mat-icon *ngSwitchCase="false">update</mat-icon>
-            <mat-icon *ngSwitchCase="'err'" color="warn">error</mat-icon>
-            <mat-icon *ngSwitchCase="'aval'">upgrade</mat-icon>
-        </div>
-        <div matListItemTitle>Sprawdź dostępność aktualizacji</div>
-        <div matListItemLine>Aktualna wersja: {{version}}</div>
-     </button>
-     <button mat-list-item (click)="openKey()" *ngIf="ls.capCheck(32)">
-        <mat-icon matListItemIcon>key</mat-icon>
-        <div matListItemTitle>Klucze</div>
-     </button>
-     <button mat-list-item *ngIf="ls.capCheck(16) && ls.hasRoom()" (click)="openClean()">
-        <mat-icon matListItemIcon>cleaning_services</mat-icon>
-        <div matListItemTitle>Oceny za czystość</div>
-     </button>
-     <button mat-list-item (click)="goToAdmin()" *ngIf="ls.admin">
-         <mat-icon matListItemIcon color="accent">admin_panel_settings</mat-icon>
-         <div matListItemTitle>Panel administracyjny</div>
-         <div matListItemLine>Poprzednio Tryb edycji</div>
-     </button>
-     <button mat-list-item (click)="openExtra()">
-        <mat-icon matListItemIcon>settings_applications</mat-icon>
-        <div matListItemTitle>Dodatkowe ustawienia</div>
-     </button>
-     <button mat-list-item (click)="openAbout()">
-        <mat-icon matListItemIcon>info</mat-icon>
-        <div matListItemTitle>O programie</div>
-        <div matListItemLine>Autor, licencja, źródło</div>
-     </button>
+  <button mat-list-item (click)="logout()">
+    <mat-icon matListItemIcon color="primary">logout</mat-icon>
+    <div matListItemTitle>Wyloguj</div>
+  </button>
+  <button mat-list-item (click)="openPassChange()">
+    <mat-icon matListItemIcon color="primary">manage_accounts</mat-icon>
+    <div matListItemTitle>Zmiana hasła</div>
+  </button>
+  <button mat-list-item (click)="checkUpdate()">
+    <div matListItemIcon>
+      @switch (checking) {
+        @case (true) {
+          <mat-spinner diameter="25"></mat-spinner>
+        }
+        @case (false) {
+          <mat-icon>update</mat-icon>
+        }
+        @case ('err') {
+          <mat-icon color="warn">error</mat-icon>
+        }
+        @case ('aval') {
+          <mat-icon>upgrade</mat-icon>
+        }
+      }
+    </div>
+    <div matListItemTitle>Sprawdź dostępność aktualizacji</div>
+    <div matListItemLine>Aktualna wersja: {{version}}</div>
+  </button>
+  @if (ls.capCheck(32)) {
+    <button mat-list-item (click)="openKey()">
+      <mat-icon matListItemIcon>key</mat-icon>
+      <div matListItemTitle>Klucze</div>
+    </button>
+  }
+  @if (ls.capCheck(16) && ls.hasRoom()) {
+    <button mat-list-item (click)="openClean()">
+      <mat-icon matListItemIcon>cleaning_services</mat-icon>
+      <div matListItemTitle>Oceny za czystość</div>
+    </button>
+  }
+  @if (ls.admin) {
+    <button mat-list-item (click)="goToAdmin()">
+      <mat-icon matListItemIcon color="accent">admin_panel_settings</mat-icon>
+      <div matListItemTitle>Panel administracyjny</div>
+      <div matListItemLine>Poprzednio Tryb edycji</div>
+    </button>
+  }
+  <button mat-list-item (click)="openExtra()">
+    <mat-icon matListItemIcon>settings_applications</mat-icon>
+    <div matListItemTitle>Dodatkowe ustawienia</div>
+  </button>
+  <button mat-list-item (click)="openAbout()">
+    <mat-icon matListItemIcon>info</mat-icon>
+    <div matListItemTitle>O programie</div>
+    <div matListItemLine>Autor, licencja, źródło</div>
+  </button>
 </mat-action-list>

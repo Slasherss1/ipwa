@@ -1,67 +1,85 @@
 <h1 mat-dialog-title>Karta użytkownika</h1>
 <mat-dialog-content>
-    <form [formGroup]="form">
-        <div>
-            <mat-form-field appearance="outline" color="accent">
-                <mat-label>Imię</mat-label>
-                <input type="text" matInput formControlName="fname">
-            </mat-form-field>
-            <mat-form-field appearance="outline" color="accent">
-                <mat-label>Nazwisko</mat-label>
-                <input type="text" matInput formControlName="surname">
-            </mat-form-field>
-            <mat-form-field appearance="outline" color="accent">
-                <mat-label>Pokój</mat-label>
-                <input type="text" matInput formControlName="room">
-            </mat-form-field>
-            <mat-form-field appearance="outline" color="accent">
-                <mat-label>Grupy</mat-label>
-                <mat-select multiple formControlName="groups">
-                    @for (item of groups; track $index) {
-                        <mat-option [value]="item._id">{{item.name}}</mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
-            <span *ngIf="data.type == 'edit'">Data rejestracji:<br>{{regDate?.format('DD.MM.YYYY')}}</span>
-        </div>
-        <div>
-            <mat-form-field appearance="outline" color="accent">
-                <mat-label>Nazwa użytkownika</mat-label>
-                <input type="text" matInput required formControlName="uname">
-            </mat-form-field>
-            @if (data.type == "edit") {
-                <button mat-stroked-button color="accent" (click)="resetPass()">Resetuj hasło</button>
-                @if (locked) {
-                    <button mat-stroked-button color="warn" (click)="toggleLock(false)"><mat-icon>lock</mat-icon>Blokada ręczna</button>
-                } @else {
-                    <button mat-stroked-button color="accent" (click)="toggleLock(true)">Zablokuj konto</button>
-                }
-                @if (lockout) {
-                    <button mat-stroked-button color="warn" (click)="disableLockout()"><mat-icon>lock_clock</mat-icon>Auto-Blokada</button>
-                } @else {
-                    <button mat-stroked-button disabled>Auto-Blokada nieczynna</button>
-                }
-                <mat-form-field *ngIf="ls.permChecker(32)" color="accent">
-                    <mat-label>Uprawnienia</mat-label>
-                    <mat-select multiple formControlName="flags">
-                        <mat-option [value]="1" *ngIf="ls.capCheck(1)">Wiadomości</mat-option>
-                        <mat-option [value]="2" *ngIf="ls.capCheck(2)">Jadłospis</mat-option>
-                        <mat-option [value]="4" *ngIf="ls.capCheck(4)">Powiadomienia</mat-option>
-                        <mat-option [value]="8" *ngIf="ls.capCheck(8)">Grupy</mat-option>
-                        <mat-option [value]="16">Konta</mat-option>
-                        <mat-option [value]="64" *ngIf="ls.capCheck(32)">Klucze</mat-option>
-                        <mat-option [value]="128" *ngIf="ls.capCheck(16)">Czystość</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            }
-        </div>
-    </form>
+  <form [formGroup]="form">
+    <div>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Imię</mat-label>
+        <input type="text" matInput formControlName="fname">
+      </mat-form-field>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Nazwisko</mat-label>
+        <input type="text" matInput formControlName="surname">
+      </mat-form-field>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Pokój</mat-label>
+        <input type="text" matInput formControlName="room">
+      </mat-form-field>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Grupy</mat-label>
+        <mat-select multiple formControlName="groups">
+          @for (item of groups; track $index) {
+            <mat-option [value]="item._id">{{item.name}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      @if (data.type == 'edit') {
+        <span>Data rejestracji:<br>{{regDate?.format('DD.MM.YYYY')}}</span>
+      }
+    </div>
+    <div>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Nazwa użytkownika</mat-label>
+        <input type="text" matInput required formControlName="uname">
+      </mat-form-field>
+      @if (data.type == "edit") {
+        <button mat-stroked-button color="accent" (click)="resetPass()">Resetuj hasło</button>
+        @if (locked) {
+          <button mat-stroked-button color="warn" (click)="toggleLock(false)"><mat-icon>lock</mat-icon>Blokada ręczna</button>
+        } @else {
+          <button mat-stroked-button color="accent" (click)="toggleLock(true)">Zablokuj konto</button>
+        }
+        @if (lockout) {
+          <button mat-stroked-button color="warn" (click)="disableLockout()"><mat-icon>lock_clock</mat-icon>Auto-Blokada</button>
+        } @else {
+          <button mat-stroked-button disabled>Auto-Blokada nieczynna</button>
+        }
+        @if (ls.permChecker(32)) {
+          <mat-form-field color="accent">
+            <mat-label>Uprawnienia</mat-label>
+            <mat-select multiple formControlName="flags">
+              @if (ls.capCheck(1)) {
+                <mat-option [value]="1">Wiadomości</mat-option>
+              }
+              @if (ls.capCheck(2)) {
+                <mat-option [value]="2">Jadłospis</mat-option>
+              }
+              @if (ls.capCheck(4)) {
+                <mat-option [value]="4">Powiadomienia</mat-option>
+              }
+              @if (ls.capCheck(8)) {
+                <mat-option [value]="8">Grupy</mat-option>
+              }
+              <mat-option [value]="16">Konta</mat-option>
+              @if (ls.capCheck(32)) {
+                <mat-option [value]="64">Klucze</mat-option>
+              }
+              @if (ls.capCheck(16)) {
+                <mat-option [value]="128">Czystość</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+      }
+    </div>
+  </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-    @if (data.type == "edit") {
-        <button mat-stroked-button color="warn" style="margin-right: auto;">Usuń konto</button>
-    }
-    <button mat-stroked-button mat-dialog-close>Zamknij</button>
-    <button mat-flat-button color="accent" (click)="submit()">Zapisz</button>
-    <mat-spinner diameter="32" color="accent" *ngIf="loading"></mat-spinner>
+  @if (data.type == "edit") {
+    <button mat-stroked-button color="warn" style="margin-right: auto;">Usuń konto</button>
+  }
+  <button mat-stroked-button mat-dialog-close>Zamknij</button>
+  <button mat-flat-button color="accent" (click)="submit()">Zapisz</button>
+  @if (loading) {
+    <mat-spinner diameter="32" color="accent"></mat-spinner>
+  }
 </mat-dialog-actions>

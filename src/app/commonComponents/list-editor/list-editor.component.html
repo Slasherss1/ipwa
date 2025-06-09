@@ -1,29 +1,43 @@
-<ul *ngIf="!focused">
-    <li *ngFor="let item of _list">
+@if (!focused) {
+  <ul>
+    @for (item of _list; track item) {
+      <li>
         @if (options) {
-            {{idToOption(item)}}
+          {{idToOption(item)}}
         } @else {
-            {{item}}
+          {{item}}
         }
-    </li>
-    <li *ngIf="_list.length == 0">[Puste]</li>
-</ul>
-<div *ngIf="focused" class="vertical">
-    <button *ngIf="workList.length == 0" (click)="addPos(0)">+</button>
+      </li>
+    }
+    @if (_list.length == 0) {
+      <li>[Puste]</li>
+    }
+  </ul>
+}
+@if (focused) {
+  <div class="vertical">
+    @if (workList.length == 0) {
+      <button (click)="addPos(0)">+</button>
+    }
     <div cdkDropList class="vertical" (cdkDropListDropped)="drop($event)">
-        @for (item of workList; track $index) {
-            <span cdkDrag>
-                <input type="text" [(ngModel)]="workList[$index]" [attr.list]="dataList" (keyup.enter)="addPos($index)" #input>
-                <select *ngIf="dropdown" [(ngModel)]="workList[$index]">
-                    <option *ngFor="let option of options" [value]="option.id" [selected]="option.id == item">{{option.text}}</option>
-                </select>
-                <button (click)="remPos($index)">-</button>
-                <button (click)="addPos($index)">+</button>
-            </span>
-        }
+      @for (item of workList; track $index) {
+        <span cdkDrag>
+          <input type="text" [(ngModel)]="workList[$index]" [attr.list]="dataList" (keyup.enter)="addPos($index)" #input>
+          @if (dropdown) {
+            <select [(ngModel)]="workList[$index]">
+              @for (option of options; track option) {
+                <option [value]="option.id" [selected]="option.id == item">{{option.text}}</option>
+              }
+            </select>
+          }
+          <button (click)="remPos($index)">-</button>
+          <button (click)="addPos($index)">+</button>
+        </span>
+      }
     </div>
     <span>
-        <button (click)="save()">Zapisz</button>
-        <button (click)="cancel()">Anuluj</button>
+      <button (click)="save()">Zapisz</button>
+      <button (click)="cancel()">Anuluj</button>
     </span>
-</div>
+  </div>
+}
