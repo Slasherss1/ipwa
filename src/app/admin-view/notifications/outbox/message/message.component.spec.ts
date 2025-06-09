@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MessageComponent } from './message.component';
 import { AdminCommService } from 'src/app/admin-view/admin-comm.service';
 import { MatCardModule } from '@angular/material/card';
-import * as moment from 'moment';
+import moment from 'moment';
 
 describe('MessageComponent', () => {
   let component: MessageComponent;
