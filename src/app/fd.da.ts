@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { DateRange, MatDateRangeSelectionStrategy } from "@angular/material/datepicker";
-import * as moment from "moment";
+import moment from "moment";
 
 @Injectable()
 export class FDSelection implements MatDateRangeSelectionStrategy<moment.Moment> {

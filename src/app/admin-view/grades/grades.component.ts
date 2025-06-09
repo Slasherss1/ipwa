@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AdminCommService } from '../admin-comm.service';
-import * as moment from 'moment';
+import moment from 'moment';
 import { FormArray, FormBuilder } from '@angular/forms';
 import { weekendFilter } from 'src/app/fd.da';
 import { MatSnackBar } from '@angular/material/snack-bar';

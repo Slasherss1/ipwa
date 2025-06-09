@@ -9,7 +9,7 @@ import { map, of } from 'rxjs';
 import { Notification } from '../types/notification';
 import { News } from '../types/news';
 import { AKey } from '../types/key';
-import * as moment from 'moment';
+import moment from 'moment';
 import { IUSettings } from './settings/settings.component';
 import User from '../types/user';
 

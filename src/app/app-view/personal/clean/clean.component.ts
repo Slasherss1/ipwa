@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { weekendFilter } from 'src/app/fd.da';
 import { UpdatesService } from 'src/app/services/updates.service';
 import { CleanNote } from 'src/app/types/clean-note';

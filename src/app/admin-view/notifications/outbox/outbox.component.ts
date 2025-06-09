@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminCommService } from '../../admin-comm.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToolbarService } from '../../toolbar/toolbar.service';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
   selector: 'app-outbox',

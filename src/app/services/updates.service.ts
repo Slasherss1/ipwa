@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Menu } from '../types/menu';
 import { environment } from 'src/environments/environment';
 import { News } from '../types/news';
-import * as moment from 'moment';
+import moment from 'moment';
 import { map } from 'rxjs';
 import { UKey } from '../types/key';
 import { CleanNote } from '../types/clean-note';

@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserResetComponent } from '../user-reset/user-reset.component';
 import { catchError, throwError } from 'rxjs';
 import { Moment } from 'moment';
-import * as moment from 'moment';
+import moment from 'moment';
 
 export namespace UserEditComponent {
   export type InputData = {type: "new" | "edit", id?: string, groups: Group[]}

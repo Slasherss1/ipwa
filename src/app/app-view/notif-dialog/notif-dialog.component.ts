@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import * as moment from 'moment';
+import moment from 'moment';
 import { UpdatesService } from 'src/app/services/updates.service';
 
 @Component({

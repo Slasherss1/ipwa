@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
   selector: 'app-date-selector',
