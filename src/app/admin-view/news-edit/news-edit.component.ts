@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core'
-import { AdminCommService } from '../admin-comm.service'
 import { MatDialog } from '@angular/material/dialog'
 import { NewPostComponent } from './new-post/edit-post.component'
 import { catchError, throwError } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { News } from 'src/app/types/news'
 import { marked } from 'marked'
+import { NewsEditService } from './news-edit.service'
 
 @Component({
   selector: 'app-news-edit',
@@ -20,14 +20,14 @@ export class NewsEditComponent implements OnInit {
   loading = true
 
   constructor(
-    private ac: AdminCommService,
+    private ac: NewsEditService,
     private dialog: MatDialog,
     private sb: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loading = true
-    this.ac.news.getNews().subscribe(data => {
+    this.ac.getNews().subscribe(data => {
       this.loading = false
       this.news = data.map(v => {
         var nd: News & { formatted: string } = {
@@ -45,7 +45,7 @@ export class NewsEditComponent implements OnInit {
       .afterClosed()
       .subscribe(result => {
         if (result == undefined) return
-        this.ac.news
+        this.ac
           .postNews(result.title, result.content)
           .pipe(
             catchError(err => {
@@ -69,7 +69,7 @@ export class NewsEditComponent implements OnInit {
       .afterClosed()
       .subscribe(result => {
         if (result == undefined) return
-        this.ac.news
+        this.ac
           .updateNews(item._id, result.title, result.content)
           .pipe(
             catchError(err => {
@@ -88,7 +88,7 @@ export class NewsEditComponent implements OnInit {
   }
 
   delete(id: string) {
-    this.ac.news.deleteNews(id).subscribe(data => {
+    this.ac.deleteNews(id).subscribe(data => {
       if (data.status == 200) {
         this.ngOnInit()
       }
@@ -96,7 +96,7 @@ export class NewsEditComponent implements OnInit {
   }
 
   visibleToggle(item: any) {
-    this.ac.news
+    this.ac
       .toggleNews(item._id, item.visible)
       .pipe(
         catchError(err => {
@@ -115,7 +115,7 @@ export class NewsEditComponent implements OnInit {
 
   pinToggle(item: any) {
     console.log(item.pinned)
-    this.ac.news
+    this.ac
       .togglePin(item._id, item.pinned)
       .pipe(
         catchError(err => {

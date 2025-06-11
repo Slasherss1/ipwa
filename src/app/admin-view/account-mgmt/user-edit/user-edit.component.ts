@@ -7,12 +7,12 @@ import {
 import { FormControl, FormGroup } from '@angular/forms'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { Group } from 'src/app/types/group'
-import { AdminCommService } from '../../admin-comm.service'
 import { UserDeleteComponent } from '../user-delete/user-delete.component'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { UserResetComponent } from '../user-reset/user-reset.component'
 import { catchError, throwError } from 'rxjs'
 import { DateTime } from 'luxon'
+import { AccountMgmtService } from '../account-mgmt.service'
 
 export namespace UserEditComponent {
   export type InputData = { type: 'new' | 'edit'; id?: string; groups: Group[] }
@@ -44,14 +44,14 @@ export class UserEditComponent {
     public dialogRef: MatDialogRef<UserEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UserEditComponent.InputData,
     readonly ls: LocalStorageService,
-    readonly acu: AdminCommService,
+    readonly acu: AccountMgmtService,
     private dialog: MatDialog,
     private sb: MatSnackBar
   ) {
     this.groups = data.groups
     if (data.type == 'edit') {
       this.id = data.id
-      this.acu.accs.getUser(data.id!).subscribe(r => {
+      this.acu.getUser(data.id!).subscribe(r => {
         this.regDate = DateTime.fromISO(r.regDate)
         var flags: Array<number> = []
         if (r.admin) {
@@ -79,7 +79,7 @@ export class UserEditComponent {
   protected submit() {
     this.loading = true
     if (this.data.type == 'edit') {
-      this.acu.accs
+      this.acu
         .putAcc(this.id!, this.getForm())
         .pipe(
           catchError(err => {
@@ -99,7 +99,7 @@ export class UserEditComponent {
           }
         })
     } else {
-      this.acu.accs
+      this.acu
         .postAcc(this.getForm())
         .pipe(
           catchError(err => {
@@ -123,7 +123,7 @@ export class UserEditComponent {
 
   protected disableLockout() {
     this.loading = true
-    this.acu.accs
+    this.acu
       .clearLockout(this.id!)
       .pipe(
         catchError(err => {
@@ -168,7 +168,7 @@ export class UserEditComponent {
       .afterClosed()
       .subscribe(reply => {
         if (reply) {
-          this.acu.accs.deleteAcc(this.id!).subscribe(res => {
+          this.acu.deleteAcc(this.id!).subscribe(res => {
             if (res.status == 200) {
               this.sb.open('Użytkownik został usunięty.', undefined, {
                 duration: 2500,
@@ -190,7 +190,7 @@ export class UserEditComponent {
       .afterClosed()
       .subscribe(res => {
         if (res == true) {
-          this.acu.accs.resetPass(this.id!).subscribe(patch => {
+          this.acu.resetPass(this.id!).subscribe(patch => {
             if (patch.status == 200) {
               this.sb.open('Hasło zostało zresetowane', undefined, {
                 duration: 2500,
@@ -203,7 +203,7 @@ export class UserEditComponent {
   }
 
   protected toggleLock(state: boolean) {
-    this.acu.accs.putAcc(this.id!, { locked: state }).subscribe(res => {
+    this.acu.putAcc(this.id!, { locked: state }).subscribe(res => {
       if (res.status == 200) {
         this.locked = state
       }

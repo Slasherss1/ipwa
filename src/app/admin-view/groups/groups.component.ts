@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core'
-import { AdminCommService } from '../admin-comm.service'
 import { Group } from 'src/app/types/group'
 import { Status } from 'src/app/types/status'
 import { MatDialog } from '@angular/material/dialog'
 import { RemoveConfirmComponent } from './remove-confirm/remove-confirm.component'
+import { GroupsService } from './groups.service'
 
 @Component({
   selector: 'app-groups',
@@ -14,11 +14,11 @@ import { RemoveConfirmComponent } from './remove-confirm/remove-confirm.componen
 export class GroupsComponent implements OnInit {
   groups?: Group[]
   constructor(
-    protected readonly acs: AdminCommService,
+    protected readonly acs: GroupsService,
     private readonly dialog: MatDialog
   ) {}
   ngOnInit(): void {
-    this.acs.groups.getGroups().subscribe(v => {
+    this.acs.getGroups().subscribe(v => {
       this.groups = v
     })
   }
@@ -46,13 +46,13 @@ export class GroupsComponent implements OnInit {
 
   protected nameEdit(id: string, name: string | string[]) {
     name = name as string
-    this.acs.groups.editName(id, name).subscribe(s => this.refreshIfGood(s))
+    this.acs.editName(id, name).subscribe(s => this.refreshIfGood(s))
   }
 
   protected newGroup() {
     let name = prompt('Nazwa grupy')
     if (name) {
-      this.acs.groups.newGroup(name).subscribe(s => this.refreshIfGood(s))
+      this.acs.newGroup(name).subscribe(s => this.refreshIfGood(s))
     }
   }
 
@@ -62,7 +62,7 @@ export class GroupsComponent implements OnInit {
       .afterClosed()
       .subscribe(v => {
         if (v) {
-          this.acs.groups.remove(id).subscribe(s => this.refreshIfGood(s))
+          this.acs.remove(id).subscribe(s => this.refreshIfGood(s))
         }
       })
   }

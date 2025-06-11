@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms'
-import { AdminCommService } from '../admin-comm.service'
+import { FormBuilder } from '@angular/forms'
 import { Notification } from 'src/app/types/notification'
 import { Group } from 'src/app/types/group'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { ToolbarService } from '../toolbar/toolbar.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { UserSearchResult } from 'src/app/commonComponents/user-search/user-search.component'
+import { NotificationsService } from './notifications.service'
 
 @Component({
   selector: 'app-notifications',
@@ -30,7 +30,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   })
 
   constructor(
-    private readonly acs: AdminCommService,
+    private acs: NotificationsService,
     readonly ls: LocalStorageService,
     private toolbar: ToolbarService,
     private router: Router,
@@ -46,7 +46,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.acs.notif.getGroups().subscribe(v => {
+    this.acs.getGroups().subscribe(v => {
       this.groups = v
     })
   }
@@ -61,7 +61,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   success?: { sent: number; possible: number }
 
   submit() {
-    this.acs.notif
+    this.acs
       .send({
         ...this.form.value,
         recp: {

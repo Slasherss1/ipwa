@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
-import { AdminCommService } from '../../admin-comm.service'
+import { GradesService } from '../grades.service'
 
 @Component({
   selector: 'app-attendence',
@@ -14,12 +14,12 @@ export class AttendenceComponent implements OnInit {
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: { room: string },
     public dialogRef: MatDialogRef<AttendenceComponent>,
-    private ac: AdminCommService
+    private ac: GradesService
   ) {}
 
   ngOnInit(): void {
     this.room = this.data.room
-    this.ac.clean.attendence.getUsers(this.room).subscribe(query => {
+    this.ac.attendence.getUsers(this.room).subscribe(query => {
       query.users.forEach(v => {
         var att = query.attendence
           ? query.attendence.auto.find(z => z.id == v._id)

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { ToolbarService } from '../../toolbar/toolbar.service'
 import { Router, ActivatedRoute } from '@angular/router'
 import { MatTableDataSource } from '@angular/material/table'
-import { AdminCommService } from '../../admin-comm.service'
+import { GradesService } from '../grades.service'
 
 @Component({
   selector: 'app-attendence-summary',
@@ -28,7 +28,7 @@ export class AttendenceSummaryComponent implements OnInit {
     private toolbar: ToolbarService,
     private router: Router,
     private route: ActivatedRoute,
-    private ac: AdminCommService
+    private ac: GradesService
   ) {
     this.toolbar.comp = this
     this.toolbar.menu = [
@@ -37,13 +37,13 @@ export class AttendenceSummaryComponent implements OnInit {
   }
 
   delete(room: string) {
-    this.ac.clean.attendence.deleteRoom(room).subscribe(() => {
+    this.ac.attendence.deleteRoom(room).subscribe(() => {
       this.ngOnInit()
     })
   }
 
   ngOnInit(): void {
-    this.ac.clean.attendence.getSummary().subscribe(v => {
+    this.ac.attendence.getSummary().subscribe(v => {
       this.data.data = v
     })
   }

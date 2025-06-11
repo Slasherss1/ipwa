@@ -1,4 +1,5 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion'
+import { HttpClient } from '@angular/common/http'
 import {
   Component,
   DoCheck,
@@ -19,7 +20,7 @@ import {
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
 import { MatFormFieldControl } from '@angular/material/form-field'
 import { Subject } from 'rxjs'
-import { AdminCommService } from 'src/app/admin-view/admin-comm.service'
+import { environment } from 'src/environments/environment'
 
 export interface UserSearchResult {
   _id: string
@@ -46,11 +47,10 @@ export interface UserSearchResult {
 })
 export class UserSearchComponent
   implements
-    ControlValueAccessor,
-    MatFormFieldControl<UserSearchResult>,
-    OnDestroy,
-    DoCheck
-{
+  ControlValueAccessor,
+  MatFormFieldControl<UserSearchResult>,
+  OnDestroy,
+  DoCheck {
   protected loading: boolean = false
   control: FormControl = new FormControl()
   protected list: UserSearchResult[] = []
@@ -149,21 +149,24 @@ export class UserSearchComponent
   }
 
   constructor(
-    readonly acu: AdminCommService,
     @Optional() @Self() public ngControl: NgControl,
     @Optional() private _parentForm: NgForm,
     @Optional() private _parentFormGroup: FormGroupDirective,
-    private _elementRef: ElementRef
+    private _elementRef: ElementRef,
+    private http: HttpClient,
   ) {
     if (this.ngControl != null) {
-      ;(this.ngControl as NgControl).valueAccessor = this
+      ; (this.ngControl as NgControl).valueAccessor = this
     }
     this.control.valueChanges.subscribe(() => {
       if (typeof this.control.value == 'object') return
       this.loading = true
       if (this.timeout) clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
-        this.acu.userFilter(this.control.value).subscribe(v => {
+        this.http.get<any[]>(environment.apiEndpoint + `/admin/usearch`, {
+          params: { q: this.control.value },
+          withCredentials: true,
+        }).subscribe(v => {
           this.list = v
           this.loading = false
         })

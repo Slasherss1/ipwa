@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
-import { AdminCommService } from '../admin-comm.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { FormBuilder } from '@angular/forms'
+import { SettingsService } from './settings.service'
 
 @Component({
   selector: 'app-settings',
@@ -20,7 +20,7 @@ export class SettingsComponent implements OnInit {
   reloadTimeout: boolean = false
 
   constructor(
-    private readonly acu: AdminCommService,
+    private readonly acu: SettingsService,
     private readonly sb: MatSnackBar,
     private readonly fb: FormBuilder
   ) {}
@@ -32,7 +32,7 @@ export class SettingsComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.acu.settings.getAll().subscribe(r => {
+    this.acu.getAll().subscribe(r => {
       this.usettings = r
       this.accSecTimeouts = r.security.loginTimeout
     })
@@ -81,7 +81,7 @@ export class SettingsComponent implements OnInit {
   }
 
   send() {
-    this.acu.settings.post(this.usettings).subscribe(s => {
+    this.acu.post(this.usettings).subscribe(s => {
       if (s.status == 200) {
         this.sb.open('Zapisano!', undefined, { duration: 1000 })
       } else {
@@ -98,7 +98,7 @@ export class SettingsComponent implements OnInit {
     setTimeout(() => {
       this.reloadTimeout = false
     }, 5000)
-    this.acu.settings.reload().subscribe(s => {
+    this.acu.reload().subscribe(s => {
       if (s.status == 200) {
         this.sb.open('Przeładowano ustawienia!', undefined, { duration: 3000 })
       } else {

@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
-import { AdminCommService } from '../admin-comm.service'
 import { MatDialog } from '@angular/material/dialog'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatPaginator } from '@angular/material/paginator'
@@ -8,6 +7,7 @@ import { UserEditComponent } from './user-edit/user-edit.component'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { Group } from 'src/app/types/group'
 import User from 'src/app/types/user'
+import { AccountMgmtService } from './account-mgmt.service'
 
 @Component({
   selector: 'app-account-mgmt',
@@ -22,7 +22,7 @@ export class AccountMgmtComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
   constructor(
-    readonly ac: AdminCommService,
+    readonly ac: AccountMgmtService,
     private dialog: MatDialog,
     private sb: MatSnackBar,
     protected readonly ls: LocalStorageService
@@ -51,7 +51,7 @@ export class AccountMgmtComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.loading = true
-    this.ac.accs.getAccs().subscribe(data => {
+    this.ac.getAccs().subscribe(data => {
       this.loading = false
       this.users.data = data.users
       this.groups = data.groups

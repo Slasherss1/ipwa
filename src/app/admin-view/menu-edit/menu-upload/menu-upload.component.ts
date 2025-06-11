@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
-import { AdminCommService } from '../../admin-comm.service'
 import { MatDialogRef } from '@angular/material/dialog'
+import { MenuEditService } from '../menu-edit.service'
 
 @Component({
   selector: 'app-upload-edit',
@@ -10,7 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog'
 })
 export class MenuUploadComponent {
   constructor(
-    private ac: AdminCommService,
+    private ac: MenuEditService,
     public dialogRef: MatDialogRef<MenuUploadComponent>
   ) {}
   protected file: File | undefined
@@ -24,7 +24,7 @@ export class MenuUploadComponent {
   }
 
   submit() {
-    this.ac.menu.postMenu(this.file!)?.subscribe(value => {
+    this.ac.postMenu(this.file!)?.subscribe(value => {
       this.dialogRef.close(value)
     })
   }

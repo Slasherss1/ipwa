@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core'
-import { AdminCommService } from '../../admin-comm.service'
 import { Router, ActivatedRoute } from '@angular/router'
 import { ToolbarService } from '../../toolbar/toolbar.service'
 import { DateTime } from 'luxon'
+import { NotificationsService } from '../notifications.service'
 
 @Component({
   selector: 'app-outbox',
@@ -18,7 +18,7 @@ export class OutboxComponent implements OnInit {
   }[]
 
   constructor(
-    private readonly acs: AdminCommService,
+    private acs: NotificationsService,
     private toolbar: ToolbarService,
     private router: Router,
     private route: ActivatedRoute
@@ -34,7 +34,7 @@ export class OutboxComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.acs.notif.outbox.getSent().subscribe(v => {
+    this.acs.outbox.getSent().subscribe(v => {
       this.messages = v
     })
   }

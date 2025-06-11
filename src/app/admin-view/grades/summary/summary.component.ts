@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { ToolbarService } from '../../toolbar/toolbar.service'
 import { ActivatedRoute, Router } from '@angular/router'
-import { AdminCommService } from '../../admin-comm.service'
 import { MatTableDataSource } from '@angular/material/table'
 import { FormBuilder } from '@angular/forms'
 import { MatSort } from '@angular/material/sort'
 import { DateTime } from 'luxon'
+import { GradesService } from '../grades.service'
 
 @Component({
   selector: 'app-summary',
@@ -31,7 +31,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     private toolbar: ToolbarService,
     private router: Router,
     private route: ActivatedRoute,
-    private ac: AdminCommService,
+    private ac: GradesService,
     private fb: FormBuilder
   ) {
     this.toolbar.comp = this
@@ -47,7 +47,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
 
   download() {
-    this.ac.clean.summary
+    this.ac.summary
       .getSummary(
         this.dateSelector.get('start')?.value!.startOf('day')!,
         this.dateSelector.get('end')?.value!.endOf('day')!

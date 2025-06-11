@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core'
-import { AdminCommService } from '../../admin-comm.service'
 import { MatDialogRef } from '@angular/material/dialog'
 import { FormControl, FormGroup } from '@angular/forms'
 import { UserSearchResult } from 'src/app/commonComponents/user-search/user-search.component'
+import { KeyService } from '../key.service'
 
 @Component({
   selector: 'app-new-key',
@@ -18,12 +18,12 @@ export class NewKeyComponent implements OnInit {
   })
   unames: any[] = []
   constructor(
-    private ac: AdminCommService,
+    private ac: KeyService,
     public dialogRef: MatDialogRef<NewKeyComponent>
   ) {}
 
   ngOnInit(): void {
-    this.ac.keys.avalKeys().subscribe(v => {
+    this.ac.avalKeys().subscribe(v => {
       this.rooms = v
     })
   }

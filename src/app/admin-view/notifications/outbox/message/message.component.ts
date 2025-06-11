@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { DateTime } from 'luxon'
-import { AdminCommService } from 'src/app/admin-view/admin-comm.service'
+import { NotificationsService } from '../../notifications.service';
 
 @Component({
   selector: 'app-message',
@@ -19,11 +19,13 @@ export class MessageComponent {
     surname?: string
   }[]
   loading: boolean = false
-  constructor(readonly acu: AdminCommService) {}
+  constructor(
+    readonly acu: NotificationsService
+  ) { }
 
   getMessage() {
     this.loading = true
-    this.acu.notif.outbox.getBody(this.item._id).subscribe(v => {
+    this.acu.outbox.getBody(this.item._id).subscribe(v => {
       this.body = v
       this.loading = false
     })
@@ -31,7 +33,7 @@ export class MessageComponent {
 
   getRcpts() {
     this.loading = true
-    this.acu.notif.outbox.getRcpts(this.item._id).subscribe(v => {
+    this.acu.outbox.getRcpts(this.item._id).subscribe(v => {
       this.rcpts = v
       this.loading = false
     })

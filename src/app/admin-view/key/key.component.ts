@@ -2,11 +2,11 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
 import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
 import { AKey } from 'src/app/types/key'
-import { AdminCommService } from '../admin-comm.service'
 import { MatDialog } from '@angular/material/dialog'
 import { NewKeyComponent } from './new-key/new-key.component'
 import { catchError, throwError } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { KeyService } from './key.service'
 
 @Component({
   selector: 'app-admin-key',
@@ -35,7 +35,7 @@ export class AdminKeyComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
   constructor(
-    private ac: AdminCommService,
+    private ac: KeyService,
     private dialog: MatDialog,
     private sb: MatSnackBar
   ) {
@@ -44,7 +44,7 @@ export class AdminKeyComponent implements AfterViewInit, OnInit {
 
   fetchData() {
     this.loading = true
-    this.ac.keys.getKeys().subscribe(r => {
+    this.ac.getKeys().subscribe(r => {
       this.loading = false
       this.pureData = r
       this.transformData()
@@ -69,9 +69,6 @@ export class AdminKeyComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.fetchData()
-    // [
-    //   {room: "Kawiarenka", borrow: moment().subtract(15, "minutes"), whom: {_id: "test", room: 303, uname: "sk"}}
-    // ]
   }
 
   new() {
@@ -80,7 +77,7 @@ export class AdminKeyComponent implements AfterViewInit, OnInit {
       .afterClosed()
       .subscribe(v => {
         if (v) {
-          this.ac.keys
+          this.ac
             .postKey(v.room, v.user)
             .pipe(
               catchError((err, caught) => {
@@ -102,7 +99,7 @@ export class AdminKeyComponent implements AfterViewInit, OnInit {
   }
 
   tb(id: string) {
-    this.ac.keys.returnKey(id).subscribe(r => {
+    this.ac.returnKey(id).subscribe(r => {
       if (r.status == 200) {
         this.fetchData()
       }

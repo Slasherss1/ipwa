@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { AdminCommService } from '../admin-comm.service'
 import { FormArray, FormBuilder } from '@angular/forms'
 import { weekendFilter } from 'src/app/fd.da'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -8,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
 import { AttendenceComponent } from './attendence/attendence.component'
 import { DateTime } from 'luxon'
+import { GradesService } from './grades.service'
 
 @Component({
   selector: 'app-grades',
@@ -58,7 +58,7 @@ export class GradesComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private ac: AdminCommService,
+    private ac: GradesService,
     private fb: FormBuilder,
     private sb: MatSnackBar,
     private toolbar: ToolbarService,
@@ -101,7 +101,7 @@ export class GradesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.ac.clean.getConfig().subscribe(s => {
+    this.ac.getConfig().subscribe(s => {
       this.rooms = s.rooms
       s.things.forEach(s =>
         this.things.push(
@@ -121,7 +121,7 @@ export class GradesComponent implements OnInit, OnDestroy {
   }
 
   downloadData() {
-    this.ac.clean.getClean(this.date, this.room).subscribe(v => {
+    this.ac.getClean(this.date, this.room).subscribe(v => {
       if (v) {
         this.notes = v.notes
         this.gradeDate = DateTime.fromISO(v.gradeDate)
@@ -174,14 +174,14 @@ export class GradesComponent implements OnInit, OnDestroy {
       notes: this.notes,
       tips: this.form.get('tips')?.value,
     }
-    this.ac.clean.postClean(obj).subscribe(s => {
+    this.ac.postClean(obj).subscribe(s => {
       this.sb.open('Zapisano!', undefined, { duration: 1500 })
       this.downloadData()
     })
   }
 
   remove() {
-    this.ac.clean.delete(this.id!).subscribe(s => {
+    this.ac.delete(this.id!).subscribe(s => {
       if (s.status == 200) {
         this.downloadData()
       }
@@ -213,7 +213,7 @@ export class GradesComponent implements OnInit, OnDestroy {
               x.users.push({ id: i.id, hour: i.hour })
             }
           })
-          this.ac.clean.attendence
+          this.ac.attendence
             .postAttendence(x.room, { auto: x.users, notes: v.notes })
             .subscribe(s => {
               if (s.status == 200) {

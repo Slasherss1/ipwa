@@ -9,7 +9,7 @@ import { PersonalComponent } from './app-view/personal/personal.component'
 import { AdminViewComponent } from './admin-view/admin-view.component'
 import { NewsEditComponent } from './admin-view/news-edit/news-edit.component'
 import { AccountMgmtComponent } from './admin-view/account-mgmt/account-mgmt.component'
-import { MenuNewComponent } from './admin-view/menu-new/menu-new.component'
+import { MenuEditComponent } from './admin-view/menu-edit/menu-edit.component'
 import { adminGuard } from './admin.guard'
 import { GroupsComponent } from './admin-view/groups/groups.component'
 import { StartComponent } from './app-view/start/start.component'
@@ -52,7 +52,7 @@ const routes: Routes = [
       {
         path: 'menu',
         title: 'Edytowanie jadłospisu',
-        component: MenuNewComponent,
+        component: MenuEditComponent,
       },
       {
         path: 'accounts',

@@ -26,7 +26,7 @@ import { LogoutConfirmationComponent } from './app-view/personal/logout-confirma
 import { PersonalComponent } from './app-view/personal/personal.component'
 import { AppComponent } from './app.component'
 import { LoginComponent } from './login/login.component'
-import { MenuUploadComponent } from './admin-view/menu-new/menu-upload/menu-upload.component'
+import { MenuUploadComponent } from './admin-view/menu-edit/menu-upload/menu-upload.component'
 import { NewsEditComponent } from './admin-view/news-edit/news-edit.component'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { NewPostComponent } from './admin-view/news-edit/new-post/edit-post.component'
@@ -36,7 +36,7 @@ import { UserEditComponent } from './admin-view/account-mgmt/user-edit/user-edit
 import { MatPaginatorModule } from '@angular/material/paginator'
 import { UserDeleteComponent } from './admin-view/account-mgmt/user-delete/user-delete.component'
 import { MatSelectModule } from '@angular/material/select'
-import { MenuNewComponent } from './admin-view/menu-new/menu-new.component'
+import { MenuEditComponent } from './admin-view/menu-edit/menu-edit.component'
 import { FDSelection } from './fd.da'
 import { CeDirective } from './ce.directive'
 import { AllergensComponent } from './app-view/menu/allergens/allergens.component'
@@ -67,7 +67,7 @@ import { SettingsComponent } from './admin-view/settings/settings.component'
 import { MatExpansionModule } from '@angular/material/expansion'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { MatBadgeModule } from '@angular/material/badge'
-import { MenuAddComponent } from './admin-view/menu-new/menu-add/menu-add.component'
+import { MenuAddComponent } from './admin-view/menu-edit/menu-add/menu-add.component'
 import { FieldEditorComponent } from './commonComponents/field-editor/field-editor.component'
 import { A11yModule } from '@angular/cdk/a11y'
 import { PortalModule } from '@angular/cdk/portal'
@@ -105,7 +105,7 @@ import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter'
     AccountMgmtComponent,
     UserEditComponent,
     UserDeleteComponent,
-    MenuNewComponent,
+    MenuEditComponent,
     CeDirective,
     LabelDirective,
     AllergensComponent,
