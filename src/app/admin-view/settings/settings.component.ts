@@ -1,28 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { AdminCommService } from '../admin-comm.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormBuilder } from '@angular/forms';
+import { Component, OnInit } from '@angular/core'
+import { AdminCommService } from '../admin-comm.service'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { FormBuilder } from '@angular/forms'
 
 @Component({
-    selector: 'app-settings',
-    templateUrl: './settings.component.html',
-    styleUrl: './settings.component.scss',
-    standalone: false
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrl: './settings.component.scss',
+  standalone: false,
 })
 export class SettingsComponent implements OnInit {
-  usettings: IUSettings = {cleanThings: [], keyrooms: [], menu: {defaultItems: {kol: [], sn: []}}, rooms: [], security: {loginTimeout: {attempts: 0, lockout: 0, time: 0}}}
-  reloadTimeout: boolean = false;
+  usettings: IUSettings = {
+    cleanThings: [],
+    keyrooms: [],
+    menu: { defaultItems: { kol: [], sn: [] } },
+    rooms: [],
+    security: { loginTimeout: { attempts: 0, lockout: 0, time: 0 } },
+  }
+  reloadTimeout: boolean = false
 
-  constructor (private readonly acu: AdminCommService, private readonly sb: MatSnackBar, private readonly fb: FormBuilder) { }
-  
+  constructor(
+    private readonly acu: AdminCommService,
+    private readonly sb: MatSnackBar,
+    private readonly fb: FormBuilder
+  ) {}
+
   accSec = this.fb.nonNullable.group({
     attempts: this.fb.nonNullable.control(1),
     time: this.fb.nonNullable.control(1),
-    lockout: this.fb.nonNullable.control(1), 
+    lockout: this.fb.nonNullable.control(1),
   })
 
   ngOnInit(): void {
-    this.acu.settings.getAll().subscribe((r) => {
+    this.acu.settings.getAll().subscribe(r => {
       this.usettings = r
       this.accSecTimeouts = r.security.loginTimeout
     })
@@ -59,23 +69,23 @@ export class SettingsComponent implements OnInit {
     this.accSec.setValue({
       attempts: value.attempts,
       lockout: value.lockout / 60,
-      time: value.time / 60
+      time: value.time / 60,
     })
   }
   get accSecTimeouts(): IUSettings['security']['loginTimeout'] {
     return {
       attempts: this.accSec.controls['attempts'].value,
       lockout: this.accSec.controls['lockout'].value * 60,
-      time: this.accSec.controls['time'].value * 60
+      time: this.accSec.controls['time'].value * 60,
     }
   }
 
   send() {
-    this.acu.settings.post(this.usettings).subscribe((s) => {
+    this.acu.settings.post(this.usettings).subscribe(s => {
       if (s.status == 200) {
-        this.sb.open("Zapisano!", undefined, { duration: 1000 })
+        this.sb.open('Zapisano!', undefined, { duration: 1000 })
       } else {
-        console.error(s);
+        console.error(s)
       }
     })
   }
@@ -87,32 +97,32 @@ export class SettingsComponent implements OnInit {
     this.reloadTimeout = true
     setTimeout(() => {
       this.reloadTimeout = false
-    }, 5000);
-    this.acu.settings.reload().subscribe((s) => {
+    }, 5000)
+    this.acu.settings.reload().subscribe(s => {
       if (s.status == 200) {
-        this.sb.open("Przeładowano ustawienia!", undefined, { duration: 3000 })
+        this.sb.open('Przeładowano ustawienia!', undefined, { duration: 3000 })
       } else {
-        console.error(s);
+        console.error(s)
       }
     })
   }
 }
 
 export interface IUSettings {
-  keyrooms: string[];
-  rooms: string[];
-  cleanThings: string[];
+  keyrooms: string[]
+  rooms: string[]
+  cleanThings: string[]
   menu: {
     defaultItems: {
-      sn: string[];
-      kol: string[];
+      sn: string[]
+      kol: string[]
     }
-  };
+  }
   security: {
     loginTimeout: {
-      attempts: number;
-      time: number;
-      lockout: number;
+      attempts: number
+      time: number
+      lockout: number
     }
   }
 }

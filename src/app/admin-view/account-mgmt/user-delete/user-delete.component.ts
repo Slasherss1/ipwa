@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
-    selector: 'app-user-delete',
-    templateUrl: './user-delete.component.html',
-    styleUrls: ['./user-delete.component.scss'],
-    standalone: false
+  selector: 'app-user-delete',
+  templateUrl: './user-delete.component.html',
+  styleUrls: ['./user-delete.component.scss'],
+  standalone: false,
 })
-export class UserDeleteComponent {
-
-}
+export class UserDeleteComponent {}

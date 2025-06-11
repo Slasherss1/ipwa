@@ -1,23 +1,23 @@
-import { DateTime } from "luxon";
+import { DateTime } from 'luxon'
 
 export interface Menu {
-  _id: string;
-  day: DateTime;
+  _id: string
+  day: DateTime
   sn: {
-    fancy: string[];
-    second: string;
-  };
+    fancy: string[]
+    second: string
+  }
   ob: {
-    soup: string;
-    vege: string;
-    meal: string;
-    condiments: string[];
-    drink: string;
-    other: string[];
-  };
-  kol?: string;
-  kolv?: "+" | "-" | "n";
-  obv?: "+" | "-" | "n";
-  stat?: {kol?: string, ob?: string};
-  dayTitle?: string;
+    soup: string
+    vege: string
+    meal: string
+    condiments: string[]
+    drink: string
+    other: string[]
+  }
+  kol?: string
+  kolv?: '+' | '-' | 'n'
+  obv?: '+' | '-' | 'n'
+  stat?: { kol?: string; ob?: string }
+  dayTitle?: string
 }

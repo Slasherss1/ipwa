@@ -1,11 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToolbarService {
-
-  public comp?: any;
-  public menu?: {title: string, check?: boolean, icon?: string, fn: string}[]
-  
+  public comp?: any
+  public menu?: { title: string; check?: boolean; icon?: string; fn: string }[]
 }

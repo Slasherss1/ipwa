@@ -1,0 +1,8 @@
+angular.json
+compose.yml
+*.md
+tsconfig*.json
+*.html
+.vscode
+package*.json
+ngsw-config.json

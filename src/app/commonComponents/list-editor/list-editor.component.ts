@@ -1,29 +1,42 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  Input,
+  OnChanges,
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChildren,
+} from '@angular/core'
 
 @Component({
-    selector: 'app-list-editor[list], app-list-editor[converter]',
-    templateUrl: './list-editor.component.html',
-    styleUrls: ['./list-editor.component.scss'],
-    standalone: false
+  selector: 'app-list-editor[list], app-list-editor[converter]',
+  templateUrl: './list-editor.component.html',
+  styleUrls: ['./list-editor.component.scss'],
+  standalone: false,
 })
 export class ListEditorComponent implements OnChanges {
-  @HostBinding('tabindex') tabindex = 0;
-  @Input() list?: string[];
-  @Output() listChange = new EventEmitter<string[]>();
-  @Input() converter?: any[];
-  @Input() options?: {id: string, text: string}[]
-  @Input() dropdown?: boolean;
-  @Input() dataList?: string;
-  @Output() edit = new EventEmitter<string[]>();
+  @HostBinding('tabindex') tabindex = 0
+  @Input() list?: string[]
+  @Output() listChange = new EventEmitter<string[]>()
+  @Input() converter?: any[]
+  @Input() options?: { id: string; text: string }[]
+  @Input() dropdown?: boolean
+  @Input() dataList?: string
+  @Output() edit = new EventEmitter<string[]>()
 
   @ViewChildren('input') inputList!: QueryList<ElementRef>
 
-  protected _list: string[] = [];
-  workList: string[] = [];
-  focused = false;
+  protected _list: string[] = []
+  workList: string[] = []
+  focused = false
 
-  constructor (private cdRef: ChangeDetectorRef) {}
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.list) {
@@ -59,12 +72,12 @@ export class ListEditorComponent implements OnChanges {
   }
 
   addPos(index: number) {
-    this.workList.splice(index+1, 0, '')
+    this.workList.splice(index + 1, 0, '')
     this.cdRef.detectChanges()
-    this.inputList.get(index+1)?.nativeElement.focus()
+    this.inputList.get(index + 1)?.nativeElement.focus()
   }
 
-  trackByIndex(index: number, _entry:any) {
+  trackByIndex(index: number, _entry: any) {
     return index
   }
 
@@ -73,7 +86,7 @@ export class ListEditorComponent implements OnChanges {
   }
 
   protected idToOption(item: string) {
-    return this.options?.find((v)=>{
+    return this.options?.find(v => {
       return v.id == item
     })?.text
   }

@@ -1,6 +1,6 @@
 export interface Link {
-    title: string;
-    href: string;
-    icon?: string;
-    enabled: boolean;
+  title: string
+  href: string
+  icon?: string
+  enabled: boolean
 }

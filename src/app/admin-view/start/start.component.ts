@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
-    selector: 'app-start',
-    templateUrl: './start.component.html',
-    styleUrl: './start.component.scss',
-    standalone: false
+  selector: 'app-start',
+  templateUrl: './start.component.html',
+  styleUrl: './start.component.scss',
+  standalone: false,
 })
-export class StartAdminComponent {
-
-}
+export class StartAdminComponent {}

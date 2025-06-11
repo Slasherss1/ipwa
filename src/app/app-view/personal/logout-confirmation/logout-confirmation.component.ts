@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
-    selector: 'app-logout-confirmation',
-    templateUrl: './logout-confirmation.component.html',
-    styleUrls: ['./logout-confirmation.component.scss'],
-    standalone: false
+  selector: 'app-logout-confirmation',
+  templateUrl: './logout-confirmation.component.html',
+  styleUrls: ['./logout-confirmation.component.scss'],
+  standalone: false,
 })
-export class LogoutConfirmationComponent {
-
-}
+export class LogoutConfirmationComponent {}

@@ -1,42 +1,60 @@
-import { Component, OnInit } from '@angular/core';
-import { UpdatesService } from '../../services/updates.service';
-import { Menu } from '../../types/menu';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { AllergensComponent } from './allergens/allergens.component';
-import { weekendFilter } from "../../fd.da";
-import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { DateTime } from 'luxon';
+import { Component, OnInit } from '@angular/core'
+import { UpdatesService } from '../../services/updates.service'
+import { Menu } from '../../types/menu'
+import { MatBottomSheet } from '@angular/material/bottom-sheet'
+import { AllergensComponent } from './allergens/allergens.component'
+import { weekendFilter } from '../../fd.da'
+import { LocalStorageService } from 'src/app/services/local-storage.service'
+import { DateTime } from 'luxon'
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class MenuComponent {
-  constructor(private uc: UpdatesService, readonly bs: MatBottomSheet, readonly ls: LocalStorageService) {
+  constructor(
+    private uc: UpdatesService,
+    readonly bs: MatBottomSheet,
+    readonly ls: LocalStorageService
+  ) {
     this._day = DateTime.now().toISODate()
   }
   loading = true
 
   public filter = weekendFilter
 
-  private _day: string;
+  private _day: string
   public get day(): string {
-    return this._day;
+    return this._day
   }
   public set day(value: string) {
-    this._day = value;
+    this._day = value
     this.updateMenu()
   }
 
-  menu?: Menu;
-  get getsn() { return (this.menu && this.checkIfAnyProperty(this.menu.sn)) ? this.menu.sn : null }
-  get getob() { return (this.menu && this.checkIfAnyProperty(this.menu.ob)) ? this.menu.ob : null }
-  get getkol() { return (this.menu && this.menu.kol) ? this.menu.kol : null }
-  get gettitle() { return (this.menu && this.menu.dayTitle && this.menu.dayTitle != "") ? this.menu.dayTitle : null }
+  menu?: Menu
+  get getsn() {
+    return this.menu && this.checkIfAnyProperty(this.menu.sn)
+      ? this.menu.sn
+      : null
+  }
+  get getob() {
+    return this.menu && this.checkIfAnyProperty(this.menu.ob)
+      ? this.menu.ob
+      : null
+  }
+  get getkol() {
+    return this.menu && this.menu.kol ? this.menu.kol : null
+  }
+  get gettitle() {
+    return this.menu && this.menu.dayTitle && this.menu.dayTitle != ''
+      ? this.menu.dayTitle
+      : null
+  }
 
-  private checkIfAnyProperty(obj: { [x: string]: string | string[]; }) {
+  private checkIfAnyProperty(obj: { [x: string]: string | string[] }) {
     for (let i in obj) {
       if (Array.isArray(obj[i])) {
         if (obj[i].length > 0) return true
@@ -57,7 +75,7 @@ export class MenuComponent {
     this.uc.getMenu(this.day).subscribe(m => {
       this.loading = false
       this.menu = m
-      console.log(m);
+      console.log(m)
     })
   }
 
@@ -66,14 +84,14 @@ export class MenuComponent {
   }
 
   protected vegeColor(text: string) {
-    if (text.startsWith("V: ")) {
-      return "#43A047"
+    if (text.startsWith('V: ')) {
+      return '#43A047'
     }
-    return "inherit"
+    return 'inherit'
   }
 
-  vote(type: "ob" | "kol", vote: "-" | "+" | "n") {
-    this.uc.postVote(this.menu!.day.toISO()!, type, vote).subscribe((data) => {
+  vote(type: 'ob' | 'kol', vote: '-' | '+' | 'n') {
+    this.uc.postVote(this.menu!.day.toISO()!, type, vote).subscribe(data => {
       this.updateMenu(true)
     })
   }

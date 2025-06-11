@@ -1,8 +1,15 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+} from '@angular/core'
 
 @Directive({
-    selector: '[appCe] [contenteditable]',
-    standalone: false
+  selector: '[appCe] [contenteditable]',
+  standalone: false,
 })
 export class CeDirective {
   @Input() multiline: boolean = false
@@ -13,11 +20,11 @@ export class CeDirective {
     this.originalValue = el.nativeElement.innerText
   }
 
-  @HostListener("focusin") focusin() {
+  @HostListener('focusin') focusin() {
     this.originalValue = this.el.nativeElement.innerText
   }
 
-  @HostListener("focusout") focusout() {
+  @HostListener('focusout') focusout() {
     var newText = this.el.nativeElement.innerText
     if (newText != this.originalValue) {
       this.edit.emit(newText)
@@ -26,7 +33,7 @@ export class CeDirective {
 
   @HostListener('keydown', ['$event']) keyup(e: KeyboardEvent) {
     if (this.multiline) return
-    if (e.key == "Enter") {
+    if (e.key == 'Enter') {
       e.preventDefault()
       this.el.nativeElement.blur()
     }

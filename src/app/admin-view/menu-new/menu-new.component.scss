@@ -1,18 +1,18 @@
 #upper-bar {
-    display: flex;
+  display: flex;
 }
 
 mat-form-field {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 button[mat-icon-button] {
-    margin-left: 4pt;
-    margin-right: 4pt;
-    margin-top: 4pt;
+  margin-left: 4pt;
+  margin-right: 4pt;
+  margin-top: 4pt;
 }
 
 .non-editable {
-    color: gray;
-    font-style: italic;
+  color: gray;
+  font-style: italic;
 }
