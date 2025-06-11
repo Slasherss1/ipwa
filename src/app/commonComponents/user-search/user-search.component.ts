@@ -19,7 +19,7 @@ import {
 } from '@angular/forms'
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
 import { MatFormFieldControl } from '@angular/material/form-field'
-import { Subject } from 'rxjs'
+import { debounceTime, filter, Subject } from 'rxjs'
 import { environment } from 'src/environments/environment'
 
 export interface UserSearchResult {
@@ -52,9 +52,8 @@ export class UserSearchComponent
   OnDestroy,
   DoCheck {
   protected loading: boolean = false
-  control: FormControl = new FormControl()
+  control: FormControl = new FormControl<UserSearchResult | string>("")
   protected list: UserSearchResult[] = []
-  private timeout?: NodeJS.Timeout
   private _onChange!: (_: UserSearchResult) => void
   private _onTouched!: any
 
@@ -158,19 +157,15 @@ export class UserSearchComponent
     if (this.ngControl != null) {
       ; (this.ngControl as NgControl).valueAccessor = this
     }
-    this.control.valueChanges.subscribe(() => {
-      if (typeof this.control.value == 'object') return
+    this.control.valueChanges.pipe(debounceTime(500), filter(v => typeof v == "string")).subscribe(v => {
       this.loading = true
-      if (this.timeout) clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        this.http.get<any[]>(environment.apiEndpoint + `/admin/usearch`, {
-          params: { q: this.control.value },
-          withCredentials: true,
-        }).subscribe(v => {
-          this.list = v
-          this.loading = false
-        })
-      }, 500)
+      this.http.get<UserSearchResult[]>(environment.apiEndpoint + `/admin/usearch`, {
+        params: { q: v },
+        withCredentials: true,
+      }).subscribe(v => {
+        this.list = v
+        this.loading = false
+      })
     })
   }
   ngDoCheck(): void {
