@@ -9,25 +9,24 @@
       @if (item.pinned) {
         <mat-icon>push_pin</mat-icon>
       }
-      <mat-card-subtitle>{{item._id}}</mat-card-subtitle>
+      <!-- <mat-card-subtitle>{{item._id}}</mat-card-subtitle> -->
     </mat-card-header>
-    <mat-card-content [innerHTML]="item.formatted">
-    </mat-card-content>
+    <mat-card-content [innerHTML]="item.formatted"></mat-card-content>
     <mat-card-actions>
       <button mat-mini-fab (click)="editPost(item)"><mat-icon>edit</mat-icon></button>
       <button mat-mini-fab (click)="pinToggle(item)"><mat-icon>push_pin</mat-icon></button>
-      <button mat-mini-fab (click)="visibleToggle(item)">
-        <div>
-          @switch (item.visible) {
-            @case (true) {
+      @switch (item.visible) {
+        @case (true) {
+            <button mat-mini-fab (click)="visibleToggle(item)">
               <mat-icon>visibility</mat-icon>
-            }
-            @default {
-              <mat-icon>visibility_off</mat-icon>
-            }
+            </button>
           }
-        </div>
-      </button>
+          @default {
+            <button mat-mini-fab (click)="visibleToggle(item)" color="warn">
+              <mat-icon>visibility_off</mat-icon>
+            </button>
+          }
+        }
       <button mat-mini-fab (click)="delete(item._id)"><mat-icon>delete_forever</mat-icon></button>
     </mat-card-actions>
     <mat-card-footer>
