@@ -6,16 +6,15 @@ import { DateSelectorComponent } from '../../commonComponents/date-selector/date
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { of } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -29,10 +28,7 @@ describe('MenuComponent', () => {
       declarations: [ MenuComponent, DateSelectorComponent],
       providers: [
         {provide: UpdatesService, useValue: updatesSpy},
-        {provide: DateAdapter, useClass: MomentDateAdapter},
-        {provide: MAT_DATE_LOCALE, useValue: "pl-PL"},
-        {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}, 
-        {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
+        provideLuxonDateAdapter()
       ],
       imports: [
         MatIconModule, 

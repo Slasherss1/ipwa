@@ -16,8 +16,8 @@ import { DateTime } from 'luxon';
 })
 class DateSelectorStub {
     @Input() date: string = DateTime.now().toISODate();
-    @Output() dateChange = new EventEmitter<moment.Moment>();
-    @Input() filter: (date: moment.Moment | null) => boolean = () => true
+    @Output() dateChange = new EventEmitter<string>();
+    @Input() filter: (date: DateTime | null) => boolean = () => true
 }
 
 describe('CleanComponent', () => {

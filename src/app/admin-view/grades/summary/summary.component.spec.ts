@@ -5,13 +5,12 @@ import { RouterModule } from '@angular/router';
 import { AdminCommService } from '../../admin-comm.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, provideMomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { of } from 'rxjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
 
 describe('SummaryComponent', () => {
   let component: SummaryComponent;
@@ -29,10 +28,7 @@ describe('SummaryComponent', () => {
       declarations: [SummaryComponent],
       providers: [
         { provide: AdminCommService, useValue: acMock },
-        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_DATE_FORMATS, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
-        { provide: MAT_DATE_LOCALE, useValue: "pl-PL" },
-        { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+        provideLuxonDateAdapter()
       ],
       imports: [
         RouterModule.forRoot([]),
