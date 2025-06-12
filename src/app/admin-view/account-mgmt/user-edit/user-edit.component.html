@@ -59,7 +59,7 @@
 </mat-dialog-content>
 <mat-dialog-actions>
     @if (data.type == "edit") {
-        <button mat-stroked-button color="warn" style="margin-right: auto;">Usuń konto</button>
+        <button mat-stroked-button color="warn" style="margin-right: auto;" (click)="delete()">Usuń konto</button>
     }
     <button mat-stroked-button mat-dialog-close>Zamknij</button>
     <button mat-flat-button color="accent" (click)="submit()">Zapisz</button>
