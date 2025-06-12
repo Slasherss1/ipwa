@@ -108,7 +108,7 @@ export class UserEditComponent {
           })
         )
         .subscribe(data => {
-          if (data.status == 201) {
+          if (data) {
             this.sb.open('Użytkownik został utworzony.', undefined, {
               duration: 2500,
             })
@@ -149,7 +149,7 @@ export class UserEditComponent {
       room: this.form.get('room')?.value,
       uname: this.form.get('uname')?.value,
       groups: this.form.get('groups')?.value,
-      flags: (() => {
+      admin: (() => {
         var value = this.form
           .get('flags')
           ?.value.reduce((a: number, b: number) => a + b, 0)
