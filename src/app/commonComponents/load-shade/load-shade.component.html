@@ -1,0 +1,22 @@
+@switch (state()) {
+  @case (STATE.PENDING) {
+    <mat-spinner color="accent"></mat-spinner>
+  }
+  @case (STATE.ERROR) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Błąd wczytywania</mat-card-title>
+        <mat-card-subtitle>Podczas wczytywania treści wystąpił błąd.</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ error() }}</p>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button (click)="refresh.emit()" mat-flat-button color="accent">Odśwież</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+  @default {
+  <h1>{{state()}}</h1>
+  }
+}

@@ -6,26 +6,31 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatPaginatorModule } from '@angular/material/paginator'
-import { of } from 'rxjs'
 import { MatTableModule } from '@angular/material/table'
 import { MatInputModule } from '@angular/material/input'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { AccountMgmtService } from './account-mgmt.service'
+import { LoadShadeComponent } from 'src/app/commonComponents/load-shade/load-shade.component'
+import { of } from 'rxjs'
+import { signal } from '@angular/core'
+import { STATE } from 'src/app/types/state'
 
-xdescribe('AccountMgmtComponent', () => {
+describe('AccountMgmtComponent', () => {
   let component: AccountMgmtComponent
   let fixture: ComponentFixture<AccountMgmtComponent>
   let acMock
 
   beforeEach(async () => {
     acMock = {
-      accs: {
-        getAccs: jasmine.createSpy('getAccs').and.returnValue(of()),
-      },
+      accs: of([]),
+      state: signal(STATE.NOT_LOADED),
+      refresh: jasmine.createSpy('getAccs'),
+      error: signal(undefined)
     }
     await TestBed.configureTestingModule({
-      declarations: [AccountMgmtComponent],
-      // providers: [{ provide: AdminCommService, useValue: acMock }],
+      declarations: [AccountMgmtComponent, LoadShadeComponent],
+      providers: [{ provide: AccountMgmtService, useValue: acMock }],
       imports: [
         MatDialogModule,
         MatSnackBarModule,

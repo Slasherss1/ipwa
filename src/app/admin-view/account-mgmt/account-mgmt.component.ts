@@ -1,13 +1,13 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, ViewChild } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatPaginator } from '@angular/material/paginator'
-import { MatSnackBar } from '@angular/material/snack-bar'
 import { UserEditComponent } from './user-edit/user-edit.component'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { Group } from 'src/app/types/group'
 import User from 'src/app/types/user'
 import { AccountMgmtService } from './account-mgmt.service'
+import { STATE } from 'src/app/types/state'
 
 @Component({
   selector: 'app-account-mgmt',
@@ -15,16 +15,14 @@ import { AccountMgmtService } from './account-mgmt.service'
   styleUrls: ['./account-mgmt.component.scss'],
   standalone: false,
 })
-export class AccountMgmtComponent implements OnInit, AfterViewInit {
+export class AccountMgmtComponent implements AfterViewInit {
   protected groups: Group[] = []
   users: MatTableDataSource<Omit<User, 'pass'>>
-  loading = false
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
   constructor(
-    readonly ac: AccountMgmtService,
+    protected ac: AccountMgmtService,
     private dialog: MatDialog,
-    private sb: MatSnackBar,
     protected readonly ls: LocalStorageService
   ) {
     this.users = new MatTableDataSource<Omit<User, 'pass'>>()
@@ -43,19 +41,18 @@ export class AccountMgmtComponent implements OnInit, AfterViewInit {
       const filternew = filter.trim().toLowerCase()
       return dataStr.indexOf(filternew) != -1
     }
+    this.ac.refresh()
+    this.ac.accs.subscribe(d => {
+      this.users.data = d ?? []
+    })
+  }
+
+  protected get STATE(): typeof STATE {
+    return STATE
   }
 
   ngAfterViewInit() {
     this.users.paginator = this.paginator
-  }
-
-  ngOnInit() {
-    this.loading = true
-    this.ac.getAccs().subscribe(data => {
-      this.loading = false
-      this.users.data = data.users
-      this.groups = data.groups
-    })
   }
 
   filter(event: Event) {
@@ -74,7 +71,7 @@ export class AccountMgmtComponent implements OnInit, AfterViewInit {
       })
       .afterClosed()
       .subscribe(r => {
-        if (r) this.ngOnInit()
+        if (r) this.ac.refresh()
       })
   }
 

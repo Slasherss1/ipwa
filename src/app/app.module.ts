@@ -85,7 +85,8 @@ import { MessageComponent } from './admin-view/notifications/outbox/message/mess
 import { NotifDialogComponent } from './app-view/notif-dialog/notif-dialog.component'
 import { UserSearchComponent } from './commonComponents/user-search/user-search.component'
 import { StartAdminComponent } from './admin-view/start/start.component'
-import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter'
+import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
+import { LoadShadeComponent } from './commonComponents/load-shade/load-shade.component'
 
 @NgModule({
   declarations: [
@@ -137,6 +138,7 @@ import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter'
     NotifDialogComponent,
     UserSearchComponent,
     StartAdminComponent,
+    LoadShadeComponent,
   ],
   bootstrap: [AppComponent],
   imports: [
