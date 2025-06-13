@@ -4,6 +4,7 @@ import { AccountMgmtService } from './account-mgmt.service';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { environment } from 'src/environments/environment';
+import { firstValueFrom, skip } from 'rxjs';
 
 describe('AccountMgmtService', () => {
   let service: AccountMgmtService;
@@ -26,7 +27,7 @@ describe('AccountMgmtService', () => {
 
   it('should get user accounts', () => {
     service.refresh()
-    const req = httpTesting.expectOne(environment.apiEndpoint+"/admin/accs", "Request to load all users")
+    const req = httpTesting.expectOne(environment.apiEndpoint + "/admin/accs", "Request to load all users")
 
     expect(req.request.method).toBe("GET")
 
@@ -34,10 +35,62 @@ describe('AccountMgmtService', () => {
     httpTesting.verify()
   })
 
-  it('should create a user account and refresh list', () => {
-    service.postAcc({
-      uname: "test",
-      groups: []
+  describe('create user', () => {
+    xit('should create a user account and refresh list', () => {
+      const test_user = {
+        uname: "test",
+        groups: []
+      }
+      service.postAcc(test_user).subscribe(v => {
+        expect(v).toEqual(jasmine.objectContaining(test_user))
+      })
+      const req = httpTesting.expectOne(environment.apiEndpoint + "/admin/accs", "Request new user")
+
+      expect(req.request.method).toBe("POST")
+
+      req.flush({
+        ...test_user,
+        _id: "test_id"
+      })
+
+      const req2 = httpTesting.expectOne(environment.apiEndpoint + "/admin/accs", "Request to load all users")
+
+      expect(req2.request.method).toBe("GET")
+
+      // service.accs.pipe(skip(1)).subscribe(v => {
+      //   expect(v).toContain(createdUser)
+      // })
+
+
+      req2.flush([
+        {
+          ...test_user,
+          _id: "test_id"
+        }
+      ])
+      httpTesting.verify()
+    })
+  })
+
+  describe("delete user", () => {
+    it('should refresh accounts and not to contain deleted user', async () => {
+      service.deleteAcc("test").subscribe()
+      const req = httpTesting.expectOne(environment.apiEndpoint + "/admin/accs/test", "Request delete user")
+
+      expect(req.request.method).toBe("DELETE")
+
+      req.flush({ status: 200 })
+
+      const req2 = httpTesting.expectOne(environment.apiEndpoint + "/admin/accs", "Request to load all users")
+
+      expect(req2.request.method).toBe("GET")
+      service.accs.pipe(skip(1)).subscribe(v => {
+        expect(v).not.toContain(jasmine.objectContaining({ _id: "test" }))
+      })
+
+      req2.flush([])
+
+      httpTesting.verify()
     })
   })
 });

@@ -13,6 +13,7 @@ import { UserResetComponent } from '../user-reset/user-reset.component'
 import { catchError, throwError } from 'rxjs'
 import { DateTime } from 'luxon'
 import { AccountMgmtService } from '../account-mgmt.service'
+import { AdminSyncService } from '../../admin-sync.service'
 
 export namespace UserEditComponent {
   export type InputData = { type: 'new' | 'edit'; id?: string; groups: Group[] }
@@ -37,7 +38,6 @@ export class UserEditComponent {
     groups: new FormControl<Array<string>>([]),
     flags: new FormControl<Array<number>>([]),
   })
-  groups: Group[]
   id?: string
   regDate?: DateTime
   constructor(
@@ -46,9 +46,9 @@ export class UserEditComponent {
     readonly ls: LocalStorageService,
     readonly acu: AccountMgmtService,
     private dialog: MatDialog,
-    private sb: MatSnackBar
+    private sb: MatSnackBar,
+    protected adsyn: AdminSyncService
   ) {
-    this.groups = data.groups
     if (data.type == 'edit') {
       this.id = data.id
       this.acu.getUser(data.id!).subscribe(r => {

@@ -17,7 +17,7 @@
       <mat-form-field appearance="outline" color="accent">
         <mat-label>Grupy</mat-label>
         <mat-select multiple formControlName="groups">
-          @for (item of groups; track $index) {
+          @for (item of adsyn.groups; track $index) {
             <mat-option [value]="item._id">{{item.name}}</mat-option>
           }
         </mat-select>

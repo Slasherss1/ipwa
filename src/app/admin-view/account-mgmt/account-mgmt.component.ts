@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator'
 import { UserEditComponent } from './user-edit/user-edit.component'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { Group } from 'src/app/types/group'
-import User from 'src/app/types/user'
+import { User } from 'src/app/admin-view/account-mgmt/account.model'
 import { AccountMgmtService } from './account-mgmt.service'
 import { STATE } from 'src/app/types/state'
 
@@ -17,7 +17,7 @@ import { STATE } from 'src/app/types/state'
 })
 export class AccountMgmtComponent implements AfterViewInit {
   protected groups: Group[] = []
-  users: MatTableDataSource<Omit<User, 'pass'>>
+  users: MatTableDataSource<User>
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
   constructor(
@@ -25,7 +25,7 @@ export class AccountMgmtComponent implements AfterViewInit {
     private dialog: MatDialog,
     protected readonly ls: LocalStorageService
   ) {
-    this.users = new MatTableDataSource<Omit<User, 'pass'>>()
+    this.users = new MatTableDataSource<User>()
     this.users.filterPredicate = (
       data: Record<string, any>,
       filter: string

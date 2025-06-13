@@ -1,9 +1,8 @@
 import { DateTime } from 'luxon'
 
-export default interface User {
+export interface User {
   _id: string
   uname: string
-  pass: string
   room?: string
   admin?: number
   locked?: boolean
@@ -13,3 +12,5 @@ export default interface User {
   regDate: DateTime
   defaultPage?: string
 }
+
+export type UserAPI = Omit<User, "regDate"> & {regDate: "string"}
