@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { News } from '../types/news'
+import { News } from '../types/news.model'
 
 @Injectable({
   providedIn: 'root',

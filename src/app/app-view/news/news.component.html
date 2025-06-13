@@ -12,7 +12,7 @@
     <mat-card-content [innerHTML]="item.content">
     </mat-card-content>
     <mat-card-footer>
-      <p>{{item.date | date:'d-LL-yyyy HH:mm'}}</p>
+      <p>{{fullName(item)}} {{item.date | date:'d-LL-yyyy HH:mm'}}</p>
     </mat-card-footer>
   </mat-card>
 }

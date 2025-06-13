@@ -1,7 +1,6 @@
 mat-card {
   margin: 15px;
   padding: 1ch;
-  width: 100%;
 }
 
 mat-card-title {
@@ -31,8 +30,19 @@ button {
 }
 
 :host {
-  padding: 8pt;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.mainc {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.newPost {
+  margin: 1ch;
 }

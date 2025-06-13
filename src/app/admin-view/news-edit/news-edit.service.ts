@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { News } from 'src/app/types/news';
+import { Injectable, signal } from '@angular/core';
+import { marked } from 'marked';
+import { BehaviorSubject, catchError, map, of } from 'rxjs';
+import { News } from 'src/app/types/news.model';
+import { STATE } from 'src/app/types/state';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -8,12 +11,41 @@ import { environment } from 'src/environments/environment';
 })
 export class NewsEditService {
 
+  private _news = new BehaviorSubject<(News & {formatted: string})[]>([])
+  public readonly news = this._news.asObservable()
+  private _state = signal(STATE.NOT_LOADED);
+  public readonly state = this._state.asReadonly();
+  private _error = signal<string | undefined>(undefined);
+  public readonly error = this._error.asReadonly();
+
   constructor(private http: HttpClient) { }
 
-  getNews() {
-    return this.http.get<News[]>(environment.apiEndpoint + `/admin/news`, {
-      withCredentials: true,
-    })
+  public refresh() {
+    this.getNews()
+  }
+
+  private getNews() {
+    this._state.set(STATE.PENDING)
+    this.http.get
+      <News[]>
+      (environment.apiEndpoint + `/admin/news`, { withCredentials: true, })
+      .pipe(
+        catchError((err: Error) => {
+          this._state.set(STATE.ERROR)
+          this._error.set(err.message)
+          return of()
+        }),
+        map(i => {
+          return i.map(v => ({
+            ...v,
+            formatted: marked.parse(v.content, { breaks: true }).toString()
+          }))
+        })
+      ).subscribe(v => {
+        this._error.set(undefined)
+        this._news.next(v ?? [])
+        this._state.set(STATE.LOADED)
+      })
   }
 
   postNews(title: string, content: string) {

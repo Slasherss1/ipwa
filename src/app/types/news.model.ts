@@ -4,5 +4,10 @@ export interface News {
   content: string
   date: string
   visible?: boolean
-  pinned?: boolean
+  pinned?: boolean,
+  author: {
+    fname?: string,
+    surname?: string,
+    uname: string
+  }
 }

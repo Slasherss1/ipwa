@@ -3,8 +3,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { NewPostComponent } from './new-post/edit-post.component'
 import { catchError, throwError } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { News } from 'src/app/types/news'
-import { marked } from 'marked'
+import { News } from 'src/app/types/news.model'
 import { NewsEditService } from './news-edit.service'
 
 @Component({
@@ -14,29 +13,15 @@ import { NewsEditService } from './news-edit.service'
   standalone: false,
 })
 export class NewsEditComponent implements OnInit {
-  news: Array<News & { formatted: string }> = new Array<
-    News & { formatted: string }
-  >()
-  loading = true
 
   constructor(
-    private ac: NewsEditService,
+    protected ac: NewsEditService,
     private dialog: MatDialog,
     private sb: MatSnackBar
   ) { }
 
   ngOnInit() {
-    this.loading = true
-    this.ac.getNews().subscribe(data => {
-      this.loading = false
-      this.news = data.map(v => {
-        var nd: News & { formatted: string } = {
-          ...v,
-          formatted: marked.parse(v.content, { breaks: true }).toString(),
-        }
-        return nd
-      })
-    })
+    this.ac.refresh()
   }
 
   newPost() {
@@ -130,5 +115,13 @@ export class NewsEditComponent implements OnInit {
           this.sb.open('Wystąpił błąd. Skontaktuj się z obsługą programu.')
         }
       })
+  }
+
+  fullName(n: News): string {
+    const { author: { fname, surname, uname } } = n;
+    if (fname || surname) {
+      return [fname, surname].filter(Boolean).join(' ');
+    }
+    return uname;
   }
 }

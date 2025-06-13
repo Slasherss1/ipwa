@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { UpdatesService } from '../../services/updates.service'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
-import { News } from 'src/app/types/news'
+import { News } from 'src/app/types/news.model'
 import { marked } from 'marked'
 
 @Component({
@@ -16,7 +16,7 @@ export class NewsComponent implements OnInit {
   constructor(
     private newsapi: UpdatesService,
     private ls: LocalStorageService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.ls.newsflag = false
@@ -30,5 +30,13 @@ export class NewsComponent implements OnInit {
       })
       this.ls.news = this.news
     })
+  }
+
+  fullName(n: News): string {
+    const { author: { fname, surname, uname } } = n;
+    if (fname || surname) {
+      return [fname, surname].filter(Boolean).join(' ');
+    }
+    return uname;
   }
 }
