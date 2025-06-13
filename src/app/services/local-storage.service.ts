@@ -7,11 +7,8 @@ import { News } from '../types/news'
 export class LocalStorageService {
   constructor() {}
 
-  permChecker(neededPermNumber: number) {
-    return (
-      (Number.parseInt(localStorage.getItem('admin')!) & neededPermNumber) ==
-      neededPermNumber
-    )
+  permChecker(perm: string) {
+    return this.admin?.includes(perm) ?? false
   }
 
   logOut() {
@@ -62,9 +59,9 @@ export class LocalStorageService {
     }
   }
 
-  set admin(newInt: number | undefined) {
-    if (newInt) {
-      localStorage.setItem('admin', newInt.toString())
+  set admin(perms: string[] | undefined) {
+    if (perms) {
+      localStorage.setItem('admin', JSON.stringify(perms))
     } else {
       localStorage.removeItem('admin')
     }
@@ -72,22 +69,11 @@ export class LocalStorageService {
 
   get admin() {
     var lsa = localStorage.getItem('admin')
-    return lsa ? Number.parseInt(lsa) : undefined
+    return lsa ? JSON.parse(lsa) : undefined
   }
 
-  set amgreg(toggle: boolean) {
-    if (toggle) {
-      localStorage.setItem('amgrb', 'true')
-    } else {
-      localStorage.removeItem('amgrb')
-    }
-  }
-
-  get amgreg() {
-    if (localStorage.getItem('amgrb') == 'true') {
-      return true
-    }
-    return false
+  get isAdmin(): boolean {
+    return this.admin ? true : false
   }
 
   set capFlag(n: number | null) {

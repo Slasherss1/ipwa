@@ -27,7 +27,7 @@ export class AuthClient {
 
   public login(uname: string, pass: string) {
     return this.http
-      .post<Status & { admin: number; redirect: string }>(
+      .post<Status & { admin: string[]; redirect: string }>(
         environment.apiEndpoint + '/auth/login',
         {
           username: uname,
@@ -51,7 +51,7 @@ export class AuthClient {
   public check() {
     this.http
       .get<{
-        admin?: number
+        admin?: string[]
         room?: string
         features: number
         menu: {

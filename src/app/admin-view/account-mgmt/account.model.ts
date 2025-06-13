@@ -4,7 +4,7 @@ export interface User {
   _id: string
   uname: string
   room?: string
-  admin?: number
+  admin?: string[]
   locked?: boolean
   fname?: string
   surname?: string

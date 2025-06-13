@@ -43,28 +43,28 @@
         } @else {
           <button mat-stroked-button disabled>Auto-Blokada nieczynna</button>
         }
-        @if (ls.permChecker(32)) {
+        @if (ls.permChecker("accs")) {
           <mat-form-field color="accent">
             <mat-label>Uprawnienia</mat-label>
             <mat-select multiple formControlName="flags">
               @if (ls.capCheck(1)) {
-                <mat-option [value]="1">Wiadomości</mat-option>
+                <mat-option value="news">Wiadomości</mat-option>
               }
               @if (ls.capCheck(2)) {
-                <mat-option [value]="2">Jadłospis</mat-option>
+                <mat-option value="menu">Jadłospis</mat-option>
               }
               @if (ls.capCheck(4)) {
-                <mat-option [value]="4">Powiadomienia</mat-option>
+                <mat-option value="notif">Powiadomienia</mat-option>
               }
               @if (ls.capCheck(8)) {
-                <mat-option [value]="8">Grupy</mat-option>
+                <mat-option value="groups">Grupy</mat-option>
               }
-              <mat-option [value]="16">Konta</mat-option>
+              <mat-option value="accs">Konta</mat-option>
               @if (ls.capCheck(32)) {
-                <mat-option [value]="64">Klucze</mat-option>
+                <mat-option value="keys">Klucze</mat-option>
               }
               @if (ls.capCheck(16)) {
-                <mat-option [value]="128">Czystość</mat-option>
+                <mat-option value="grades">Czystość</mat-option>
               }
             </mat-select>
           </mat-form-field>

@@ -36,7 +36,7 @@ export class UserEditComponent {
     room: new FormControl<string>(''),
     uname: new FormControl<string>(''),
     groups: new FormControl<Array<string>>([]),
-    flags: new FormControl<Array<number>>([]),
+    flags: new FormControl<Array<string>>([]),
   })
   id?: string
   regDate?: DateTime
@@ -53,17 +53,6 @@ export class UserEditComponent {
       this.id = data.id
       this.acu.getUser(data.id!).subscribe(r => {
         this.regDate = DateTime.fromISO(r.regDate)
-        var flags: Array<number> = []
-        if (r.admin) {
-          if ((r.admin & 1) == 1) flags.push(1)
-          if ((r.admin & 2) == 2) flags.push(2)
-          if ((r.admin & 4) == 4) flags.push(4)
-          if ((r.admin & 8) == 8) flags.push(8)
-          if ((r.admin & 16) == 16) flags.push(16)
-          if ((r.admin & 32) == 32) flags.push(32)
-          if ((r.admin & 64) == 64) flags.push(64)
-          if ((r.admin & 128) == 128) flags.push(128)
-        }
         this.locked = r.locked ? true : false
         this.lockout = r.lockout
         this.form.get('fname')?.setValue(r.fname)
@@ -71,7 +60,7 @@ export class UserEditComponent {
         this.form.get('room')?.setValue(r.room)
         this.form.get('uname')?.setValue(r.uname)
         this.form.get('groups')?.setValue(r.groups)
-        this.form.get('flags')?.setValue(flags)
+        this.form.get('flags')?.setValue(r.admin)
       })
     }
   }
@@ -150,9 +139,7 @@ export class UserEditComponent {
       uname: this.form.get('uname')?.value,
       groups: this.form.get('groups')?.value,
       admin: (() => {
-        var value = this.form
-          .get('flags')
-          ?.value.reduce((a: number, b: number) => a + b, 0)
+        var value = this.form.get('flags')?.value
         if (this.ls.capCheck(32)) {
           return value
         } else {

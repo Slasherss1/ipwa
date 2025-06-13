@@ -45,7 +45,7 @@ export class StartComponent {
       title: 'Administracja',
       href: 'grades',
       icon: 'admin_panel_settings',
-      enabled: this.ls.admin != 0,
+      enabled: this.ls.isAdmin,
     },
   ]
   public get LINKS(): Link[] {
