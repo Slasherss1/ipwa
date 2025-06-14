@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, signal } from '@angular/core'
 import { FormArray, FormBuilder } from '@angular/forms'
-import { weekendFilter } from 'src/app/fd.da'
+import { filterLook, weekendFilter } from 'src/app/util'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ToolbarService } from '../toolbar/toolbar.service'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -18,17 +18,11 @@ import { GradesService } from './grades.service'
 export class GradesComponent implements OnInit, OnDestroy {
   rooms!: string[]
   room: string = '0'
-  protected _date: DateTime
-  public get date(): string {
-    return this._date.toISODate()!
-  }
-  public set date(value: string) {
-    this._date = DateTime.fromISO(value)
-  }
   grade: number = 6
   gradeDate?: DateTime
   id?: string
   filter = weekendFilter
+  date = signal<DateTime>(filterLook(this.filter, "behind", DateTime.now(), 7)!)
 
   get notes(): { label: string; weight: number }[] {
     var th = this.things.value as {
@@ -66,7 +60,6 @@ export class GradesComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private dialog: MatDialog
   ) {
-    this._date = DateTime.now()
     // if (!this.filter(this.date)) this.date.isoWeekday(8);
     this.toolbar.comp = this
     this.toolbar.menu = [
@@ -121,7 +114,7 @@ export class GradesComponent implements OnInit, OnDestroy {
   }
 
   downloadData() {
-    this.ac.getClean(this.date, this.room).subscribe(v => {
+    this.ac.getClean(this.date(), this.room).subscribe(v => {
       if (v) {
         this.notes = v.notes
         this.gradeDate = DateTime.fromISO(v.gradeDate)

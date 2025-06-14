@@ -1,10 +1,11 @@
-import { Component } from '@angular/core'
+import { Component, signal } from '@angular/core'
 import { MenuUploadComponent } from '../menu-upload/menu-upload.component'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
-import { FDSelection, weekendFilter } from 'src/app/fd.da'
+import { FDSelection } from 'src/app/fd.da'
 import { FormControl, FormGroup } from '@angular/forms'
 import { MAT_DATE_RANGE_SELECTION_STRATEGY } from '@angular/material/datepicker'
 import { DateTime } from 'luxon'
+import { weekendFilter } from 'src/app/util'
 
 @Component({
   selector: 'app-menu-add',
@@ -19,7 +20,7 @@ export class MenuAddComponent {
   type: string | undefined
   filter = weekendFilter
 
-  day: string = DateTime.now().toISODate()
+  day = signal<DateTime>(DateTime.now())
 
   range = new FormGroup({
     start: new FormControl<DateTime | null>(null),
@@ -34,7 +35,7 @@ export class MenuAddComponent {
   submit() {
     switch (this.type) {
       case 'day':
-        this.dialogRef.close({ type: 'day', value: this.day })
+        this.dialogRef.close({ type: 'day', value: this.day().toISODate() })
         break
       case 'week':
         this.dialogRef.close({

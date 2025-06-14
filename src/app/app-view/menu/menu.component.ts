@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, signal } from '@angular/core'
 import { UpdatesService } from '../../services/updates.service'
 import { Menu } from '../../types/menu'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
 import { AllergensComponent } from './allergens/allergens.component'
-import { weekendFilter } from '../../fd.da'
+import { filterLook, weekendFilter } from '../../util'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { DateTime } from 'luxon'
+import { toObservable } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'app-menu',
@@ -19,20 +20,15 @@ export class MenuComponent {
     readonly bs: MatBottomSheet,
     readonly ls: LocalStorageService
   ) {
-    this._day = DateTime.now().toISODate()
+    toObservable(this.day).subscribe(v => {
+      this.updateMenu()
+    })
   }
   loading = true
 
   public filter = weekendFilter
 
-  private _day: string
-  public get day(): string {
-    return this._day
-  }
-  public set day(value: string) {
-    this._day = value
-    this.updateMenu()
-  }
+  day = signal<DateTime>(filterLook(this.filter, "ahead", DateTime.now(), 7)!)
 
   menu?: Menu
   get getsn() {
@@ -72,10 +68,9 @@ export class MenuComponent {
   updateMenu(silent?: boolean) {
     this.loading = !silent
     if (!silent) this.menu = undefined
-    this.uc.getMenu(this.day).subscribe(m => {
+    this.uc.getMenu(this.day()).subscribe(m => {
       this.loading = false
       this.menu = m
-      console.log(m)
     })
   }
 

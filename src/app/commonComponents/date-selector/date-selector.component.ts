@@ -1,10 +1,8 @@
 import {
   Component,
-  EventEmitter,
   Input,
+  model,
   OnChanges,
-  OnInit,
-  Output,
   SimpleChanges,
 } from '@angular/core'
 import { FormControl } from '@angular/forms'
@@ -18,47 +16,38 @@ import { DateTime } from 'luxon'
   standalone: false,
 })
 export class DateSelectorComponent implements OnChanges {
-  protected _date_1: DateTime = DateTime.now()
-  protected set _date(value: DateTime) {
-    this._date_1 = value
-    this.date = value.toISODate()!
-  }
-  @Input()
-  public set date(value: string) {
-    this._date_1 = DateTime.fromISO(value)
-  }
-  @Output() dateChange = new EventEmitter<string>()
+  date = model<DateTime>()
   @Input() filter: DateFilterFn<DateTime | null> = () => true
   protected dateInput: FormControl<DateTime>
 
   constructor() {
-    this.dateInput = new FormControl(this._date_1, { nonNullable: true })
+    this.dateInput = new FormControl(this.date()!, { nonNullable: true })
     this.dateInput.valueChanges.subscribe(v => {
-      this.dateChange.emit(v.toISODate()!)
+      this.date.set(v)
     })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['date']) {
-      this.dateInput.setValue(this._date_1), { emitEvent: false }
+      this.dateInput.setValue(this.date()!), { emitEvent: false }
     }
   }
 
   prevDay(): void {
-    let yesterday = this._date_1.minus({ day: 1 })
+    let yesterday = this.date()!.minus({ day: 1 })
     if (this.filter(yesterday)) {
       this.dateInput.setValue(yesterday)
     } else {
-      this.dateInput.setValue(this._date.set({ weekday: 5 }).minus({ week: 1 }))
+      this.dateInput.setValue(this.date()!.set({ weekday: 5 }).minus({ week: 1 }))
     }
   }
 
   nextDay(): void {
-    let tomorrow = this._date_1.plus({ day: 1 })
+    let tomorrow = this.date()!.plus({ day: 1 })
     if (this.filter(tomorrow)) {
       this.dateInput.setValue(tomorrow)
     } else {
-      this.dateInput.setValue(this._date.set({ weekday: 1 }).plus({ week: 1 }))
+      this.dateInput.setValue(this.date()!.set({ weekday: 1 }).plus({ week: 1 }))
     }
   }
 }

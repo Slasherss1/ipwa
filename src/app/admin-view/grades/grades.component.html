@@ -1,7 +1,7 @@
 <app-date-selector [(date)]="date" [filter]="filter" (dateChange)="downloadData()"></app-date-selector>
 <app-room-chooser [rooms]="rooms" (room)="roomNumber($event)"/>
 <form [formGroup]="form">
-  <p>Czystość pokoju {{room}} na {{_date.toFormat("cccc, D")}}</p>
+  <p>Czystość pokoju {{room}} na {{date().toFormat("cccc, D")}}</p>
   <p>Ocena: <span [appGradeColor]="grade">{{grade}}</span></p>
   <div id="buttons">
     <button mat-mini-fab (click)="downloadData()" color="accent"><mat-icon>cancel</mat-icon></button>

@@ -24,10 +24,3 @@ export class FDSelection implements MatDateRangeSelectionStrategy<DateTime> {
     return new DateRange<DateTime>(null, null)
   }
 }
-
-export const weekendFilter: DateFilterFn<DateTime | null> = (
-  date: DateTime | null
-): boolean => {
-  const day = date?.weekday
-  return day !== 6 && day !== 7
-}

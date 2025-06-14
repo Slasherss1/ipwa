@@ -31,11 +31,11 @@ export class UpdatesService {
     )
   }
 
-  getMenu(dom: string) {
+  getMenu(dom: DateTime) {
     const headers = {
       'Content-Type': 'application/json',
     }
-    return this.http.get<Menu>(environment.apiEndpoint + `/app/menu/${dom}`, {
+    return this.http.get<Menu>(environment.apiEndpoint + `/app/menu/${dom.toISODate()}`, {
       headers: headers,
       withCredentials: true,
     })
@@ -71,9 +71,9 @@ export class UpdatesService {
     })
   }
 
-  getClean(date: string) {
+  getClean(date: DateTime) {
     return this.http.get<{ grade: number; notes: CleanNote[]; tips: string }>(
-      environment.apiEndpoint + `/app/clean/${date}`,
+      environment.apiEndpoint + `/app/clean/${date.toISODate()}`,
       { withCredentials: true }
     )
   }

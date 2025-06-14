@@ -18,7 +18,7 @@ export class GradesService {
     )
   }
 
-  getClean(date: string, room: string) {
+  getClean(date: DateTime, room: string) {
     return this.http.get<{
       _id: string
       date: string
@@ -27,7 +27,7 @@ export class GradesService {
       notes: { label: string; weight: number }[]
       room: string
       tips: string
-    } | null>(environment.apiEndpoint + `/admin/clean/${date}/${room}`, {
+    } | null>(environment.apiEndpoint + `/admin/clean/${date.toISODate()}/${room}`, {
       withCredentials: true,
     })
   }
