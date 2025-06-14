@@ -2,7 +2,7 @@
 <app-room-chooser [rooms]="rooms" (room)="roomNumber($event)"/>
 <form [formGroup]="form">
   <p>Czystość pokoju {{room}} na {{_date.toFormat("cccc, D")}}</p>
-  <p>Ocena: {{grade}}</p>
+  <p>Ocena: <span [appGradeColor]="grade">{{grade}}</span></p>
   <div id="buttons">
     <button mat-mini-fab (click)="downloadData()" color="accent"><mat-icon>cancel</mat-icon></button>
     <button mat-mini-fab (click)="attendence()" color="accent"><mat-icon>overview</mat-icon></button>
