@@ -8,7 +8,8 @@
     "build": "ng build -c production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "ci": "ng test --no-watch --no-progress --browsers=ChromiumHeadless"
+    "ci": "ng test --no-watch --no-progress --browsers=ChromiumHeadless",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +38,8 @@
     "@angular/localize": "^20.0.2",
     "@types/jasmine": "~4.3.0",
     "@types/luxon": "^3.6.2",
+    "angular-eslint": "20.0.0",
+    "eslint": "^9.28.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
@@ -44,6 +47,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "prettier": "3.5.3",
-    "typescript": "~5.8.3"
+    "typescript": "~5.8.3",
+    "typescript-eslint": "8.33.1"
   }
 }
