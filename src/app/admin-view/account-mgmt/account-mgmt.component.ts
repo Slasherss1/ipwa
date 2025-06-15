@@ -43,7 +43,7 @@ export class AccountMgmtComponent implements AfterViewInit {
     }
     this.ac.refresh()
     this.ac.accs.subscribe(d => {
-      this.users.data = d ?? []
+      this.users.data = d
     })
   }
 

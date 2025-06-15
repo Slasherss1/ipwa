@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { DateTime } from 'luxon';
-import { Menu } from 'src/app/types/menu';
+import { BehaviorSubject, catchError, map, of } from 'rxjs';
+import { Menu, MenuAPI } from 'src/app/types/menu';
+import { STATE } from 'src/app/types/state';
 import { Status } from 'src/app/types/status';
 import { environment } from 'src/environments/environment';
 
@@ -10,18 +12,56 @@ import { environment } from 'src/environments/environment';
 })
 export class MenuEditService {
 
-  constructor(private http: HttpClient) { }
+  private _menuItems = new BehaviorSubject<Menu[]>([])
+  public readonly menuItems = this._menuItems.asObservable()
+  private _state = signal(STATE.NOT_LOADED);
+  public readonly state = this._state.asReadonly();
+  private _error = signal<string | undefined>(undefined);
+  public readonly error = this._error.asReadonly();
 
-  getMenu(start?: DateTime | null, end?: DateTime | null) {
-    if (start && end) {
-      const body = { start: start.toString(), end: end.toString() }
-      return this.http.get<(Omit<Menu, 'day'> & { day: string })[]>(
-        environment.apiEndpoint + '/admin/menu',
-        { withCredentials: true, params: body }
-      )
+  private seDates: {
+    start: DateTime | null,
+    end: DateTime | null
+  } = {
+      start: null,
+      end: null
     }
-    return
+
+  public setDates(start: DateTime | null, end: DateTime | null) {
+    this.seDates.start = start
+    this.seDates.end = end
   }
+
+  public refresh() {
+    this.getMenu()
+  }
+
+  private getMenu() {
+    if (!(this.seDates.start && this.seDates.end)) return
+    this._state.set(STATE.PENDING)
+    const body = { start: this.seDates.start.toString(), end: this.seDates.end.toString() }
+    this.http.get
+      <MenuAPI[]>
+      (environment.apiEndpoint + `/admin/menu`, { withCredentials: true, params: body })
+      .pipe(
+        catchError((err: Error) => {
+          this._state.set(STATE.ERROR)
+          this._error.set(err.message)
+          return of()
+        }),
+        map<MenuAPI[], Menu[]>(v =>
+          v.map(i => ({
+            ...i,
+            day: DateTime.fromISO(i.day)
+          })))
+      ).subscribe(v => {
+        this._error.set(undefined)
+        this._menuItems.next(v ?? [])
+        this._state.set(STATE.LOADED)
+      })
+  }
+
+  constructor(private http: HttpClient) { }
 
   getOpts() {
     return this.http.get<any>(environment.apiEndpoint + `/admin/menu/opts`, {

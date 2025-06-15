@@ -33,11 +33,18 @@ export class MenuEditComponent {
   public options: any
 
   constructor(
-    private ac: MenuEditService,
+    protected ac: MenuEditService,
     private dialog: MatDialog,
     private sb: MatSnackBar,
     readonly ls: LocalStorageService
-  ) {}
+  ) {
+    this.range.valueChanges.subscribe(v => {
+      ac.setDates(v.start!, v.end!)
+    })
+    ac.menuItems.subscribe(v => {
+      this.dataSource.data = v
+    })
+  }
 
   print() {
     this.ac
@@ -74,7 +81,7 @@ export class MenuEditComponent {
                 .subscribe(s => this.refreshIfGood(s))
               break
             case 'file':
-              this.requestData()
+              this.refresh()
               break
             default:
               break
@@ -83,29 +90,15 @@ export class MenuEditComponent {
       })
   }
 
-  requestData() {
-    this.loading = true
+  refresh() {
+    this.ac.refresh()
     this.ac.getOpts().subscribe(o => {
       this.options = o
     })
-    this.ac
-      .getMenu(this.range.value.start, this.range.value.end)
-      ?.subscribe(data => {
-        this.loading = false
-        this.dataSource.data = data.map(v => {
-          let newMenu: Menu = {
-            ...v,
-            day: DateTime.fromISO(v.day),
-          }
-          return newMenu
-        })
-      })
   }
 
   private refreshIfGood(s: Status) {
-    if (s.status.toString().match(/2\d\d/)) {
-      this.requestData()
-    }
+    if (s.status.toString().match(/2\d\d/)) this.refresh()
   }
 
   activateUpload() {
@@ -113,9 +106,7 @@ export class MenuEditComponent {
       .open(MenuUploadComponent)
       .afterClosed()
       .subscribe(data => {
-        if (data) {
-          this.requestData()
-        }
+        if (data) this.refresh()
       })
   }
 
