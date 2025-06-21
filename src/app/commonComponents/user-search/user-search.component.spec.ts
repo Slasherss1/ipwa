@@ -8,13 +8,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 xdescribe('UserSearchComponent', () => {
   let component: UserSearchComponent
   let fixture: ComponentFixture<UserSearchComponent>
-  let acMock
 
   beforeEach(async () => {
-    acMock = {}
     await TestBed.configureTestingModule({
       declarations: [UserSearchComponent],
-      // providers: [{ provide: AdminCommService, useValue: acMock }],
       imports: [
         MatAutocompleteModule,
         MatInputModule,

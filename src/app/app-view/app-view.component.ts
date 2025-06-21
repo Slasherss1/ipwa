@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { AuthClient } from '../services/auth.client'
 import { SwPush } from '@angular/service-worker'
 import { UpdatesService } from '../services/updates.service'
@@ -16,6 +16,13 @@ import { NotifDialogComponent } from './notif-dialog/notif-dialog.component'
   standalone: false,
 })
 export class AppViewComponent implements OnInit {
+  private ac = inject(AuthClient)
+  private swPush = inject(SwPush)
+  private us = inject(UpdatesService)
+  private ls = inject(LocalStorageService)
+  private sb = inject(MatSnackBar)
+  private dialog = inject(MatDialog)
+
   private readonly _LINKS: Link[] = [
     {
       title: 'Jadłospis',
@@ -37,15 +44,6 @@ export class AppViewComponent implements OnInit {
       return v.enabled
     })
   }
-
-  constructor(
-    private ac: AuthClient,
-    readonly swPush: SwPush,
-    private us: UpdatesService,
-    private ls: LocalStorageService,
-    private sb: MatSnackBar,
-    private dialog: MatDialog
-  ) {}
 
   subscribeToNotif() {
     if (this.swPush.isEnabled && this.ls.capCheck(4)) {

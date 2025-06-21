@@ -15,7 +15,7 @@ import {
 })
 export class RoomChooserComponent implements OnChanges {
   @Input() rooms: string[] = []
-  private _roomIndex: number = 0
+  private _roomIndex = 0
   public get roomIndex(): number {
     return this._roomIndex
   }

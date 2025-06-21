@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { AuthClient } from '../services/auth.client'
 import { Router } from '@angular/router'
@@ -14,12 +14,13 @@ import { LocalStorageService } from '../services/local-storage.service'
 export class LoginComponent implements OnInit {
   protected error: string | null = null
   form: FormGroup
-  constructor(
-    private ac: AuthClient,
-    private fb: FormBuilder,
-    private router: Router,
-    private ls: LocalStorageService
-  ) {
+
+  private ac = inject(AuthClient)
+  private fb = inject(FormBuilder)
+  private router = inject(Router)
+  private ls = inject(LocalStorageService)
+
+  constructor() {
     this.form = this.fb.group({
       uname: [''],
       pass: [''],
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
     this.ac
       .login(val.uname, val.pass)
       .pipe(
-        catchError((err, caught) => {
+        catchError((err) => {
           this.error = err.error.message
           return throwError(() => new Error(err.message))
         })

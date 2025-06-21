@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Group } from '../types/group';
 import { environment } from 'src/environments/environment';
 
@@ -7,9 +7,9 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AdminSyncService {
+  private http = inject(HttpClient)
 
-  constructor(private http: HttpClient) { }
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private _data: any
 
   private sync() {
@@ -19,7 +19,7 @@ export class AdminSyncService {
   }
 
   public get groups(): Group[] {
-    var groups = this._data?.groups
+    const groups = this._data?.groups
     if (!groups) this.sync()
     return groups
   }

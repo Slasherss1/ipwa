@@ -1,13 +1,15 @@
-import { Directive, HostBinding, Input, Optional } from '@angular/core'
+import { Directive, HostBinding, inject, Input } from '@angular/core'
 import { ControlContainer } from '@angular/forms'
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'span[control]',
   standalone: false,
 })
 export class LabelDirective {
-  @Input() control: string = ''
-  constructor(@Optional() private parent?: ControlContainer) {}
+  private parent? = inject(ControlContainer, {optional: true})
+
+  @Input() control = ''
 
   @HostBinding('textContent')
   get controlValue() {

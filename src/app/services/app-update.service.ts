@@ -1,4 +1,4 @@
-import { ApplicationRef, Injectable, OnInit } from '@angular/core'
+import { ApplicationRef, inject, Injectable } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SwUpdate } from '@angular/service-worker'
 import {
@@ -14,12 +14,12 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class AppUpdateService implements OnInit {
-  constructor(
-    readonly appRef: ApplicationRef,
-    readonly update: SwUpdate,
-    readonly sb: MatSnackBar
-  ) {
+export class AppUpdateService {
+  readonly appRef = inject(ApplicationRef)
+  update = inject(SwUpdate)
+  readonly sb = inject(MatSnackBar)
+
+  constructor() {
     this.update.versionUpdates.subscribe(evt => {
       switch (evt.type) {
         case 'VERSION_DETECTED':
@@ -35,20 +35,17 @@ export class AppUpdateService implements OnInit {
           break
       }
     })
-  }
-
-  ngOnInit(): void {
     const appIsStable = this.appRef.isStable.pipe(
       first(isStable => isStable === true)
     )
     const everyday = interval(1000 * 60 * 60 * 24)
     const stableDay = concat(appIsStable, everyday)
 
-    stableDay.subscribe(this.checkForUpdate)
+    stableDay.subscribe(() => this.checkForUpdate())
   }
 
   checkForUpdate() {
-    let ov = from(this.update.checkForUpdate())
+    const ov = from(this.update.checkForUpdate())
     return ov
       .pipe(
         catchError(err => {

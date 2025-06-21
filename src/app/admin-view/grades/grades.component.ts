@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core'
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core'
 import { FormArray, FormBuilder } from '@angular/forms'
 import { filterLook, weekendFilter } from 'src/app/util'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -16,16 +16,24 @@ import { GradesService } from './grades.service'
   standalone: false,
 })
 export class GradesComponent implements OnInit, OnDestroy {
+  private ac = inject(GradesService)
+  private fb = inject(FormBuilder)
+  private sb = inject(MatSnackBar)
+  private toolbar = inject(ToolbarService)
+  private router = inject(Router)
+  private route = inject(ActivatedRoute)
+  private dialog = inject(MatDialog)
+
   rooms!: string[]
-  room: string = '0'
-  grade: number = 6
+  room = '0'
+  grade = 6
   gradeDate?: DateTime
   id?: string
   filter = weekendFilter
   date = signal<DateTime>(filterLook(this.filter, "behind", DateTime.now(), 7)!)
 
   get notes(): { label: string; weight: number }[] {
-    var th = this.things.value as {
+    const th = this.things.value as {
       cb: boolean
       label: string
       weight: number
@@ -38,9 +46,9 @@ export class GradesComponent implements OnInit, OnDestroy {
   }
 
   set notes(value: { label: string; weight: number }[]) {
-    var things = this.things.controls
+    const things = this.things.controls
     things.forEach(v => {
-      var thing = value.find(s => s.label == v.get('label')?.value)
+      const thing = value.find(s => s.label == v.get('label')?.value)
       if (thing) {
         v.get('cb')?.setValue(true)
         v.get('weight')?.setValue(thing.weight)
@@ -51,15 +59,7 @@ export class GradesComponent implements OnInit, OnDestroy {
     })
   }
 
-  constructor(
-    private ac: GradesService,
-    private fb: FormBuilder,
-    private sb: MatSnackBar,
-    private toolbar: ToolbarService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private dialog: MatDialog
-  ) {
+  constructor() {
     // if (!this.filter(this.date)) this.date.isoWeekday(8);
     this.toolbar.comp = this
     this.toolbar.menu = [
@@ -71,7 +71,7 @@ export class GradesComponent implements OnInit, OnDestroy {
       },
       { title: 'Podsumowanie', check: true, fn: 'summary', icon: 'analytics' },
     ]
-    this.form.valueChanges.subscribe(v => {
+    this.form.valueChanges.subscribe(() => {
       this.calculate()
     })
   }
@@ -141,11 +141,11 @@ export class GradesComponent implements OnInit, OnDestroy {
 
   group = {
     add: (index: number) => {
-      var weight = this.things.at(index).get('weight')!
+      const weight = this.things.at(index).get('weight')!
       weight.setValue(weight.value + 1)
     },
     sub: (index: number) => {
-      var weight = this.things.at(index).get('weight')!
+      const weight = this.things.at(index).get('weight')!
       if (weight.value < 1) {
         weight.setValue(1)
       } else {
@@ -160,14 +160,14 @@ export class GradesComponent implements OnInit, OnDestroy {
 
   save() {
     this.calculate()
-    var obj = {
+    const obj = {
       grade: this.grade,
       date: this.date,
       room: this.room,
       notes: this.notes,
       tips: this.form.get('tips')?.value,
     }
-    this.ac.postClean(obj).subscribe(s => {
+    this.ac.postClean(obj).subscribe(() => {
       this.sb.open('Zapisano!', undefined, { duration: 1500 })
       this.downloadData()
     })
@@ -197,7 +197,7 @@ export class GradesComponent implements OnInit, OnDestroy {
           notes: string
         }) => {
           if (!v) return
-          let x: { room: string; users: { id: string; hour?: string }[] } = {
+          const x: { room: string; users: { id: string; hour?: string }[] } = {
             room: v.room,
             users: [],
           }

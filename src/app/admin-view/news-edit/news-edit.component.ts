@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { NewPostComponent } from './new-post/edit-post.component'
 import { catchError, throwError } from 'rxjs'
@@ -13,12 +13,9 @@ import { NewsEditService } from './news-edit.service'
   standalone: false,
 })
 export class NewsEditComponent implements OnInit {
-
-  constructor(
-    protected ac: NewsEditService,
-    private dialog: MatDialog,
-    private sb: MatSnackBar
-  ) { }
+  protected ac = inject(NewsEditService)
+  private dialog = inject(MatDialog)
+  private sb = inject(MatSnackBar)
 
   ngOnInit() {
     this.ac.refresh()
@@ -48,7 +45,7 @@ export class NewsEditComponent implements OnInit {
       })
   }
 
-  editPost(item: any) {
+  editPost(item: News) {
     this.dialog
       .open(NewPostComponent, { data: item, width: '90vh' })
       .afterClosed()
@@ -80,9 +77,9 @@ export class NewsEditComponent implements OnInit {
     })
   }
 
-  visibleToggle(item: any) {
+  visibleToggle(item: News) {
     this.ac
-      .toggleNews(item._id, item.visible)
+      .toggleNews(item._id, !!item.visible)
       .pipe(
         catchError(err => {
           this.sb.open('Wystąpił błąd. Skontaktuj się z obsługą programu.')
@@ -98,10 +95,10 @@ export class NewsEditComponent implements OnInit {
       })
   }
 
-  pinToggle(item: any) {
+  pinToggle(item: News) {
     console.log(item.pinned)
     this.ac
-      .togglePin(item._id, item.pinned)
+      .togglePin(item._id, !!item.pinned)
       .pipe(
         catchError(err => {
           this.sb.open('Wystąpił błąd. Skontaktuj się z obsługą programu.')

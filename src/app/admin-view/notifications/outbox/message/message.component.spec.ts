@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { MessageComponent } from './message.component'
 import { MatCardModule } from '@angular/material/card'
 import { DateTime } from 'luxon'
+import { NotificationsService } from '../../notifications.service'
 
 xdescribe('MessageComponent', () => {
   let component: MessageComponent
@@ -11,7 +12,7 @@ xdescribe('MessageComponent', () => {
     const acMock = {}
     await TestBed.configureTestingModule({
       declarations: [MessageComponent],
-      // providers: [{ provide: AdminCommService, useValue: acMock }],
+      providers: [{ provide: NotificationsService, useValue: acMock }],
       imports: [MatCardModule],
     }).compileComponents()
 

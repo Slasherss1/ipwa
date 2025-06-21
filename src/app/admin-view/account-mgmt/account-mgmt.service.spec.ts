@@ -4,7 +4,7 @@ import { AccountMgmtService } from './account-mgmt.service';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { environment } from 'src/environments/environment';
-import { firstValueFrom, skip } from 'rxjs';
+import { skip } from 'rxjs';
 
 describe('AccountMgmtService', () => {
   let service: AccountMgmtService;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { Router } from '@angular/router'
 import { LocalStorageService } from '../services/local-storage.service'
 import { Link } from '../types/link'
@@ -10,6 +10,9 @@ import { Link } from '../types/link'
   standalone: false,
 })
 export class AdminViewComponent {
+  readonly router = inject(Router)
+  readonly ls = inject(LocalStorageService)
+
   private readonly _LINKS: Link[] = [
     {
       title: 'Wiadomości',
@@ -69,10 +72,6 @@ export class AdminViewComponent {
   public get LINKS(): Link[] {
     return this._LINKS.filter(v => v.enabled)
   }
-  constructor(
-    readonly router: Router,
-    readonly ls: LocalStorageService
-  ) {}
   goNormal() {
     this.router.navigateByUrl('app')
   }

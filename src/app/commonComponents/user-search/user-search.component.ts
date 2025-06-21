@@ -5,10 +5,9 @@ import {
   DoCheck,
   ElementRef,
   HostBinding,
+  inject,
   Input,
   OnDestroy,
-  Optional,
-  Self,
 } from '@angular/core'
 import {
   ControlValueAccessor,
@@ -51,11 +50,16 @@ export class UserSearchComponent
   MatFormFieldControl<UserSearchResult>,
   OnDestroy,
   DoCheck {
-  protected loading: boolean = false
+  public ngControl = inject(NgControl, { optional: true, self: true })
+  private _parentForm = inject(NgForm, { optional: true })
+  private _parentFormGroup = inject(FormGroupDirective, { optional: true })
+  private _elementRef = inject(ElementRef)
+  private http = inject(HttpClient)
+  protected loading = false
   control: FormControl = new FormControl<UserSearchResult | string>("")
   protected list: UserSearchResult[] = []
   private _onChange!: (_: UserSearchResult) => void
-  private _onTouched!: any
+  private _onTouched!: () => void
 
   static nextId = 0
 
@@ -73,9 +77,9 @@ export class UserSearchComponent
 
   stateChanges = new Subject<void>()
 
-  @HostBinding() id: string = `app-user-search-${UserSearchComponent.nextId++}`
+  @HostBinding() id = `app-user-search-${UserSearchComponent.nextId++}`
 
-  private _placeholder: string = ''
+  private _placeholder = ''
   @Input()
   public get placeholder(): string {
     return this._placeholder
@@ -85,8 +89,8 @@ export class UserSearchComponent
     this.stateChanges.next()
   }
 
-  focused: boolean = false
-  onFocusIn(event: FocusEvent) {
+  focused = false
+  onFocusIn() {
     if (!this.focused) {
       this.focused = true
       this.stateChanges.next()
@@ -110,7 +114,7 @@ export class UserSearchComponent
   get shouldLabelFloat(): boolean {
     return this.focused || !this.empty
   }
-  private _required: boolean = false
+  private _required = false
   @Input()
   public get required(): boolean {
     return this._required
@@ -121,20 +125,21 @@ export class UserSearchComponent
     this.stateChanges.next()
   }
 
-  private _disabled: boolean = false
+  private _disabled = false
   @Input()
   public get disabled(): boolean {
     return this._disabled
   }
   public set disabled(value: BooleanInput) {
     this._disabled = coerceBooleanProperty(value)
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     this._disabled ? this.control.disable() : this.control.enable()
     this.stateChanges.next()
   }
-  errorState: boolean = false
+  errorState = false
   controlType?: string | undefined = 'app-user-search'
   autofilled?: boolean | undefined
-  @Input('aria-describedby') userAriaDescribedBy?: string
+  @Input() 'aria-describedby'?: string
   setDescribedByIds(ids: string[]): void {
     const controlElement = this._elementRef.nativeElement.querySelector(
       '.app-user-search-container'
@@ -147,13 +152,7 @@ export class UserSearchComponent
     }
   }
 
-  constructor(
-    @Optional() @Self() public ngControl: NgControl,
-    @Optional() private _parentForm: NgForm,
-    @Optional() private _parentFormGroup: FormGroupDirective,
-    private _elementRef: ElementRef,
-    private http: HttpClient,
-  ) {
+  constructor() {
     if (this.ngControl != null) {
       ; (this.ngControl as NgControl).valueAccessor = this
     }
@@ -179,10 +178,10 @@ export class UserSearchComponent
     const oldState = this.errorState
     const newState =
       (this.ngControl?.invalid || this.control.invalid) &&
-      (this.touched || parent.submitted)
+      (this.touched || parent?.submitted)
 
     if (oldState !== newState) {
-      this.errorState = newState
+      this.errorState = !!newState
       this.stateChanges.next()
     }
   }
@@ -198,7 +197,7 @@ export class UserSearchComponent
     this._onChange = fn
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this._onTouched = fn
   }
 

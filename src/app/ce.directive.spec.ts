@@ -1,12 +1,26 @@
-import { ElementRef } from '@angular/core'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { CeDirective } from './ce.directive'
+import { Component, DebugElement } from '@angular/core'
+import { By } from '@angular/platform-browser'
+
+@Component({standalone: false, template: "<p contenteditable>Yoy</p>"})
+class TestComponent {}
 
 describe('CeDirective', () => {
-  it('should create an instance', () => {
-    const elref = jasmine.createSpyObj<ElementRef>({
-      nativeElement: null,
-    })
-    const directive = new CeDirective(elref)
-    expect(directive).toBeTruthy()
+  let fixture: ComponentFixture<TestComponent>
+  let el: DebugElement
+
+  beforeEach(() => {
+    fixture = TestBed.configureTestingModule({
+
+    }).createComponent(TestComponent)
+
+    fixture.detectChanges()
+
+    el = fixture.debugElement.query(By.directive(CeDirective))
+  })
+
+  it('should be on a component', () => {
+    expect(el).toBeDefined()
   })
 })

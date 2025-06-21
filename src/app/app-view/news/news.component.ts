@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { UpdatesService } from '../../services/updates.service'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { News } from 'src/app/types/news.model'
@@ -11,12 +11,11 @@ import { marked } from 'marked'
   standalone: false,
 })
 export class NewsComponent implements OnInit {
-  news: Array<News> = new Array<News>()
+  private newsapi = inject(UpdatesService)
+  private ls = inject(LocalStorageService)
+
+  news: News[] = []
   loading = true
-  constructor(
-    private newsapi: UpdatesService,
-    private ls: LocalStorageService
-  ) { }
 
   ngOnInit() {
     this.ls.newsflag = false

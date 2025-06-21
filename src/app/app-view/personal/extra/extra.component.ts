@@ -1,5 +1,5 @@
 import { ComponentType } from '@angular/cdk/portal'
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { Link } from 'src/app/types/link'
 import { RedirectComponent } from './redirect/redirect.component'
 import { MatDialog } from '@angular/material/dialog'
@@ -11,9 +11,10 @@ import { MatDialog } from '@angular/material/dialog'
   standalone: false,
 })
 export class ExtraComponent {
-  constructor(private dialog: MatDialog) {}
+  private dialog = inject(MatDialog)
 
   private readonly _LINKS: (Omit<Link, 'href'> & {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     component: ComponentType<any>
   })[] = [
     {
@@ -30,6 +31,7 @@ export class ExtraComponent {
     })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   open(component: ComponentType<any>) {
     this.dialog.open(component)
   }

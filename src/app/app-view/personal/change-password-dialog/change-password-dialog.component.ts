@@ -1,8 +1,7 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { AuthClient } from '../../../services/auth.client'
 import {
   AbstractControl,
-  FormBuilder,
   FormControl,
   FormGroup,
   ValidationErrors,
@@ -21,14 +20,14 @@ import { LocalStorageService } from 'src/app/services/local-storage.service'
   standalone: false,
 })
 export class ChangePasswordDialogComponent {
+  private ac = inject(AuthClient)
+  public dr: MatDialogRef<ChangePasswordDialogComponent> = inject(MatDialogRef)
+  private router = inject(Router)
+  private ls = inject(LocalStorageService)
+
   error: string | null = null
   form: FormGroup
-  constructor(
-    private ac: AuthClient,
-    public dr: MatDialogRef<ChangePasswordDialogComponent>,
-    private router: Router,
-    private ls: LocalStorageService
-  ) {
+  constructor() {
     this.form = new FormGroup(
       {
         oldPass: new FormControl(),
@@ -69,7 +68,7 @@ export class ChangePasswordDialogComponent {
           return throwError(() => new Error(err.message))
         })
       )
-      .subscribe(data => {
+      .subscribe(() => {
         if (this.error == null) {
           this.dr.close()
           this.ls.logOut()

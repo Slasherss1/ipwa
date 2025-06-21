@@ -5,8 +5,6 @@ import { News } from '../types/news.model'
   providedIn: 'root',
 })
 export class LocalStorageService {
-  constructor() {}
-
   permChecker(perm: string) {
     return this.admin?.includes(perm) ?? false
   }
@@ -68,7 +66,7 @@ export class LocalStorageService {
   }
 
   get admin() {
-    var lsa = localStorage.getItem('admin')
+    const lsa = localStorage.getItem('admin')
     return lsa ? JSON.parse(lsa) : undefined
   }
 
@@ -85,7 +83,7 @@ export class LocalStorageService {
   }
 
   get capFlag() {
-    var cap = localStorage.getItem('cap')
+    const cap = localStorage.getItem('cap')
     if (cap) {
       return Number(cap)
     } else {
@@ -98,7 +96,7 @@ export class LocalStorageService {
   }
 
   public get newsCheck(): { hash: string; count: number } {
-    let nc = localStorage.getItem('newsCheck')
+    const nc = localStorage.getItem('newsCheck')
     if (nc) {
       return JSON.parse(nc)
     } else {
@@ -110,7 +108,7 @@ export class LocalStorageService {
   }
 
   public get defaultItems(): { sn: string[]; kol: string[] } {
-    let di = localStorage.getItem('defaultItems')
+    const di = localStorage.getItem('defaultItems')
     if (di) {
       return JSON.parse(di)
     } else {

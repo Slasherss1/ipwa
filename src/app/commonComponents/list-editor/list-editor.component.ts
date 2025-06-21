@@ -6,6 +6,7 @@ import {
   EventEmitter,
   HostBinding,
   HostListener,
+  inject,
   Input,
   OnChanges,
   Output,
@@ -21,10 +22,12 @@ import {
   standalone: false,
 })
 export class ListEditorComponent implements OnChanges {
+  private cdRef = inject(ChangeDetectorRef)
+
   @HostBinding('tabindex') tabindex = 0
   @Input() list?: string[]
   @Output() listChange = new EventEmitter<string[]>()
-  @Input() converter?: any[]
+  @Input() converter?: unknown[]
   @Input() options?: { id: string; text: string }[]
   @Input() dropdown?: boolean
   @Input() dataList?: string
@@ -36,8 +39,7 @@ export class ListEditorComponent implements OnChanges {
   workList: string[] = []
   focused = false
 
-  constructor(private cdRef: ChangeDetectorRef) {}
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ngOnChanges(changes: SimpleChanges): void {
     if (this.list) {
       this._list = [...this.list]
@@ -75,10 +77,6 @@ export class ListEditorComponent implements OnChanges {
     this.workList.splice(index + 1, 0, '')
     this.cdRef.detectChanges()
     this.inputList.get(index + 1)?.nativeElement.focus()
-  }
-
-  trackByIndex(index: number, _entry: any) {
-    return index
   }
 
   drop(event: CdkDragDrop<string[]>) {

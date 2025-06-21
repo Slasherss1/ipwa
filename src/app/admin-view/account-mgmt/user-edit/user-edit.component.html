@@ -22,7 +22,7 @@
           }
         </mat-select>
       </mat-form-field>
-      @if (data.type == 'edit') {
+      @if (data.type === 'edit') {
         <span>Data rejestracji:<br>{{regDate?.toFormat('D')}}</span>
       }
     </div>
@@ -31,7 +31,7 @@
         <mat-label>Nazwa użytkownika</mat-label>
         <input type="text" matInput required formControlName="uname">
       </mat-form-field>
-      @if (data.type == "edit") {
+      @if (data.type === "edit") {
         <button mat-stroked-button color="accent" (click)="resetPass()">Resetuj hasło</button>
         @if (locked) {
           <button mat-stroked-button color="warn" (click)="toggleLock(false)"><mat-icon>lock</mat-icon>Blokada ręczna</button>
@@ -74,7 +74,7 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  @if (data.type == "edit") {
+  @if (data.type === "edit") {
     <button mat-stroked-button color="warn" style="margin-right: auto;" (click)="delete()">Usuń konto</button>
   }
   <button mat-stroked-button mat-dialog-close>Zamknij</button>

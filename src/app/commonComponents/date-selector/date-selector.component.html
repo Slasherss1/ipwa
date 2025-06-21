@@ -1,5 +1,5 @@
 <button mat-icon-button (click)="prevDay()"><mat-icon>chevron_left</mat-icon></button>
-<p (click)="picker.open()">{{date()!.toFormat('cccc, d.LL') | titlecase }}</p>
+<p tabindex="0" (click)="picker.open()" (keydown.enter)="picker.open()">{{date()!.toFormat('cccc, d.LL') | titlecase }}</p>
 <mat-form-field style="display: none;">
     <input #dateinput matInput [matDatepicker]="picker" [formControl]="dateInput" [matDatepickerFilter]="filter">
     <mat-datepicker touchUi #picker></mat-datepicker>

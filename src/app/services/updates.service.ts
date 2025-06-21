@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Menu } from '../types/menu'
 import { environment } from 'src/environments/environment'
@@ -12,16 +12,10 @@ import { DateTime } from 'luxon'
   providedIn: 'root',
 })
 export class UpdatesService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient)
 
   getNews() {
-    const headers = {
-      'Content-Type': 'application/json',
-    }
-    return this.http.get<News[]>(environment.apiEndpoint + '/app/news', {
-      headers: headers,
-      withCredentials: true,
-    })
+    return this.http.get<News[]>(environment.apiEndpoint + '/app/news', { withCredentials: true })
   }
 
   newsCheck() {

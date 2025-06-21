@@ -1,5 +1,5 @@
 export const environment = {
   apiEndpoint: `${window.location.origin}/api`,
-  version: 'v1.2.0',
+  version: 'v2.0.0',
   production: true,
 }

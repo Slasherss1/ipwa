@@ -1,6 +1,7 @@
-import { Component, Inject } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { News } from 'src/app/types/news.model'
 
 @Component({
   selector: 'app-edit-post',
@@ -9,20 +10,19 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
   standalone: false,
 })
 export class NewPostComponent {
+  public dialogRef: MatDialogRef<NewPostComponent> = inject(MatDialogRef)
+  public data: Partial<News> = inject(MAT_DIALOG_DATA)
   form: FormGroup
-  constructor(
-    public dialogRef: MatDialogRef<NewPostComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    if (data == null) {
-      data = {
+  constructor() {
+    if (this.data == null) {
+      this.data = {
         title: '',
         content: '',
       }
     }
     this.form = new FormGroup({
-      title: new FormControl(data.title),
-      content: new FormControl(data.content),
+      title: new FormControl(this.data.title),
+      content: new FormControl(this.data.content),
     })
   }
 

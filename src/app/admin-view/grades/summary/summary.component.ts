@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { ToolbarService } from '../../toolbar/toolbar.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MatTableDataSource } from '@angular/material/table'
@@ -14,6 +14,12 @@ import { GradesService } from '../grades.service'
   standalone: false,
 })
 export class SummaryComponent implements OnInit, OnDestroy {
+  private toolbar = inject(ToolbarService)
+  private router = inject(Router)
+  private route = inject(ActivatedRoute)
+  private ac = inject(GradesService)
+  private fb = inject(FormBuilder)
+
   data: MatTableDataSource<{ room: string; avg: number }> =
     new MatTableDataSource<{ room: string; avg: number }>()
   collumns = ['room', 'avg']
@@ -27,18 +33,12 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.data.sort = sort
   }
 
-  constructor(
-    private toolbar: ToolbarService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private ac: GradesService,
-    private fb: FormBuilder
-  ) {
+  constructor() {
     this.toolbar.comp = this
     this.toolbar.menu = [
       { check: true, title: 'Ocenianie', fn: 'goBack', icon: 'arrow_back' },
     ]
-    this.dateSelector.valueChanges.subscribe(v => {
+    this.dateSelector.valueChanges.subscribe(() => {
       this.download()
     })
   }
@@ -49,8 +49,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
   download() {
     this.ac.summary
       .getSummary(
-        this.dateSelector.get('start')?.value!.startOf('day')!,
-        this.dateSelector.get('end')?.value!.endOf('day')!
+        this.dateSelector.get('start')!.value!.startOf('day')!,
+        this.dateSelector.get('end')!.value!.endOf('day')!
       )
       .subscribe(v => {
         this.data.data = v

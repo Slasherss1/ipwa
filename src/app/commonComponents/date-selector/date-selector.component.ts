@@ -29,12 +29,12 @@ export class DateSelectorComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['date']) {
-      this.dateInput.setValue(this.date()!), { emitEvent: false }
+      this.dateInput.setValue(this.date()!, { emitEvent: false })
     }
   }
 
   prevDay(): void {
-    let yesterday = this.date()!.minus({ day: 1 })
+    const yesterday = this.date()!.minus({ day: 1 })
     if (this.filter(yesterday)) {
       this.dateInput.setValue(yesterday)
     } else {
@@ -43,7 +43,7 @@ export class DateSelectorComponent implements OnChanges {
   }
 
   nextDay(): void {
-    let tomorrow = this.date()!.plus({ day: 1 })
+    const tomorrow = this.date()!.plus({ day: 1 })
     if (this.filter(tomorrow)) {
       this.dateInput.setValue(tomorrow)
     } else {

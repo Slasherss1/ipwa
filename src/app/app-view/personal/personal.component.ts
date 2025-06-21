@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { AuthClient } from '../../services/auth.client'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
@@ -19,18 +19,17 @@ import { ExtraComponent } from './extra/extra.component'
   standalone: false,
 })
 export class PersonalComponent {
+  private ac = inject(AuthClient)
+  private router = inject(Router)
+  private dialog = inject(MatDialog)
+  private update = inject(AppUpdateService)
+  protected ls = inject(LocalStorageService)
+
   updateaval: boolean | unknown = false
   checking: boolean | 'err' | 'aval' = false
-  constructor(
-    private ac: AuthClient,
-    private router: Router,
-    private dialog: MatDialog,
-    readonly update: AppUpdateService,
-    protected ls: LocalStorageService
-  ) {}
-  public version: any = environment.version
+  public version = environment.version
   protected logout() {
-    let dialogRef = this.dialog.open(LogoutConfirmationComponent)
+    const dialogRef = this.dialog.open(LogoutConfirmationComponent)
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.ac.logout().subscribe(() => {

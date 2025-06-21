@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { FormBuilder } from '@angular/forms'
 import { SettingsService } from './settings.service'
@@ -10,6 +10,10 @@ import { SettingsService } from './settings.service'
   standalone: false,
 })
 export class SettingsComponent implements OnInit {
+  private acu = inject(SettingsService)
+  private sb = inject(MatSnackBar)
+  private fb = inject(FormBuilder)
+
   usettings: IUSettings = {
     cleanThings: [],
     keyrooms: [],
@@ -17,13 +21,7 @@ export class SettingsComponent implements OnInit {
     rooms: [],
     security: { loginTimeout: { attempts: 0, lockout: 0, time: 0 } },
   }
-  reloadTimeout: boolean = false
-
-  constructor(
-    private readonly acu: SettingsService,
-    private readonly sb: MatSnackBar,
-    private readonly fb: FormBuilder
-  ) {}
+  reloadTimeout = false
 
   accSec = this.fb.nonNullable.group({
     attempts: this.fb.nonNullable.control(1),
@@ -42,10 +40,12 @@ export class SettingsComponent implements OnInit {
     this.usettings.rooms = event
     this.send()
   }
+
   saveCleanThings(event: string[]) {
     this.usettings.cleanThings = event
     this.send()
   }
+
   saveKeyrooms(event: string[]) {
     this.usettings.keyrooms = event
     this.send()
@@ -55,6 +55,7 @@ export class SettingsComponent implements OnInit {
     this.usettings.menu.defaultItems.sn = event
     this.send()
   }
+
   saveKol(event: string[]) {
     this.usettings.menu.defaultItems.kol = event
     this.send()

@@ -20,6 +20,7 @@ import {
 } from '@angular/forms'
 import { MatInputModule } from '@angular/material/input'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
+import { NotificationsService } from './notifications.service'
 
 @Component({
   selector: 'app-user-search',
@@ -40,25 +41,31 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 class UserSearchStub
   implements ControlValueAccessor, MatFormFieldControl<never>
 {
-  value: null = null
+  value = null
   stateChanges: Observable<void> = of()
-  id: string = ''
-  placeholder: string = ''
+  id = ''
+  placeholder = ''
   ngControl: NgControl | AbstractControlDirective | null = null
-  focused: boolean = false
-  empty: boolean = true
-  shouldLabelFloat: boolean = true
-  required: boolean = false
-  disabled: boolean = false
-  errorState: boolean = false
+  focused = false
+  empty = true
+  shouldLabelFloat = true
+  required = false
+  disabled = false
+  errorState = false
   controlType?: string | undefined
   autofilled?: boolean | undefined
   userAriaDescribedBy?: string | undefined
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   setDescribedByIds(ids: string[]): void {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   onContainerClick(event: MouseEvent): void {}
-  writeValue(obj: any): void {}
-  registerOnChange(fn: any): void {}
-  registerOnTouched(fn: any): void {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  writeValue(obj: unknown): void {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  registerOnChange(fn: unknown): void {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  registerOnTouched(fn: unknown): void {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   setDisabledState?(isDisabled: boolean): void {}
 }
 
@@ -67,14 +74,10 @@ xdescribe('NotificationsComponent', () => {
   let fixture: ComponentFixture<NotificationsComponent>
 
   beforeEach(() => {
-    const acMock = {
-      notif: {
-        getGroups: jasmine.createSpy('getGroups').and.returnValue(of()),
-      },
-    }
+    const acMock = {}
     TestBed.configureTestingModule({
       declarations: [NotificationsComponent, UserSearchStub],
-      // providers: [{ provide: AdminCommService, useValue: acMock }],
+      providers: [{ provide: NotificationsService, useValue: acMock }],
       imports: [
         RouterModule.forRoot([]),
         MatRadioModule,

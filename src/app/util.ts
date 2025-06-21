@@ -8,7 +8,7 @@ export const weekendFilter: DateFilterFn<DateTime | null> = (
   return day !== 6 && day !== 7
 }
 
-export function filterLook(filter: DateFilterFn<DateTime | null>, ab: "ahead" | "behind" = "ahead", date: DateTime = DateTime.now(), maxSearchDays: number = 365): DateTime | null {
+export function filterLook(filter: DateFilterFn<DateTime | null>, ab: "ahead" | "behind" = "ahead", date: DateTime = DateTime.now(), maxSearchDays = 365): DateTime | null {
   let currentDate = date
   switch (ab) {
     case "ahead":

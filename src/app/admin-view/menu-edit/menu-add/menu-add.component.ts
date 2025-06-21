@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { MenuUploadComponent } from '../menu-upload/menu-upload.component'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { FDSelection } from 'src/app/fd.da'
@@ -17,6 +17,9 @@ import { weekendFilter } from 'src/app/util'
   standalone: false,
 })
 export class MenuAddComponent {
+  public dialogRef: MatDialogRef<MenuAddComponent> = inject(MatDialogRef)
+  private dialog = inject(MatDialog)
+
   type: string | undefined
   filter = weekendFilter
 
@@ -26,11 +29,6 @@ export class MenuAddComponent {
     start: new FormControl<DateTime | null>(null),
     end: new FormControl<DateTime | null>(null),
   })
-
-  constructor(
-    public dialogRef: MatDialogRef<MenuAddComponent>,
-    private dialog: MatDialog
-  ) {}
 
   submit() {
     switch (this.type) {

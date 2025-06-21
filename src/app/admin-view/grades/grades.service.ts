@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DateTime } from 'luxon';
 import { Status } from 'src/app/types/status';
 import { environment } from 'src/environments/environment';
@@ -8,8 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class GradesService {
-
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient)
 
   getConfig() {
     return this.http.get<{ rooms: string[]; things: string[] }>(
@@ -32,7 +31,7 @@ export class GradesService {
     })
   }
 
-  postClean(obj: Object) {
+  postClean(obj: object) {
     return this.http.post<Status>(
       environment.apiEndpoint + `/admin/clean/`,
       obj,

@@ -8,8 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatIconModule } from '@angular/material/icon'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { of } from 'rxjs'
 import { MatInputModule } from '@angular/material/input'
+import { SettingsService } from './settings.service'
 
 @Component({
   selector: 'app-list-editor',
@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input'
   standalone: false,
 })
 class ListEditorStub {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() converter?: any[]
   @Input() list?: string[]
 }
@@ -26,14 +27,10 @@ xdescribe('SettingsComponent', () => {
   let fixture: ComponentFixture<SettingsComponent>
 
   beforeEach(async () => {
-    const acMock = {
-      settings: {
-        getAll: jasmine.createSpy('getAll').and.returnValue(of()),
-      },
-    }
+    const acMock = {}
     await TestBed.configureTestingModule({
       declarations: [SettingsComponent, ListEditorStub],
-      // providers: [{ provide: AdminCommService, useValue: acMock }],
+      providers: [{ provide: SettingsService, useValue: acMock }],
       imports: [
         MatExpansionModule,
         MatTabsModule,

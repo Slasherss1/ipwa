@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { UpdatesService } from '../../services/updates.service'
 import { Menu } from '../../types/menu'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
@@ -15,12 +15,12 @@ import { toObservable } from '@angular/core/rxjs-interop'
   standalone: false,
 })
 export class MenuComponent {
-  constructor(
-    private uc: UpdatesService,
-    readonly bs: MatBottomSheet,
-    readonly ls: LocalStorageService
-  ) {
-    toObservable(this.day).subscribe(v => {
+  private uc = inject(UpdatesService)
+  private bs = inject(MatBottomSheet)
+  protected ls = inject(LocalStorageService)
+
+  constructor() {
+    toObservable(this.day).subscribe(() => {
       this.updateMenu()
     })
   }
@@ -50,12 +50,12 @@ export class MenuComponent {
       : null
   }
 
-  private checkIfAnyProperty(obj: { [x: string]: string | string[] }) {
-    for (let i in obj) {
+  private checkIfAnyProperty(obj: Record<string, string | string[]>) {
+    for (const i in obj) {
       if (Array.isArray(obj[i])) {
         if (obj[i].length > 0) return true
       } else {
-        if (!!obj[i]) return true
+        if (obj[i]) return true
       }
     }
     return false
@@ -86,7 +86,7 @@ export class MenuComponent {
   }
 
   vote(type: 'ob' | 'kol', vote: '-' | '+' | 'n') {
-    this.uc.postVote(this.menu!.day.toISO()!, type, vote).subscribe(data => {
+    this.uc.postVote(this.menu!.day.toISO()!, type, vote).subscribe(() => {
       this.updateMenu(true)
     })
   }

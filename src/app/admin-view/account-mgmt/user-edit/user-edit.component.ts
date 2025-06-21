@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -15,10 +15,8 @@ import { DateTime } from 'luxon'
 import { AccountMgmtService } from '../account-mgmt.service'
 import { AdminSyncService } from '../../admin-sync.service'
 
-export namespace UserEditComponent {
-  export type InputData = { type: 'new' | 'edit'; id?: string; groups: Group[] }
-  export type ReturnData = true | undefined
-}
+export interface UserEditComponentInputData { type: 'new' | 'edit'; id?: string; groups: Group[] }
+export type UserEditComponentReturnData = true | undefined
 
 @Component({
   selector: 'app-user-edit',
@@ -35,23 +33,24 @@ export class UserEditComponent {
     surname: new FormControl<string>(''),
     room: new FormControl<string>(''),
     uname: new FormControl<string>(''),
-    groups: new FormControl<Array<string>>([]),
-    flags: new FormControl<Array<string>>([]),
+    groups: new FormControl<string[]>([]),
+    flags: new FormControl<string[]>([]),
   })
   id?: string
   regDate?: DateTime
-  constructor(
-    public dialogRef: MatDialogRef<UserEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: UserEditComponent.InputData,
-    readonly ls: LocalStorageService,
-    readonly acu: AccountMgmtService,
-    private dialog: MatDialog,
-    private sb: MatSnackBar,
-    protected adsyn: AdminSyncService
-  ) {
-    if (data.type == 'edit') {
-      this.id = data.id
-      this.acu.getUser(data.id!).subscribe(r => {
+
+  public dialogRef: MatDialogRef<UserEditComponent> = inject(MatDialogRef)
+  public data: UserEditComponentInputData = inject(MAT_DIALOG_DATA)
+  protected ls = inject(LocalStorageService)
+  private acu = inject(AccountMgmtService)
+  private dialog = inject(MatDialog)
+  private sb = inject(MatSnackBar)
+  protected adsyn = inject(AdminSyncService)
+
+  constructor() {
+    if (this.data.type == 'edit') {
+      this.id = this.data.id
+      this.acu.getUser(this.data.id!).subscribe(r => {
         this.regDate = DateTime.fromISO(r.regDate)
         this.locked = r.locked ? true : false
         this.lockout = r.lockout
@@ -139,7 +138,7 @@ export class UserEditComponent {
       uname: this.form.get('uname')?.value,
       groups: this.form.get('groups')?.value,
       admin: (() => {
-        var value = this.form.get('flags')?.value
+        const value = this.form.get('flags')?.value
         if (this.ls.capCheck(32)) {
           return value
         } else {

@@ -1,24 +1,25 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { marked } from 'marked';
 import { BehaviorSubject, catchError, map, of } from 'rxjs';
 import { News } from 'src/app/types/news.model';
 import { STATE } from 'src/app/types/state';
+import { Status } from 'src/app/types/status';
 import { environment } from 'src/environments/environment';
+import { NewsFormatted } from './news-edit.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NewsEditService {
+  private http = inject(HttpClient)
 
-  private _news = new BehaviorSubject<(News & {formatted: string})[]>([])
+  private _news = new BehaviorSubject<NewsFormatted[]>([])
   public readonly news = this._news.asObservable()
   private _state = signal(STATE.NOT_LOADED);
   public readonly state = this._state.asReadonly();
   private _error = signal<string | undefined>(undefined);
   public readonly error = this._error.asReadonly();
-
-  constructor(private http: HttpClient) { }
 
   public refresh() {
     this.getNews()
@@ -35,7 +36,7 @@ export class NewsEditService {
           this._error.set(err.message)
           return of()
         }),
-        map(i => {
+        map<News[], NewsFormatted[]>(i => {
           return i.map(v => ({
             ...v,
             formatted: marked.parse(v.content, { breaks: true }).toString()
@@ -49,7 +50,7 @@ export class NewsEditService {
   }
 
   postNews(title: string, content: string) {
-    return this.http.post<any>(
+    return this.http.post<Status>(
       environment.apiEndpoint + `/admin/news`,
       { title: title, content: content },
       { withCredentials: true }
@@ -57,7 +58,7 @@ export class NewsEditService {
   }
 
   deleteNews(id: string) {
-    return this.http.delete<any>(
+    return this.http.delete<Status>(
       environment.apiEndpoint + `/admin/news/${id}`,
       { withCredentials: true }
     )
@@ -80,7 +81,7 @@ export class NewsEditService {
   }
 
   private putNews(id: string, update: object) {
-    return this.http.put<any>(
+    return this.http.put<Status>(
       environment.apiEndpoint + `/admin/news/${id}`,
       update,
       { withCredentials: true }

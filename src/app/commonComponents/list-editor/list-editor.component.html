@@ -9,14 +9,14 @@
         }
       </li>
     }
-    @if (_list.length == 0) {
+    @empty {
       <li>[Puste]</li>
     }
   </ul>
 }
 @if (focused) {
   <div class="vertical">
-    @if (workList.length == 0) {
+    @if (workList.length === 0) {
       <button (click)="addPos(0)">+</button>
     }
     <div cdkDropList class="vertical" (cdkDropListDropped)="drop($event)">
@@ -26,7 +26,7 @@
           @if (dropdown) {
             <select [(ngModel)]="workList[$index]">
               @for (option of options; track option) {
-                <option [value]="option.id" [selected]="option.id == item">{{option.text}}</option>
+                <option [value]="option.id" [selected]="option.id === item">{{option.text}}</option>
               }
             </select>
           }

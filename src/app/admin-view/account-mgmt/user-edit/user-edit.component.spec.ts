@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { MatInputModule } from '@angular/material/input'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { MatSelectModule } from '@angular/material/select'
+import { AccountMgmtService } from '../account-mgmt.service'
 
 xdescribe('UserEditComponent', () => {
   let component: UserEditComponent
@@ -32,7 +33,7 @@ xdescribe('UserEditComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: { groups: [] } },
-        // { provide: AdminCommService, useValue: acMock },
+        { provide: AccountMgmtService, useValue: acMock },
       ],
     }).compileComponents()
     fixture = TestBed.createComponent(UserEditComponent)

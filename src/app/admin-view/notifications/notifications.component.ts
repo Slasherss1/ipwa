@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, inject, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { Notification } from 'src/app/types/notification'
 import { Group } from 'src/app/types/group'
@@ -15,6 +15,13 @@ import { NotificationsService } from './notifications.service'
   standalone: false,
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
+  private acs = inject(NotificationsService)
+  readonly ls = inject(LocalStorageService)
+  private toolbar = inject(ToolbarService)
+  private router = inject(Router)
+  private route = inject(ActivatedRoute)
+  private fb = inject(FormBuilder)
+
   groups!: Group[]
   form = this.fb.group({
     recp: this.fb.group({
@@ -30,12 +37,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   })
 
   constructor(
-    private acs: NotificationsService,
-    readonly ls: LocalStorageService,
-    private toolbar: ToolbarService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private fb: FormBuilder
   ) {
     this.toolbar.comp = this
     this.toolbar.menu = [{ title: 'Wysłane', fn: 'outbox', icon: 'outbox' }]
@@ -55,8 +56,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.toolbar.comp = undefined
     this.toolbar.menu = undefined
   }
-
-  public inbox() {}
 
   success?: { sent: number; possible: number }
 

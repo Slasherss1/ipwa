@@ -6,7 +6,7 @@
   <button mat-icon-button (click)="openUserCard()"><mat-icon>add</mat-icon></button>
 </div>
 <div class="mainc">
-  @if (ac.state() != STATE.LOADED) {
+  @if (ac.state() !== STATE.LOADED) {
     <app-load-shade [state]="ac.state()" [error]="ac.error()" (refresh)="ac.refresh()"/>
   }
   <table mat-table [dataSource]="users">

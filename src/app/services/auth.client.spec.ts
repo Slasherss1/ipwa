@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing'
 
 import { AuthClient } from './auth.client'
 import {
-  HttpClient,
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http'
@@ -13,7 +12,7 @@ import {
 
 describe('AuthService', () => {
   let service: AuthClient
-  let httpClient: HttpClient
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let httpTestingController: HttpTestingController
 
   beforeEach(() => {
@@ -25,7 +24,6 @@ describe('AuthService', () => {
       ],
     })
     service = TestBed.inject(AuthClient)
-    httpClient = TestBed.inject(HttpClient)
     httpTestingController = TestBed.inject(HttpTestingController)
   })
 

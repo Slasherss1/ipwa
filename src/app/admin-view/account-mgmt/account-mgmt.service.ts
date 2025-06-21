@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { BehaviorSubject, catchError, map, of, tap } from 'rxjs';
 import { STATE } from 'src/app/types/state';
 import { Status } from 'src/app/types/status';
@@ -11,8 +11,7 @@ import { DateTime } from 'luxon';
   providedIn: 'root'
 })
 export class AccountMgmtService {
-
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient)
 
   private _accs = new BehaviorSubject<User[]>([])
   public readonly accs = this._accs.asObservable()

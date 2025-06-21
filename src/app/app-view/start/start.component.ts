@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { Link } from 'src/app/types/link'
@@ -10,6 +10,10 @@ import { Link } from 'src/app/types/link'
   standalone: false,
 })
 export class StartComponent {
+  private r = inject(Router)
+  private route = inject(ActivatedRoute)
+  private ls = inject(LocalStorageService)
+
   private readonly _LINKS: Link[] = [
     {
       title: 'Jadłospis (z funkcją głosowania)',
@@ -51,11 +55,8 @@ export class StartComponent {
   public get LINKS(): Link[] {
     return this._LINKS.filter(v => v.enabled)
   }
-  constructor(
-    private r: Router,
-    private readonly route: ActivatedRoute,
-    private ls: LocalStorageService
-  ) {}
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected redirect(link: any) {
     this.r.navigate([link], { relativeTo: this.route })
   }

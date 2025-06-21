@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { MAT_DATE_RANGE_SELECTION_STRATEGY } from '@angular/material/datepicker'
 import { FDSelection } from 'src/app/fd.da'
@@ -12,6 +12,7 @@ import { MenuAddComponent } from './menu-add/menu-add.component'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { DateTime } from 'luxon'
 import { MenuEditService } from './menu-edit.service'
+import { MenuOptions } from './menu-edit.model'
 
 @Component({
   selector: 'app-menu-edit',
@@ -23,6 +24,11 @@ import { MenuEditService } from './menu-edit.service'
   standalone: false,
 })
 export class MenuEditComponent {
+  protected ac = inject(MenuEditService)
+  private dialog = inject(MatDialog)
+  private sb = inject(MatSnackBar)
+  readonly ls = inject(LocalStorageService)
+
   dcols: string[] = ['day', 'sn', 'ob', 'kol']
   dataSource: MatTableDataSource<Menu> = new MatTableDataSource<Menu>()
   range = new FormGroup({
@@ -30,18 +36,13 @@ export class MenuEditComponent {
     end: new FormControl<DateTime | null>(null),
   })
   loading = false
-  public options: any
+  public options?: MenuOptions
 
-  constructor(
-    protected ac: MenuEditService,
-    private dialog: MatDialog,
-    private sb: MatSnackBar,
-    readonly ls: LocalStorageService
-  ) {
+  constructor() {
     this.range.valueChanges.subscribe(v => {
-      ac.setDates(v.start!, v.end!)
+      this.ac.setDates(v.start!, v.end!)
     })
-    ac.menuItems.subscribe(v => {
+    this.ac.menuItems.subscribe(v => {
       this.dataSource.data = v
     })
   }
@@ -51,7 +52,7 @@ export class MenuEditComponent {
       .print(this.range.value.start, this.range.value.end)
       ?.subscribe(r => {
         if (r && r.length > 0) {
-          var mywindow = window.open(
+          const mywindow = window.open(
             undefined,
             'Drukowanie',
             'height=400,width=400'

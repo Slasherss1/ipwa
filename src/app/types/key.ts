@@ -1,15 +1,15 @@
 import { DateTime } from 'luxon'
 
-interface UKey {
+export interface UKey {
   room: string
   taken: boolean
 }
 
-interface AKey {
+export type AKeyAPI = Omit<AKey, "borrow" | "tb"> & {borrow: string, tb?: string}
+
+export interface AKey {
   room: string
   whom?: { _id: string; uname: string; room: string }
   borrow: DateTime
   tb?: DateTime
 }
-
-export { UKey, AKey }

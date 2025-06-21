@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, inject, ViewChild } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatPaginator } from '@angular/material/paginator'
-import { UserEditComponent } from './user-edit/user-edit.component'
+import { UserEditComponent, UserEditComponentInputData, UserEditComponentReturnData } from './user-edit/user-edit.component'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { Group } from 'src/app/types/group'
 import { User } from 'src/app/admin-view/account-mgmt/account.model'
@@ -20,14 +20,14 @@ export class AccountMgmtComponent implements AfterViewInit {
   users: MatTableDataSource<User>
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
-  constructor(
-    protected ac: AccountMgmtService,
-    private dialog: MatDialog,
-    protected readonly ls: LocalStorageService
-  ) {
+  protected ac = inject(AccountMgmtService)
+  private dialog = inject(MatDialog)
+  protected ls = inject(LocalStorageService)
+
+  constructor() {
     this.users = new MatTableDataSource<User>()
     this.users.filterPredicate = (
-      data: Record<string, any>,
+      data: User,
       filter: string
     ): boolean => {
       const dataStr = Object.keys(data)
@@ -35,7 +35,7 @@ export class AccountMgmtComponent implements AfterViewInit {
           if (['_id', 'admin', 'groups', '__v', 'locked'].find(v => v == key)) {
             return curr + ''
           }
-          return curr + data[key] + '⫂'
+          return curr + data[key as keyof User] + '⫂'
         }, '')
         .toLowerCase()
       const filternew = filter.trim().toLowerCase()
@@ -64,8 +64,8 @@ export class AccountMgmtComponent implements AfterViewInit {
     this.dialog
       .open<
         UserEditComponent,
-        UserEditComponent.InputData,
-        UserEditComponent.ReturnData
+        UserEditComponentInputData,
+        UserEditComponentReturnData
       >(UserEditComponent, {
         data: { id: id, type: id ? 'edit' : 'new', groups: this.groups },
       })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { Group } from 'src/app/types/group'
 import { Status } from 'src/app/types/status'
 import { MatDialog } from '@angular/material/dialog'
@@ -12,11 +12,11 @@ import { GroupsService } from './groups.service'
   standalone: false,
 })
 export class GroupsComponent implements OnInit {
+  protected acs = inject(GroupsService)
+  private dialog = inject(MatDialog)
+
   groups?: Group[]
-  constructor(
-    protected readonly acs: GroupsService,
-    private readonly dialog: MatDialog
-  ) {}
+
   ngOnInit(): void {
     this.acs.getGroups().subscribe(v => {
       this.groups = v
@@ -50,7 +50,7 @@ export class GroupsComponent implements OnInit {
   }
 
   protected newGroup() {
-    let name = prompt('Nazwa grupy')
+    const name = prompt('Nazwa grupy')
     if (name) {
       this.acs.newGroup(name).subscribe(s => this.refreshIfGood(s))
     }

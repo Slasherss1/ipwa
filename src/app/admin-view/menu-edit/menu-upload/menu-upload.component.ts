@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { MatDialogRef } from '@angular/material/dialog'
 import { MenuEditService } from '../menu-edit.service'
 
@@ -9,10 +9,9 @@ import { MenuEditService } from '../menu-edit.service'
   standalone: false,
 })
 export class MenuUploadComponent {
-  constructor(
-    private ac: MenuEditService,
-    public dialogRef: MatDialogRef<MenuUploadComponent>
-  ) {}
+  private ac = inject(MenuEditService)
+  public dialogRef: MatDialogRef<MenuUploadComponent> = inject(MatDialogRef)
+
   protected file: File | undefined
   onFileChange(event: Event) {
     const file: File = (event.target as HTMLInputElement).files![0]

@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  inject,
   Input,
   Output,
 } from '@angular/core'
@@ -12,12 +13,14 @@ import {
   standalone: false,
 })
 export class CeDirective {
-  @Input() multiline: boolean = false
+  readonly el: ElementRef<HTMLElement> = inject(ElementRef)
+
+  @Input() multiline = false
   @Output() edit = new EventEmitter<string | string[]>()
   private originalValue: string | ChildNode[]
 
-  constructor(readonly el: ElementRef<HTMLElement>) {
-    this.originalValue = el.nativeElement.innerText
+  constructor() {
+    this.originalValue = this.el.nativeElement.innerText
   }
 
   @HostListener('focusin') focusin() {
@@ -25,7 +28,7 @@ export class CeDirective {
   }
 
   @HostListener('focusout') focusout() {
-    var newText = this.el.nativeElement.innerText
+    const newText = this.el.nativeElement.innerText
     if (newText != this.originalValue) {
       this.edit.emit(newText)
     }

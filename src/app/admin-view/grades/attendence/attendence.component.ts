@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { GradesService } from '../grades.service'
@@ -10,18 +10,16 @@ import { GradesService } from '../grades.service'
   standalone: false,
 })
 export class AttendenceComponent implements OnInit {
-  constructor(
-    private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: { room: string },
-    public dialogRef: MatDialogRef<AttendenceComponent>,
-    private ac: GradesService
-  ) {}
+  private fb = inject(FormBuilder)
+  public data: { room: string } = inject(MAT_DIALOG_DATA)
+  public dialogRef: MatDialogRef<AttendenceComponent> = inject(MatDialogRef)
+  private ac = inject(GradesService)
 
   ngOnInit(): void {
     this.room = this.data.room
     this.ac.attendence.getUsers(this.room).subscribe(query => {
       query.users.forEach(v => {
-        var att = query.attendence
+        const att = query.attendence
           ? query.attendence.auto.find(z => z.id == v._id)
           : false
         this.users.push(
@@ -44,7 +42,7 @@ export class AttendenceComponent implements OnInit {
     })
   }
 
-  room: string = ''
+  room = ''
 
   form: FormGroup = this.fb.group({
     users: this.fb.array([]),

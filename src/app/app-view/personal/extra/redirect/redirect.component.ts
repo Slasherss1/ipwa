@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { MatDialogRef } from '@angular/material/dialog'
 import { AuthClient } from 'src/app/services/auth.client'
 
@@ -9,12 +9,12 @@ import { AuthClient } from 'src/app/services/auth.client'
   standalone: false,
 })
 export class RedirectComponent {
+  public dialogRef: MatDialogRef<RedirectComponent> = inject(MatDialogRef)
+  private ac = inject(AuthClient)
+
   protected redirect = ''
-  constructor(
-    public dialogRef: MatDialogRef<RedirectComponent>,
-    private ac: AuthClient
-  ) {
-    this.redirect = ac.redirect
+  constructor() {
+    this.redirect = this.ac.redirect
   }
 
   protected save() {

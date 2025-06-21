@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DateTime } from 'luxon';
 import { map } from 'rxjs';
 import { Group } from 'src/app/types/group';
@@ -10,8 +10,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class NotificationsService {
-
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient)
 
   send(n: Notification) {
     return this.http.post<{ sent: number; possible: number }>(

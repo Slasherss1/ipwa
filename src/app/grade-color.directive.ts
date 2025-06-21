@@ -8,8 +8,6 @@ export class GradeColorDirective {
 
   appGradeColor = input<number>()
 
-  constructor() { }
-
   @HostBinding("style")
   get gc() {
     switch (this.appGradeColor()) {

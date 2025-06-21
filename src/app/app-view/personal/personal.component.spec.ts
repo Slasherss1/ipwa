@@ -6,7 +6,6 @@ import { MatDialogModule } from '@angular/material/dialog'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatListModule } from '@angular/material/list'
 import {
-  BrowserAnimationsModule,
   NoopAnimationsModule,
 } from '@angular/platform-browser/animations'
 import { AppUpdateService } from 'src/app/services/app-update.service'

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { UpdatesService } from 'src/app/services/updates.service'
 import { UKey } from 'src/app/types/key'
 
@@ -9,7 +9,7 @@ import { UKey } from 'src/app/types/key'
   standalone: false,
 })
 export class KeyComponent implements OnInit {
-  constructor(private us: UpdatesService) {}
+  private us = inject(UpdatesService)
 
   keys!: UKey[]
 

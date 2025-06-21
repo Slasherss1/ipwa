@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core'
+import { Component, inject, Input, ViewChild } from '@angular/core'
 import { MatDrawer } from '@angular/material/sidenav'
 import { Title } from '@angular/platform-browser'
 import { ToolbarService } from './toolbar.service'
@@ -11,15 +11,13 @@ import { MatMenuTrigger } from '@angular/material/menu'
   standalone: false,
 })
 export class ToolbarComponent {
+  readonly title = inject(Title)
+  protected toolbar = inject(ToolbarService)
+
   @Input() drawer!: MatDrawer
   @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger
 
   protected _menu?: typeof this.toolbar.menu
-
-  constructor(
-    readonly title: Title,
-    protected toolbar: ToolbarService
-  ) {}
 
   openMenu() {
     this._menu = this.toolbar.menu

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Group } from 'src/app/types/group';
 import { Status } from 'src/app/types/status';
 import { environment } from 'src/environments/environment';
@@ -8,8 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class GroupsService {
-
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient)
 
   getGroups() {
     return this.http.get<Group[]>(environment.apiEndpoint + `/admin/groups`, {

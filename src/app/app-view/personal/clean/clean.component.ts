@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core'
+import { Component, inject, OnInit, signal } from '@angular/core'
 import { toObservable } from "@angular/core/rxjs-interop";
 import { DateTime } from 'luxon'
 import { filterLook, weekendFilter } from 'src/app/util'
@@ -12,14 +12,16 @@ import { CleanNote } from 'src/app/types/clean-note'
   standalone: false,
 })
 export class CleanComponent implements OnInit {
+  private updates = inject(UpdatesService)
+
   grade: number | null = null
   notes: CleanNote[] = []
-  tips: string = ''
+  tips = ''
   filter = weekendFilter
   protected day = signal<DateTime>(filterLook(this.filter, "behind", DateTime.now(), 7)!)
 
-  constructor(private updates: UpdatesService) {
-    toObservable(this.day).subscribe(v => {
+  constructor() {
+    toObservable(this.day).subscribe(() => {
       this.update()
     })
   }

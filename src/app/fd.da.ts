@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core'
 import {
-  DateFilterFn,
   DateRange,
   MatDateRangeSelectionStrategy,
 } from '@angular/material/datepicker'

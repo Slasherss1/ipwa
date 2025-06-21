@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IUSettings } from './settings.component';
 import { environment } from 'src/environments/environment';
 import { Status } from 'src/app/types/status';
@@ -8,8 +8,7 @@ import { Status } from 'src/app/types/status';
   providedIn: 'root'
 })
 export class SettingsService {
-
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient)
 
   getAll() {
     return this.http.get<IUSettings>(

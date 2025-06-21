@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DateTime } from 'luxon';
 import { map } from 'rxjs';
-import { AKey } from 'src/app/types/key';
+import { AKey, AKeyAPI } from 'src/app/types/key';
 import { Status } from 'src/app/types/status';
 import { environment } from 'src/environments/environment';
 
@@ -11,24 +11,17 @@ import { environment } from 'src/environments/environment';
 })
 export class KeyService {
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  private http = inject(HttpClient)
 
   getKeys() {
     return this.http
-      .get<
-        (Omit<AKey, 'borrow' | 'tb'> & { borrow: string; tb?: string })[]
-      >(environment.apiEndpoint + `/admin/keys`, { withCredentials: true })
+      .get<AKeyAPI[]>(environment.apiEndpoint + `/admin/keys`, { withCredentials: true })
       .pipe(
-        map(v => {
-          return v.map(r => {
-            let newkey: any = { ...r }
-            newkey.borrow = DateTime.fromISO(r.borrow!)
-            if (newkey.tb) newkey.tb = DateTime.fromISO(r.tb!)
-            return newkey as AKey
-          })
-        })
+        map<AKeyAPI[], AKey[]>(v => v.map(r => ({
+          ...r,
+          borrow: DateTime.fromISO(r.borrow!),
+          tb: r.tb ? DateTime.fromISO(r.tb!) : undefined
+        })))
       )
   }
 

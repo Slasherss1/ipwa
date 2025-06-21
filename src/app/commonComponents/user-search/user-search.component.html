@@ -1,4 +1,4 @@
-<div role="group" class="app-user-search-container" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)">
+<div role="group" class="app-user-search-container" (focusin)="onFocusIn()" (focusout)="onFocusOut($event)">
   <input type="text" [matAutocomplete]="ac" [formControl]="control" #inputComponent class="input-element">
   @if (loading) {
     <mat-spinner color="accent" diameter="16" matSuffix></mat-spinner>

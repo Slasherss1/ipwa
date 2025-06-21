@@ -1,16 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { DateTime } from 'luxon';
 import { BehaviorSubject, catchError, map, of } from 'rxjs';
 import { Menu, MenuAPI } from 'src/app/types/menu';
 import { STATE } from 'src/app/types/state';
 import { Status } from 'src/app/types/status';
 import { environment } from 'src/environments/environment';
+import { MenuOptions } from './menu-edit.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MenuEditService {
+  private http = inject(HttpClient)
 
   private _menuItems = new BehaviorSubject<Menu[]>([])
   public readonly menuItems = this._menuItems.asObservable()
@@ -61,10 +63,8 @@ export class MenuEditService {
       })
   }
 
-  constructor(private http: HttpClient) { }
-
   getOpts() {
-    return this.http.get<any>(environment.apiEndpoint + `/admin/menu/opts`, {
+    return this.http.get<MenuOptions>(environment.apiEndpoint + `/admin/menu/opts`, {
       withCredentials: true,
     })
   }

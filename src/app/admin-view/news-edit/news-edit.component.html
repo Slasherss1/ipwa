@@ -1,6 +1,6 @@
 <button mat-raised-button (click)="newPost()" color="accent" class="newPost">Nowy post</button>
 <div class="mainc">
-  @if (ac.state() != 2) {
+  @if (ac.state() !== 2) {
     <app-load-shade [state]="ac.state()" [error]="ac.error()" (refresh)="ac.refresh()"/>
   }
   @for (item of ac.news | async; track item) {

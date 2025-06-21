@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { ToolbarService } from '../../toolbar/toolbar.service'
 import { Router, ActivatedRoute } from '@angular/router'
 import { MatTableDataSource } from '@angular/material/table'
@@ -24,12 +24,12 @@ export class AttendenceSummaryComponent implements OnInit {
   }>()
   collumns = ['room', 'hours', 'actions']
 
-  constructor(
-    private toolbar: ToolbarService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private ac: GradesService
-  ) {
+  private toolbar = inject(ToolbarService)
+  private router = inject(Router)
+  private route = inject(ActivatedRoute)
+  private ac = inject(GradesService)
+
+  constructor() {
     this.toolbar.comp = this
     this.toolbar.menu = [
       { check: true, title: 'Ocenianie', fn: 'goBack', icon: 'arrow_back' },

@@ -5,28 +5,22 @@ import { RouterModule } from '@angular/router'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatIconModule } from '@angular/material/icon'
-import { of } from 'rxjs'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatTableModule } from '@angular/material/table'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter'
+import { GradesService } from '../grades.service'
 
 xdescribe('SummaryComponent', () => {
   let component: SummaryComponent
   let fixture: ComponentFixture<SummaryComponent>
 
   beforeEach(async () => {
-    const acMock = {
-      clean: {
-        summary: {
-          getSummary: jasmine.createSpy('getSummary').and.returnValue(of()),
-        },
-      },
-    }
+    const acMock = {}
     await TestBed.configureTestingModule({
       declarations: [SummaryComponent],
       providers: [
-        // { provide: AdminCommService, useValue: acMock },
+        { provide: GradesService, useValue: acMock },
         provideLuxonDateAdapter(),
       ],
       imports: [

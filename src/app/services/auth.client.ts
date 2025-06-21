@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { catchError, EMPTY, tap, throwError } from 'rxjs'
 import { environment } from 'src/environments/environment'
@@ -10,13 +10,11 @@ import { Status } from '../types/status'
   providedIn: 'root',
 })
 export class AuthClient {
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private ls: LocalStorageService
-  ) {}
+  private http = inject(HttpClient)
+  private router = inject(Router)
+  private ls = inject(LocalStorageService)
 
-  private _redirect: string = ''
+  private _redirect = ''
   public get redirect(): string {
     return this._redirect
   }

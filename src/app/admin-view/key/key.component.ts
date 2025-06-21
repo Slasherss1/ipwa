@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core'
 import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
 import { AKey } from 'src/app/types/key'
@@ -15,13 +15,16 @@ import { KeyService } from './key.service'
   standalone: false,
 })
 export class AdminKeyComponent implements AfterViewInit, OnInit {
+  private ac = inject(KeyService)
+  private dialog = inject(MatDialog)
+  private sb = inject(MatSnackBar)
+
   keys: MatTableDataSource<AKey> = new MatTableDataSource<AKey>()
   pureData: AKey[] = []
   private _filters: string[] = []
   public get filters(): string[] {
     return this._filters
   }
-  collumns = ['room', 'whom', 'borrow', 'tb', 'actions']
   public set filters(value: string[]) {
     if (value.includes('showAll')) {
       this.collumns = ['room', 'whom', 'borrow', 'tb', 'actions']
@@ -31,13 +34,13 @@ export class AdminKeyComponent implements AfterViewInit, OnInit {
     this._filters = value
     this.transformData()
   }
+
+  collumns = ['room', 'whom', 'borrow', 'tb', 'actions']
+
   loading = true
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
   constructor(
-    private ac: KeyService,
-    private dialog: MatDialog,
-    private sb: MatSnackBar
   ) {
     this.filters = []
   }
@@ -52,7 +55,7 @@ export class AdminKeyComponent implements AfterViewInit, OnInit {
   }
 
   transformData() {
-    var finalData: AKey[] = this.pureData
+    let finalData: AKey[] = this.pureData
     if (!this.filters.includes('showAll'))
       finalData = finalData.filter(v => v.tb == undefined)
     this.keys.data = finalData
@@ -80,7 +83,7 @@ export class AdminKeyComponent implements AfterViewInit, OnInit {
           this.ac
             .postKey(v.room, v.user)
             .pipe(
-              catchError((err, caught) => {
+              catchError((err) => {
                 if (err.status == 404) {
                   this.sb.open('Nie znaleziono użytkownika', undefined, {
                     duration: 2500,

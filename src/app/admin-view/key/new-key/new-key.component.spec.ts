@@ -7,7 +7,7 @@ import {
   MatFormFieldModule,
 } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
-import { Component, forwardRef, Optional, Self } from '@angular/core'
+import { Component, forwardRef } from '@angular/core'
 import { Observable, of } from 'rxjs'
 import {
   AbstractControlDirective,
@@ -18,6 +18,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
+import { KeyService } from '../key.service'
 
 @Component({
   selector: 'app-user-search',
@@ -38,25 +39,31 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 class UserSearchStub
   implements ControlValueAccessor, MatFormFieldControl<never>
 {
-  value: null = null
+  value = null
   stateChanges: Observable<void> = of()
-  id: string = ''
-  placeholder: string = ''
+  id = ''
+  placeholder = ''
   ngControl: NgControl | AbstractControlDirective | null = null
-  focused: boolean = false
-  empty: boolean = true
-  shouldLabelFloat: boolean = true
-  required: boolean = false
-  disabled: boolean = false
-  errorState: boolean = false
+  focused = false
+  empty = true
+  shouldLabelFloat = true
+  required = false
+  disabled = false
+  errorState = false
   controlType?: string | undefined
   autofilled?: boolean | undefined
   userAriaDescribedBy?: string | undefined
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
   setDescribedByIds(ids: string[]): void {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
   onContainerClick(event: MouseEvent): void {}
-  writeValue(obj: any): void {}
-  registerOnChange(fn: any): void {}
-  registerOnTouched(fn: any): void {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  writeValue(obj: unknown): void {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  registerOnChange(fn: unknown): void {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  registerOnTouched(fn: unknown): void {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
   setDisabledState?(isDisabled: boolean): void {}
 }
 
@@ -67,14 +74,11 @@ xdescribe('NewKeyComponent', () => {
 
   beforeEach(async () => {
     acMock = {
-      keys: {
-        avalKeys: jasmine.createSpy('avalKeys').and.returnValue(of()),
-      },
     }
     await TestBed.configureTestingModule({
       declarations: [NewKeyComponent, UserSearchStub],
       providers: [
-        // { provide: AdminCommService, useValue: acMock },
+        { provide: KeyService, useValue: acMock },
         { provide: MatDialogRef, useValue: {} },
       ],
       imports: [

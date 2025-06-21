@@ -6,14 +6,14 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing'
 import {
-  HttpClient,
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http'
+import { environment } from 'src/environments/environment'
+import { firstValueFrom } from 'rxjs'
 
 describe('UpdatesService', () => {
   let service: UpdatesService
-  let httpClient: HttpClient
   let httpTestingController: HttpTestingController
 
   beforeEach(() => {
@@ -24,12 +24,21 @@ describe('UpdatesService', () => {
         provideHttpClientTesting(),
       ],
     })
-    service = TestBed.inject(UpdatesService)
-    httpClient = TestBed.inject(HttpClient)
     httpTestingController = TestBed.inject(HttpTestingController)
+    service = TestBed.inject(UpdatesService)
   })
 
   it('should be created', () => {
     expect(service).toBeTruthy()
+  })
+
+  it('should grab news', () => {
+    const res = firstValueFrom(service.getNews())
+    const req = httpTestingController.expectOne(environment.apiEndpoint+`/app/news`)
+
+    expect(res).withContext("empty news array").toBeDefined()
+
+    req.flush([])
+    httpTestingController.verify()
   })
 })

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, inject, Input } from '@angular/core'
 import { DateTime } from 'luxon'
 import { NotificationsService } from '../../notifications.service';
 
@@ -9,6 +9,8 @@ import { NotificationsService } from '../../notifications.service';
   standalone: false,
 })
 export class MessageComponent {
+  protected acu = inject(NotificationsService)
+
   @Input() item!: { _id: string; sentDate: DateTime; title: string }
   body?: string
   rcpts?: {
@@ -18,10 +20,7 @@ export class MessageComponent {
     fname?: string
     surname?: string
   }[]
-  loading: boolean = false
-  constructor(
-    readonly acu: NotificationsService
-  ) { }
+  loading = false
 
   getMessage() {
     this.loading = true

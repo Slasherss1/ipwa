@@ -4,6 +4,7 @@ import {
   EventEmitter,
   HostBinding,
   HostListener,
+  inject,
   Input,
   Output,
 } from '@angular/core'
@@ -15,13 +16,13 @@ import {
   standalone: false,
 })
 export class FieldEditorComponent {
+  private elRef = inject(ElementRef)
+
   @HostBinding('tabindex') tabindex = 0
   @Input() word!: string
   @Output() wordChange = new EventEmitter<string>()
   @Input() category!: string
   @Input() list?: string
-
-  constructor(private elRef: ElementRef) {}
 
   focused = false
 

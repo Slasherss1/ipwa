@@ -5,11 +5,11 @@ import { RouterModule } from '@angular/router'
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { MatIconModule } from '@angular/material/icon'
 import { MatFormFieldModule } from '@angular/material/form-field'
-import { of } from 'rxjs'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatInputModule } from '@angular/material/input'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { DateTime } from 'luxon'
+import { GradesService } from './grades.service'
 
 @Component({
   selector: 'app-date-selector',
@@ -38,14 +38,10 @@ xdescribe('GradesComponent', () => {
   let acMock
 
   beforeEach(async () => {
-    acMock = {
-      clean: {
-        getConfig: jasmine.createSpy('getConfig').and.returnValue(of()),
-      },
-    }
+    acMock = {}
     await TestBed.configureTestingModule({
       declarations: [GradesComponent, DateSelectorStub, RoomSelectorStub],
-      // providers: [{ provide: AdminCommService, useValue: acMock }],
+      providers: [{ provide: GradesService, useValue: acMock }],
       imports: [
         RouterModule.forRoot([]),
         MatIconModule,
