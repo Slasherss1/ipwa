@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { inject } from '@angular/core'
 import { CanActivateChildFn, RedirectCommand, Router } from '@angular/router'
 import { LocalStorageService } from './services/local-storage.service'
