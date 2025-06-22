@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
 import { ToolbarService } from '../../toolbar/toolbar.service'
-import { DateTime } from 'luxon'
 import { NotificationsService } from '../notifications.service'
+import { Message } from '../notifications.model'
 
 @Component({
   selector: 'app-outbox',
@@ -11,16 +11,12 @@ import { NotificationsService } from '../notifications.service'
   standalone: false,
 })
 export class OutboxComponent implements OnInit {
-  private acs = inject(NotificationsService)
+  protected ns = inject(NotificationsService)
   private toolbar = inject(ToolbarService)
   private router = inject(Router)
   private route = inject(ActivatedRoute)
 
-  messages!: {
-    _id: string
-    sentDate: DateTime
-    title: string
-  }[]
+  messages!: Message[]
 
   constructor() {
     this.toolbar.comp = this
@@ -34,7 +30,8 @@ export class OutboxComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.acs.outbox.getSent().subscribe(v => {
+    this.ns.refreshOutbox()
+    this.ns.msgs.subscribe(v => {
       this.messages = v
     })
   }

@@ -8,14 +8,16 @@
     </mat-card-title-group>
   </mat-card-header>
   <mat-card-content>
-    @if (body) {
+    @if (item.message) {
       <p>
-        {{body}}
+        {{item.message}}
       </p>
     }
     <hr>
+    @if (item.rcpts) {
+      <span>Odbiorcy:</span>
       <ul>
-        @for (user of rcpts; track $index) {
+        @for (user of item.rcpts; track $index) {
           <li>
             @if (user.room) {
               <span>{{user.room}}: </span>
@@ -24,17 +26,15 @@
           </li>
         }
       </ul>
+    }
     </mat-card-content>
     <mat-card-footer>
       <mat-card-actions>
-        @if (!body) {
+        @if (!item.message) {
           <button mat-stroked-button (click)="getMessage()">Wczytaj treść</button>
         }
-        @if (!rcpts) {
+        @if (!item.rcpts) {
           <button mat-stroked-button (click)="getRcpts()">Wczytaj odbiorców</button>
-        }
-        @if (loading) {
-          <mat-spinner diameter="32" color="accent"></mat-spinner>
         }
       </mat-card-actions>
     </mat-card-footer>

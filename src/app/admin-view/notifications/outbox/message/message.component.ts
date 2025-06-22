@@ -1,6 +1,6 @@
 import { Component, inject, Input } from '@angular/core'
-import { DateTime } from 'luxon'
 import { NotificationsService } from '../../notifications.service';
+import { Message } from '../../notifications.model';
 
 @Component({
   selector: 'app-message',
@@ -11,30 +11,13 @@ import { NotificationsService } from '../../notifications.service';
 export class MessageComponent {
   protected acu = inject(NotificationsService)
 
-  @Input() item!: { _id: string; sentDate: DateTime; title: string }
-  body?: string
-  rcpts?: {
-    _id: string
-    uname: string
-    room?: string
-    fname?: string
-    surname?: string
-  }[]
-  loading = false
+  @Input() item!: Message
 
   getMessage() {
-    this.loading = true
-    this.acu.outbox.getBody(this.item._id).subscribe(v => {
-      this.body = v
-      this.loading = false
-    })
+    this.acu.getMessageBody(this.item._id)
   }
 
   getRcpts() {
-    this.loading = true
-    this.acu.outbox.getRcpts(this.item._id).subscribe(v => {
-      this.rcpts = v
-      this.loading = false
-    })
+    this.acu.getMessageRcpts(this.item._id)
   }
 }

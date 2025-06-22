@@ -7,6 +7,7 @@ import { ToolbarService } from '../toolbar/toolbar.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { UserSearchResult } from 'src/app/commonComponents/user-search/user-search.component'
 import { NotificationsService } from './notifications.service'
+import { AdminSyncService } from '../admin-sync.service'
 
 @Component({
   selector: 'app-notifications',
@@ -15,7 +16,8 @@ import { NotificationsService } from './notifications.service'
   standalone: false,
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
-  private acs = inject(NotificationsService)
+  private ns = inject(NotificationsService)
+  private as = inject(AdminSyncService)
   readonly ls = inject(LocalStorageService)
   private toolbar = inject(ToolbarService)
   private router = inject(Router)
@@ -47,9 +49,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.acs.getGroups().subscribe(v => {
-      this.groups = v
-    })
+    this.groups = this.as.groups
   }
 
   ngOnDestroy(): void {
@@ -60,7 +60,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   success?: { sent: number; possible: number }
 
   submit() {
-    this.acs
+    this.ns
       .send({
         ...this.form.value,
         recp: {
