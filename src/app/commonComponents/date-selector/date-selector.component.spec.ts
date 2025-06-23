@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input'
 import { ReactiveFormsModule } from '@angular/forms'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter'
+import { DateTime } from 'luxon'
 
 describe('DateSelectorComponent', () => {
   let component: DateSelectorComponent
@@ -28,10 +29,12 @@ describe('DateSelectorComponent', () => {
     })
     fixture = TestBed.createComponent(DateSelectorComponent)
     component = fixture.componentInstance
-    fixture.detectChanges()
   })
 
-  it('should create', () => {
+  it('should create', async () => {
+    fixture.componentRef.setInput("date", DateTime.now())
+    fixture.detectChanges()
+    await fixture.whenStable()
     expect(component).toBeTruthy()
   })
 })

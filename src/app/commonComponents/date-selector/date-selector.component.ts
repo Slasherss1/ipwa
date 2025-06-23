@@ -3,6 +3,7 @@ import {
   Input,
   model,
   OnChanges,
+  OnInit,
   SimpleChanges,
 } from '@angular/core'
 import { FormControl } from '@angular/forms'
@@ -15,16 +16,20 @@ import { DateTime } from 'luxon'
   styleUrls: ['./date-selector.component.scss'],
   standalone: false,
 })
-export class DateSelectorComponent implements OnChanges {
-  date = model<DateTime>()
+export class DateSelectorComponent implements OnChanges, OnInit {
+  date = model.required<DateTime>()
   @Input() filter: DateFilterFn<DateTime | null> = () => true
   protected dateInput: FormControl<DateTime>
 
   constructor() {
-    this.dateInput = new FormControl(this.date()!, { nonNullable: true })
+    this.dateInput = new FormControl()
     this.dateInput.valueChanges.subscribe(v => {
       this.date.set(v)
     })
+  }
+
+  ngOnInit(): void {
+    this.dateInput.setValue(this.date())
   }
 
   ngOnChanges(changes: SimpleChanges): void {
