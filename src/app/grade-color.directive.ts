@@ -24,7 +24,7 @@ export class GradeColorDirective {
       case 6:
         return { color: 'springgreen' }
       default:
-        return { color: 'inherit' }
+        return { color: 'gray' }
     }
   }
 
