@@ -1,4 +1,4 @@
-import { Directive, HostBinding, input } from '@angular/core';
+import { Directive, HostBinding, input, numberAttribute } from '@angular/core';
 
 @Directive({
   selector: 'span[appGradeColor]',
@@ -6,7 +6,7 @@ import { Directive, HostBinding, input } from '@angular/core';
 })
 export class GradeColorDirective {
 
-  appGradeColor = input<number>()
+  appGradeColor = input.required({transform: numberAttribute})
 
   @HostBinding("style")
   get gc() {
