@@ -29,15 +29,7 @@ export class PersonalComponent {
   checking: boolean | 'err' | 'aval' = false
   public version = environment.version
   protected logout() {
-    const dialogRef = this.dialog.open(LogoutConfirmationComponent)
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.ac.logout().subscribe(() => {
-          this.router.navigateByUrl('/login')
-          this.ls.logOut()
-        })
-      }
-    })
+    this.dialog.open(LogoutConfirmationComponent)
   }
 
   protected openPassChange() {

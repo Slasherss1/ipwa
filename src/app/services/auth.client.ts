@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { Router } from '@angular/router'
-import { catchError, EMPTY, tap, throwError } from 'rxjs'
+import { catchError, EMPTY, firstValueFrom, tap, throwError } from 'rxjs'
 import { environment } from 'src/environments/environment'
 import { LocalStorageService } from './local-storage.service'
 import { Status } from '../types/status'
@@ -40,10 +40,17 @@ export class AuthClient {
       )
   }
 
-  public logout() {
-    return this.http.delete(environment.apiEndpoint + '/auth/logout', {
-      withCredentials: true,
-    })
+  public async logout() {
+    const res = await firstValueFrom(
+      this.http.delete<Status>(environment.apiEndpoint + '/auth/logout', {
+        withCredentials: true,
+      })
+    )
+
+    if (res.status === 200) {
+      this.router.navigateByUrl('/login')
+      this.ls.logOut()
+    }
   }
 
   public check() {
