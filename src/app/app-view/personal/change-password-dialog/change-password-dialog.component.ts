@@ -1,17 +1,15 @@
 import { Component, inject } from '@angular/core'
 import { AuthClient } from '../../../services/auth.client'
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms'
 import { catchError, throwError } from 'rxjs'
 import { MatDialogRef } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
+import { PasswordValidators } from './pwd.validators'
 
 @Component({
   selector: 'app-change-password-dialog',
@@ -26,42 +24,32 @@ export class ChangePasswordDialogComponent {
   private ls = inject(LocalStorageService)
 
   error: string | null = null
-  form: FormGroup
-  constructor() {
-    this.form = new FormGroup(
-      {
-        oldPass: new FormControl(),
-        newPass: new FormControl(),
-        newPassRepeat: new FormControl(),
-      },
-      { validators: [this.matchpass(), Validators.required] }
-    )
-  }
+  form = new FormGroup(
+    {
+      oldPass: new FormControl("", { validators: Validators.required, nonNullable: true }),
+      newPass: new FormControl("", { validators: Validators.required, nonNullable: true }),
+      newPassRepeat: new FormControl("", { validators: Validators.required, nonNullable: true }),
+    },
+    { validators: [PasswordValidators.matchPass, PasswordValidators.childrenRequired] }
+  )
 
-  private matchpass(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const newpass = control.get('newPass')
-      const newpassrepeat = control.get('newPassRepeat')
-      if (newpass?.value != newpassrepeat?.value) {
-        const err = { noMatch: true }
-        newpassrepeat?.setErrors(err)
-        return err
-      }
-      newpassrepeat?.setErrors(null)
-      return null
-    }
-  }
+  changePass() {
+    this.form.markAllAsTouched()
 
-  protected changePass() {
     if (this.form.errors) {
-      return
+      throw new Error("Form invalid")
+    } else {
+      this.error = null
     }
+
     this.ac
-      .chpass(this.form.get('oldPass')?.value, this.form.get('newPass')?.value)
+      .chpass(this.form.controls['oldPass'].value, this.form.controls['newPass'].value)
       .pipe(
         catchError(err => {
           if (err.status == 401) {
-            this.error = 'Niepoprawne dane'
+            this.form.controls['oldPass'].setErrors({
+              wrongPass: true
+            })
             return throwError(() => new Error(err.message))
           }
           this.error = 'Nieznany błąd'
@@ -71,8 +59,7 @@ export class ChangePasswordDialogComponent {
       .subscribe(() => {
         if (this.error == null) {
           this.dr.close()
-          this.ls.logOut()
-          this.router.navigateByUrl('/login')
+          this.ac.logout()
         }
       })
   }
