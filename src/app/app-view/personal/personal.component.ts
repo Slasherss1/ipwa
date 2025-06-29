@@ -11,6 +11,7 @@ import { KeyComponent } from './key/key.component'
 import { CleanComponent } from './clean/clean.component'
 import { AboutComponent } from './about/about.component'
 import { ExtraComponent } from './extra/extra.component'
+import { CleanService } from './clean/clean.service'
 
 @Component({
   selector: 'app-personal',
@@ -23,6 +24,7 @@ export class PersonalComponent {
   private router = inject(Router)
   private dialog = inject(MatDialog)
   private update = inject(AppUpdateService)
+  protected clean = inject(CleanService)
   protected ls = inject(LocalStorageService)
 
   updateaval: boolean | unknown = false

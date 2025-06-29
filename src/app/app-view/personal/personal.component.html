@@ -1,3 +1,14 @@
+<div class="info">
+  <h1>Imie Nazwisko</h1>
+  <h2>Pokój: 101</h2>
+  @if (ls.capCheck(16) && ls.hasRoom()) {
+    <button matButton="tonal" (click)="openClean()">Ocena za czystość
+      @if (clean.dailyClean()) {
+        : <span [appGradeColor]="clean.dailyClean()">{{clean.dailyClean()}}</span>
+      }
+    </button>
+  }
+</div>
 <mat-action-list>
   <button mat-list-item (click)="logout()">
     <mat-icon matListItemIcon color="primary">logout</mat-icon>
@@ -31,12 +42,6 @@
     <button mat-list-item (click)="openKey()">
       <mat-icon matListItemIcon>key</mat-icon>
       <div matListItemTitle>Klucze</div>
-    </button>
-  }
-  @if (ls.capCheck(16) && ls.hasRoom()) {
-    <button mat-list-item (click)="openClean()">
-      <mat-icon matListItemIcon>cleaning_services</mat-icon>
-      <div matListItemTitle>Oceny za czystość</div>
     </button>
   }
   @if (ls.admin) {
