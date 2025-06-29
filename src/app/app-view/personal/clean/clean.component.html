@@ -4,20 +4,20 @@
     <h1>Twoja ocena: <span [appGradeColor]="grade">{{grade}}</span></h1>
   }
   @else {
-  <h1>Nie oceniono</h1>
-}
-@if (notes.length > 0) {
-  <p>Uwagi:</p>
-}
-<ul>
-  @for (i of notes; track i) {
-    <li>{{i.label}}@if (i.weight > 1) {
-      <span> ({{i.weight}})</span>
-    }</li>
+    <h1>Nie oceniono</h1>
   }
-</ul>
-<p>{{tips}}</p>
-<app-date-selector [(date)]="day" [filter]="filter"/>
+  @if (notes.length > 0) {
+    <p>Uwagi:</p>
+  }
+  <ul>
+    @for (i of notes; track i) {
+      <li>{{i.label}}@if (i.weight > 1) {
+        <span> ({{i.weight}})</span>
+      }</li>
+    }
+  </ul>
+  <p>{{tips}}</p>
+  <app-date-selector [(date)]="day" [filter]="filter"/>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>

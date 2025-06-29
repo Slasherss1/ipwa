@@ -2,8 +2,8 @@ import { Component, inject, OnInit, signal } from '@angular/core'
 import { toObservable } from "@angular/core/rxjs-interop";
 import { DateTime } from 'luxon'
 import { filterLook, weekendFilter } from 'src/app/util'
-import { UpdatesService } from 'src/app/services/updates.service'
 import { CleanNote } from 'src/app/types/clean-note'
+import { CleanService } from './clean.service';
 
 @Component({
   selector: 'app-clean',
@@ -12,7 +12,7 @@ import { CleanNote } from 'src/app/types/clean-note'
   standalone: false,
 })
 export class CleanComponent implements OnInit {
-  private updates = inject(UpdatesService)
+  private updates = inject(CleanService)
 
   grade: number | null = null
   notes: CleanNote[] = []
@@ -30,17 +30,10 @@ export class CleanComponent implements OnInit {
     this.update()
   }
 
-  update() {
-    this.updates.getClean(this.day()).subscribe(v => {
-      if (v) {
-        this.grade = v.grade
-        this.notes = v.notes
-        this.tips = v.tips
-      } else {
-        this.grade = null
-        this.notes = []
-        this.tips = ''
-      }
-    })
+  async update() {
+    const upd = await this.updates.getClean(this.day())
+    this.grade = upd?.grade || null
+    this.notes = upd?.notes || []
+    this.tips = upd?.tips || ''
   }
 }

@@ -162,7 +162,7 @@ export class GradesComponent implements OnInit, OnDestroy {
     this.calculate()
     const obj = {
       grade: this.grade,
-      date: this.date,
+      date: this.date().toISODate(),
       room: this.room,
       notes: this.notes,
       tips: this.form.get('tips')?.value,

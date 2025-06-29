@@ -4,7 +4,6 @@ import { Menu } from '../types/menu'
 import { environment } from 'src/environments/environment'
 import { News } from '../types/news.model'
 import { UKey } from '../types/key'
-import { CleanNote } from '../types/clean-note'
 import { Status } from '../types/status'
 import { DateTime } from 'luxon'
 
@@ -63,13 +62,6 @@ export class UpdatesService {
     return this.http.get<UKey[]>(environment.apiEndpoint + `/app/keys`, {
       withCredentials: true,
     })
-  }
-
-  getClean(date: DateTime) {
-    return this.http.get<{ grade: number; notes: CleanNote[]; tips: string }>(
-      environment.apiEndpoint + `/app/clean/${date.toISODate()}`,
-      { withCredentials: true }
-    )
   }
 
   getNotifCheck() {
