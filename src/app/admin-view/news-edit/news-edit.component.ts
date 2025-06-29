@@ -96,7 +96,6 @@ export class NewsEditComponent implements OnInit {
   }
 
   pinToggle(item: News) {
-    console.log(item.pinned)
     this.ac
       .togglePin(item._id, !!item.pinned)
       .pipe(
