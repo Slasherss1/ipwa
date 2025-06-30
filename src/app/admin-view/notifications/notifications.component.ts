@@ -6,8 +6,10 @@ import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { ToolbarService } from '../toolbar/toolbar.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { UserSearchResult } from 'src/app/commonComponents/user-search/user-search.component'
-import { NotificationsService } from './notifications.service'
+import { NotificationsService, SendResult } from './notifications.service'
 import { AdminSyncService } from '../admin-sync.service'
+import { catchError, throwError } from 'rxjs'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-notifications',
@@ -23,6 +25,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   private router = inject(Router)
   private route = inject(ActivatedRoute)
   private fb = inject(FormBuilder)
+  private sb = inject(MatSnackBar)
 
   groups!: Group[]
   form = this.fb.group({
@@ -30,7 +33,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       uid: this.fb.control<UserSearchResult | null>(null),
       room: this.fb.control<string | null>(null),
       group: this.fb.control<string>(''),
-      type: this.fb.control<'room' | 'uname' | 'group'>('uname', {
+      type: this.fb.control<'room' | 'uid' | 'group'>('uid', {
         nonNullable: true,
       }),
     }),
@@ -68,8 +71,15 @@ export class NotificationsComponent implements OnInit, OnDestroy {
           uid: this.form.controls['recp'].controls['uid'].value?._id,
         },
       } as Notification)
-      .subscribe(data => {
-        this.success = data
+      .pipe(
+        catchError((err) => {
+          if (err.status === 404) {
+            this.sb.open("Brak odbiorców")
+          }
+          return throwError(() => err)
+        })
+      ).subscribe(data => {
+        this.success = data as SendResult
       })
   }
 }

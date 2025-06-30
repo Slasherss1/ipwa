@@ -6,6 +6,12 @@ import { Notification } from 'src/app/types/notification';
 import { STATE } from 'src/app/types/state';
 import { environment } from 'src/environments/environment';
 import { Message, MessageAPI, MessageRecipients } from './notifications.model';
+import { Status } from 'src/app/types/status';
+
+export interface SendResult {
+  sent: number;
+  possible: number
+}
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +27,7 @@ export class NotificationsService {
   public readonly error = this._error.asReadonly();
 
   send(n: Notification) {
-    return this.http.post<{ sent: number; possible: number }>(
+    return this.http.post<SendResult | Status>(
       environment.apiEndpoint + '/admin/notif/send',
       n,
       { withCredentials: true }
