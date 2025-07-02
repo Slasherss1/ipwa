@@ -1,4 +1,4 @@
-FROM node:18-alpine AS build
+FROM node:22.12-alpine AS build
 WORKDIR /build
 ADD . .
 RUN [ "npm", "ci" ]
