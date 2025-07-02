@@ -61,7 +61,7 @@ export class AppViewComponent implements OnInit {
     this.subscribeToNotif()
     this.ac.check()
     this.newsCheck()
-    interval(1000 * 60 * 15).subscribe(this.newsCheck)
+    interval(1000 * 60 * 15).subscribe(() => this.newsCheck())
   }
 
   newsCheck() {

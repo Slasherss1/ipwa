@@ -1,6 +1,6 @@
 <mat-dialog-content>
   <form (ngSubmit)="send()" [formGroup]="form">
-    <mat-form-field color="accent">
+    <mat-form-field>
       <mat-label>Sala</mat-label>
       <mat-select formControlName="room" required>
         @for (item of rooms; track $index) {
@@ -11,7 +11,7 @@
         <mat-error>Wymagane</mat-error>
       }
     </mat-form-field>
-    <mat-form-field color="accent">
+    <mat-form-field>
       <mat-label>Wypożyczający</mat-label>
       <app-user-search formControlName="user" required/>
       @if (form.controls['user'].hasError('required')) {

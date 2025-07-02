@@ -4,11 +4,11 @@
   <p>Czystość pokoju {{room}} na {{date().toFormat("cccc, D")}}</p>
   <p>Ocena: <span [appGradeColor]="grade">{{grade}}</span></p>
   <div id="buttons">
-    <button mat-mini-fab (click)="downloadData()" color="accent"><mat-icon>cancel</mat-icon></button>
-    <button mat-mini-fab (click)="attendence()" color="accent"><mat-icon>overview</mat-icon></button>
-    <button mat-mini-fab (click)="save()" color="accent"><mat-icon>save</mat-icon></button>
+    <button mat-mini-fab (click)="downloadData()"><mat-icon>cancel</mat-icon></button>
+    <button mat-mini-fab (click)="attendence()"><mat-icon>overview</mat-icon></button>
+    <button mat-mini-fab (click)="save()"><mat-icon>save</mat-icon></button>
     @if (id) {
-      <button mat-mini-fab color="warn" (click)="remove()"><mat-icon>delete</mat-icon></button>
+      <button mat-mini-fab class="error-color" (click)="remove()"><mat-icon>delete</mat-icon></button>
     }
   </div>
   @for (item of things.controls; track item; let i = $index) {

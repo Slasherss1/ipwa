@@ -1,4 +1,4 @@
-<button mat-raised-button (click)="newPost()" color="accent" class="newPost">Nowy post</button>
+<button matButton="outlined" (click)="newPost()" class="newPost">Nowy post</button>
 <div class="mainc">
   @if (ac.state() !== 2) {
     <app-load-shade [state]="ac.state()" [error]="ac.error()" (refresh)="ac.refresh()"/>
@@ -22,7 +22,7 @@
               </button>
             }
             @default {
-              <button mat-mini-fab (click)="visibleToggle(item)" color="warn">
+              <button mat-mini-fab (click)="visibleToggle(item)" class="error-color">
                 <mat-icon>visibility_off</mat-icon>
               </button>
             }

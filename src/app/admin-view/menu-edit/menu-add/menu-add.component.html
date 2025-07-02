@@ -22,12 +22,12 @@
                 </mat-form-field>
             }
             @case ("file") {
-                <button mat-flat-button color="accent" (click)="activateUpload()">Otwórz okno</button>
+                <button mat-flat-button (click)="activateUpload()">Otwórz okno</button>
             }
         }
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-raised-button color="accent" (click)="submit()">Utwórz pozycje</button>
+    <button matButton="outlined" (click)="submit()">Utwórz pozycje</button>
     <button mat-button mat-dialog-close>Anuluj</button>
 </mat-dialog-actions>

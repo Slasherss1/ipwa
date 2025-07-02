@@ -1,6 +1,6 @@
 @switch (state()) {
   @case (STATE.PENDING) {
-    <mat-spinner color="accent"></mat-spinner>
+    <mat-spinner></mat-spinner>
   }
   @case (STATE.ERROR) {
     <mat-card>
@@ -12,7 +12,7 @@
         <p>{{ error() }}</p>
       </mat-card-content>
       <mat-card-actions align="end">
-        <button (click)="refresh.emit()" mat-flat-button color="accent">Odśwież</button>
+        <button (click)="refresh.emit()" mat-flat-button>Odśwież</button>
       </mat-card-actions>
     </mat-card>
   }

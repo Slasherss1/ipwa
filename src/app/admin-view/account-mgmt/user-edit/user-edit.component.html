@@ -2,19 +2,19 @@
 <mat-dialog-content>
   <form [formGroup]="form">
     <div>
-      <mat-form-field appearance="outline" color="accent">
+      <mat-form-field appearance="outline">
         <mat-label>Imię</mat-label>
         <input type="text" matInput formControlName="fname">
       </mat-form-field>
-      <mat-form-field appearance="outline" color="accent">
+      <mat-form-field appearance="outline">
         <mat-label>Nazwisko</mat-label>
         <input type="text" matInput formControlName="surname">
       </mat-form-field>
-      <mat-form-field appearance="outline" color="accent">
+      <mat-form-field appearance="outline">
         <mat-label>Pokój</mat-label>
         <input type="text" matInput formControlName="room">
       </mat-form-field>
-      <mat-form-field appearance="outline" color="accent">
+      <mat-form-field appearance="outline">
         <mat-label>Grupy</mat-label>
         <mat-select multiple formControlName="groups">
           @for (item of adsyn.groups; track $index) {
@@ -27,24 +27,24 @@
       }
     </div>
     <div>
-      <mat-form-field appearance="outline" color="accent">
+      <mat-form-field appearance="outline">
         <mat-label>Nazwa użytkownika</mat-label>
         <input type="text" matInput required formControlName="uname">
       </mat-form-field>
       @if (data.type === "edit") {
-        <button mat-stroked-button color="accent" (click)="resetPass()">Resetuj hasło</button>
+        <button mat-stroked-button (click)="resetPass()">Resetuj hasło</button>
         @if (locked) {
-          <button mat-stroked-button color="warn" (click)="toggleLock(false)"><mat-icon>lock</mat-icon>Blokada ręczna</button>
+          <button mat-stroked-button class="error-color" (click)="toggleLock(false)"><mat-icon>lock</mat-icon>Blokada ręczna</button>
         } @else {
-          <button mat-stroked-button color="accent" (click)="toggleLock(true)">Zablokuj konto</button>
+          <button mat-stroked-button (click)="toggleLock(true)">Zablokuj konto</button>
         }
         @if (lockout) {
-          <button mat-stroked-button color="warn" (click)="disableLockout()"><mat-icon>lock_clock</mat-icon>Auto-Blokada</button>
+          <button mat-stroked-button class="error-color" (click)="disableLockout()"><mat-icon>lock_clock</mat-icon>Auto-Blokada</button>
         } @else {
           <button mat-stroked-button disabled>Auto-Blokada nieczynna</button>
         }
         @if (ls.permChecker("accs")) {
-          <mat-form-field color="accent">
+          <mat-form-field>
             <mat-label>Uprawnienia</mat-label>
             <mat-select multiple formControlName="flags">
               @if (ls.capCheck(1)) {
@@ -75,11 +75,11 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   @if (data.type === "edit") {
-    <button mat-stroked-button color="warn" style="margin-right: auto;" (click)="delete()">Usuń konto</button>
+    <button mat-stroked-button class="error-color" style="margin-right: auto;" (click)="delete()">Usuń konto</button>
   }
   <button mat-stroked-button mat-dialog-close>Zamknij</button>
-  <button mat-flat-button color="accent" (click)="submit()">Zapisz</button>
+  <button mat-flat-button (click)="submit()">Zapisz</button>
   @if (loading) {
-    <mat-spinner diameter="32" color="accent"></mat-spinner>
+    <mat-spinner diameter="32"></mat-spinner>
   }
 </mat-dialog-actions>

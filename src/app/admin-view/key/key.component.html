@@ -9,7 +9,7 @@
   <button mat-icon-button (click)="new()"><mat-icon>add</mat-icon></button>
 </div>
 @if (loading) {
-  <mat-spinner color="accent"></mat-spinner>
+  <mat-spinner></mat-spinner>
 }
 <table mat-table [dataSource]="keys">
   <div matColumnDef="room">

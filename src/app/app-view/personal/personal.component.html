@@ -11,11 +11,11 @@
 </div>
 <mat-action-list>
   <button mat-list-item (click)="logout()">
-    <mat-icon matListItemIcon color="primary">logout</mat-icon>
+    <mat-icon matListItemIcon>logout</mat-icon>
     <div matListItemTitle>Wyloguj</div>
   </button>
   <button mat-list-item (click)="openPassChange()">
-    <mat-icon matListItemIcon color="primary">manage_accounts</mat-icon>
+    <mat-icon matListItemIcon>manage_accounts</mat-icon>
     <div matListItemTitle>Zmiana hasła</div>
   </button>
   <button mat-list-item (click)="checkUpdate()">
@@ -28,7 +28,7 @@
           <mat-icon>update</mat-icon>
         }
         @case ('err') {
-          <mat-icon color="warn">error</mat-icon>
+          <mat-icon class="error-color">error</mat-icon>
         }
         @case ('aval') {
           <mat-icon>upgrade</mat-icon>
@@ -46,7 +46,7 @@
   }
   @if (ls.admin) {
     <button mat-list-item (click)="goToAdmin()">
-      <mat-icon matListItemIcon color="accent">admin_panel_settings</mat-icon>
+      <mat-icon matListItemIcon>admin_panel_settings</mat-icon>
       <div matListItemTitle>Panel administracyjny</div>
       <div matListItemLine>Poprzednio Tryb edycji</div>
     </button>
