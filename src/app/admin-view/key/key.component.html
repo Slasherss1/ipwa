@@ -22,13 +22,13 @@
   </div>
   <div matColumnDef="borrow">
     <th mat-header-cell *matHeaderCellDef>Data wypożyczenia</th>
-    <td mat-cell *matCellDef="let element">{{element.borrow.format("HH:mm, ddd D.MM.")}}</td>
+    <td mat-cell *matCellDef="let element">{{element.borrow.toFormat("HH:mm, ccc d.LL.")}}</td>
   </div>
   <div matColumnDef="tb">
     <th mat-header-cell *matHeaderCellDef>Data zwrotu</th>
     <td mat-cell *matCellDef="let element">
       @if (element.tb) {
-        {{element.tb.format("HH:mm, ddd D.MM.")}}
+        {{element.tb.toFormat("HH:mm, ccc d.LL.")}}
       }
     </td>
   </div>
