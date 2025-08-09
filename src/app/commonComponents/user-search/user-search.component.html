@@ -6,14 +6,7 @@
   <mat-autocomplete #ac="matAutocomplete" autoActiveFirstOption (optionSelected)="saveValue($event)" [displayWith]="displayFn">
     @for (item of list; track $index) {
       <mat-option [value]="item">
-        @if (item.fname) {
-          {{item.fname}} {{item.surname}}
-          @if (item.room) {
-            <span class="room">({{item.room}})</span>
-          }
-        } @else {
-          {{item.uname}}
-        }
+        <app-user-display [item]="item"/>
       </mat-option>
     }
 </mat-autocomplete>

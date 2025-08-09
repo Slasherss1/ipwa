@@ -87,7 +87,8 @@ import { UserSearchComponent } from './commonComponents/user-search/user-search.
 import { StartAdminComponent } from './admin-view/start/start.component'
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
 import { LoadShadeComponent } from './commonComponents/load-shade/load-shade.component'
-import { GradeColorDirective } from './grade-color.directive'
+import { GradeColorDirective } from './grade-color.directive';
+import { UserDisplayComponent } from './commonComponents/user-display/user-display.component'
 
 @NgModule({
   declarations: [
@@ -141,6 +142,7 @@ import { GradeColorDirective } from './grade-color.directive'
     StartAdminComponent,
     LoadShadeComponent,
     GradeColorDirective,
+    UserDisplayComponent,
   ],
   bootstrap: [AppComponent],
   imports: [
