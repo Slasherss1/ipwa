@@ -5,6 +5,7 @@ import { catchError, EMPTY, firstValueFrom, tap, throwError } from 'rxjs'
 import { environment } from 'src/environments/environment'
 import { LocalStorageService } from './local-storage.service'
 import { Status } from '../types/status'
+import { User } from '../types/user'
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +58,7 @@ export class AuthClient {
     this.http
       .get<{
         admin?: string[]
-        room?: string
+        user: User,
         features: number
         menu: {
           defaultItems: {
@@ -83,7 +84,7 @@ export class AuthClient {
           this.ls.capFlag = data.features
           document.location.reload()
         }
-        this.ls.room = data.room
+        this.ls.user = data.user
         this.ls.vapid = data.vapid
         if (data.menu.defaultItems) {
           this.ls.defaultItems = data.menu.defaultItems

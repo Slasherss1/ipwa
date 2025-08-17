@@ -1,37 +1,41 @@
 import { Injectable } from '@angular/core'
 import { News } from '../types/news.model'
+import { User } from '../types/user'
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalStorageService {
+  get user() {
+    return JSON.parse(localStorage.getItem('user')!) ?? undefined
+  }
+
+  set user(value: User | undefined) {
+    if (!value) {
+      localStorage.removeItem('user')
+    } else {
+      localStorage.setItem('user', JSON.stringify(value))
+    }
+  }
+
   permChecker(perm: string) {
     return this.admin?.includes(perm) ?? false
   }
 
   logOut() {
-    this.loggedIn = undefined
-    this.admin = undefined
+    localStorage.clear()
   }
 
   public hasRoom() {
-    if (localStorage.getItem('room')) {
+    if (this.room) {
       return true
     } else {
       return false
     }
   }
 
-  get room() {
-    return localStorage.getItem('room') ?? undefined
-  }
-
-  set room(value: string | undefined) {
-    if (!value) {
-      localStorage.removeItem('room')
-    } else {
-      localStorage.setItem('room', value)
-    }
+  get room(): string | undefined {
+    return this.user?.room
   }
 
   get news(): News[] {

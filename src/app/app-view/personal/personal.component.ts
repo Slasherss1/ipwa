@@ -31,7 +31,11 @@ export class PersonalComponent {
   checking: boolean | 'err' | 'aval' = false
   public version = environment.version
   protected logout() {
-    this.dialog.open(LogoutConfirmationComponent)
+    this.dialog.open(LogoutConfirmationComponent).afterClosed().subscribe(async (v) => {
+      if (v === true) {
+        await this.ac.logout()
+      }
+    })
   }
 
   protected openPassChange() {
