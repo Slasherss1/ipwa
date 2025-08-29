@@ -33,7 +33,12 @@ export class AppViewComponent implements OnInit {
       icon: 'newspaper',
       enabled: this.ls.capCheck(1),
     },
-    { title: 'Konto', href: 'grades', icon: 'account_circle', enabled: true },
+    {
+      title: 'Konto',
+      href: 'grades',
+      icon: 'account_circle',
+      enabled: true
+    }
   ]
 
   public get LINKS() {
