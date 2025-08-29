@@ -4,10 +4,7 @@ import { SwPush } from '@angular/service-worker'
 import { UpdatesService } from '../services/updates.service'
 import { Link } from '../types/link'
 import { LocalStorageService } from '../services/local-storage.service'
-import { interval } from 'rxjs'
-import { MatSnackBar } from '@angular/material/snack-bar'
-import { MatDialog } from '@angular/material/dialog'
-import { NotifDialogComponent } from './notif-dialog/notif-dialog.component'
+import { SyncService } from '../services/sync.service'
 
 @Component({
   selector: 'app-app-view',
@@ -20,8 +17,8 @@ export class AppViewComponent implements OnInit {
   private swPush = inject(SwPush)
   private us = inject(UpdatesService)
   private ls = inject(LocalStorageService)
-  private sb = inject(MatSnackBar)
-  private dialog = inject(MatDialog)
+  private sync = inject(SyncService)
+
 
   private readonly _LINKS: Link[] = [
     {
@@ -59,29 +56,7 @@ export class AppViewComponent implements OnInit {
 
   ngOnInit() {
     this.subscribeToNotif()
+    this.sync.notifCheck()
     this.ac.check()
-    this.newsCheck()
-    interval(1000 * 60 * 15).subscribe(() => this.newsCheck())
-  }
-
-  newsCheck() {
-    if (this.ls.capCheck(4)) {
-      this.us.getNotifCheck().subscribe(s => {
-        s.forEach(v => {
-          this.dialog.open(NotifDialogComponent, { data: v })
-        })
-      })
-    }
-    if (this.ls.newsflag) return
-    this.us.newsCheck().subscribe(s => {
-      if (s.hash != this.ls.newsCheck.hash) {
-        this.ls.newsflag = this.ls.newsCheck.count - s.count
-        this.ls.newsCheck = s
-        this.sb.open('Nowe wiadomości', 'Zamknij', {
-          duration: 5000,
-          verticalPosition: 'bottom',
-        })
-      }
-    })
   }
 }

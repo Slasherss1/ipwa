@@ -2,13 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { CleanComponent } from './clean.component'
 import { UpdatesService } from 'src/app/services/updates.service'
-import { of } from 'rxjs'
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatIconModule } from '@angular/material/icon'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatDatepicker } from '@angular/material/datepicker'
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { DateTime } from 'luxon'
+import { CleanService } from './clean.service'
 
 @Component({
   selector: 'app-date-selector',
@@ -24,11 +24,13 @@ class DateSelectorStub {
 describe('CleanComponent', () => {
   let component: CleanComponent
   let fixture: ComponentFixture<CleanComponent>
-  let updates: jasmine.SpyObj<UpdatesService>
+  let updates: jasmine.SpyObj<CleanService>
 
   beforeEach(async () => {
-    updates = jasmine.createSpyObj<UpdatesService>('UpdatesService', {
-      getClean: of(),
+    updates = jasmine.createSpyObj('CleanService', {
+      getClean: new Promise<void>(() => {
+        return
+      }),
     })
     await TestBed.configureTestingModule({
       declarations: [CleanComponent, DateSelectorStub],
