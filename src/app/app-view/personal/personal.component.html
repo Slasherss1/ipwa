@@ -7,7 +7,7 @@
   @if (ls.user?.room) {
     <h2>Pokój: {{ls.user?.room}}</h2>
   }
-  @if (ls.capCheck(16) && ls.hasRoom()) {
+  @if (ls.capCheck("clean") && ls.hasRoom()) {
     <button matButton="tonal" (click)="openClean()">Ocena za czystość
       @if (clean.dailyClean()) {
         : <span [appGradeColor]="clean.dailyClean()">{{clean.dailyClean()}}</span>
@@ -23,7 +23,7 @@
       <div matListItemLine>Poprzednio Tryb edycji</div>
     </button>
   }
-  @if (ls.capCheck(32)) {
+  @if (ls.capCheck("key")) {
     <button mat-list-item (click)="openKey()">
       <mat-icon matListItemIcon>key</mat-icon>
       <div matListItemTitle>Klucze</div>

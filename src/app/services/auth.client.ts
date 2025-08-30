@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment'
 import { LocalStorageService } from './local-storage.service'
 import { Status } from '../types/status'
 import { User } from '../types/user'
+import { Capabilities } from '../types/capability'
 
 @Injectable({
   providedIn: 'root',
@@ -59,7 +60,7 @@ export class AuthClient {
       .get<{
         admin?: string[]
         user: User,
-        features: number
+        features: Capabilities
         menu: {
           defaultItems: {
             sn: string[]
@@ -82,7 +83,6 @@ export class AuthClient {
         this.ls.admin = data.admin
         if (this.ls.capFlag != data.features) {
           this.ls.capFlag = data.features
-          document.location.reload()
         }
         this.ls.user = data.user
         this.ls.vapid = data.vapid

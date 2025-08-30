@@ -53,7 +53,7 @@ export class SyncService {
   public notifEvents = new Subject<void>()
 
   notifCheck() {
-    if (this.ls.capCheck(4)) {
+    if (this.ls.capCheck("notif")) {
       this.us.getNotifCheck().subscribe(s => {
         s.forEach(v => {
           this.dialog.open(NotifDialogComponent, { data: v })

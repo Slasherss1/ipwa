@@ -19,13 +19,13 @@ export class StartComponent {
       title: 'Jadłospis (z funkcją głosowania)',
       href: 'menu',
       icon: 'restaurant_menu',
-      enabled: this.ls.capCheck(2),
+      enabled: this.ls.capCheck("menu"),
     },
     {
       title: 'Wiadomości',
       href: 'news',
       icon: 'newspaper',
-      enabled: this.ls.capCheck(1),
+      enabled: this.ls.capCheck("news"),
     },
     {
       title: 'Ustawienia konta',
@@ -37,13 +37,13 @@ export class StartComponent {
       title: 'Klucze do sal',
       href: 'grades',
       icon: 'key',
-      enabled: this.ls.capCheck(32),
+      enabled: this.ls.capCheck("key"),
     },
     {
       title: 'Oceny za czystość',
       href: 'grades',
       icon: 'cleaning_services',
-      enabled: this.ls.capCheck(16),
+      enabled: this.ls.capCheck("clean"),
     },
     {
       title: 'Administracja',

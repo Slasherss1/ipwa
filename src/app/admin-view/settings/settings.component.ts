@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { FormBuilder } from '@angular/forms'
 import { SettingsService } from './settings.service'
+import { Capabilities } from 'src/app/types/capability'
 
 @Component({
   selector: 'app-settings',
@@ -20,6 +21,14 @@ export class SettingsComponent implements OnInit {
     menu: { defaultItems: { kol: [], sn: [] } },
     rooms: [],
     security: { loginTimeout: { attempts: 0, lockout: 0, time: 0 } },
+    modules: {
+      news: true,
+      menu: true,
+      notif: true,
+      groups: true,
+      clean: true,
+      key: true
+    }
   }
   reloadTimeout = false
 
@@ -29,10 +38,20 @@ export class SettingsComponent implements OnInit {
     lockout: this.fb.nonNullable.control(1),
   })
 
+  modules = this.fb.nonNullable.group({
+    news: this.fb.nonNullable.control(true),
+    menu: this.fb.nonNullable.control(true),
+    notif: this.fb.nonNullable.control(true),
+    groups: this.fb.nonNullable.control(true),
+    clean: this.fb.nonNullable.control(true),
+    key: this.fb.nonNullable.control(true)
+  })
+
   ngOnInit(): void {
     this.acu.getAll().subscribe(r => {
       this.usettings = r
       this.accSecTimeouts = r.security.loginTimeout
+      this.modulesConfig = r.modules
     })
   }
 
@@ -81,6 +100,18 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  set modulesConfig(value: Capabilities) {
+    this.modules.setValue(value)
+  }
+  get modulesConfig(): Capabilities {
+    return this.modules.value as Capabilities
+  }
+
+  saveModules() {
+    this.usettings.modules = this.modulesConfig
+    this.send()
+  }
+
   send() {
     this.acu.post(this.usettings).subscribe(s => {
       if (s.status == 200) {
@@ -125,5 +156,6 @@ export interface IUSettings {
       time: number
       lockout: number
     }
-  }
+  },
+  modules: Capabilities
 }

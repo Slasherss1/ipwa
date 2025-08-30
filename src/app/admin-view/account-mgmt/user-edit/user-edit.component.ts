@@ -139,7 +139,7 @@ export class UserEditComponent {
       groups: this.form.get('groups')?.value,
       admin: (() => {
         const value = this.form.get('flags')?.value
-        if (this.ls.capCheck(32)) {
+        if (this.ls.permChecker("super")) {
           return value
         } else {
           return undefined

@@ -89,6 +89,23 @@
         </mat-tab-group>
     </mat-expansion-panel>
     <!-- #endregion -->
+    <!-- #region Modules-->
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Moduły</mat-panel-title>
+            <mat-panel-description>Włączanie/Wyłączanie poszczególnych funkcji programu</mat-panel-description>
+        </mat-expansion-panel-header>
+        <form class="slide-form" [formGroup]="modules" (submit)="saveModules()">
+            <mat-slide-toggle formControlName="news">Wiadomości</mat-slide-toggle>
+            <mat-slide-toggle formControlName="menu">Jadłospis</mat-slide-toggle>
+            <mat-slide-toggle formControlName="notif">Powiadomienia</mat-slide-toggle>
+            <mat-slide-toggle formControlName="groups">Grupy</mat-slide-toggle>
+            <mat-slide-toggle formControlName="clean">Czystość</mat-slide-toggle>
+            <mat-slide-toggle formControlName="key">Klucze</mat-slide-toggle>
+            <button mat-flat-button>Zapisz</button>
+        </form>
+    </mat-expansion-panel>
+    <!-- #endregion -->
     <!-- #region Program control-->
     <mat-expansion-panel class="error-color">
         <mat-expansion-panel-header>

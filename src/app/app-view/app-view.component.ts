@@ -25,13 +25,13 @@ export class AppViewComponent implements OnInit {
       title: 'Jadłospis',
       href: 'menu',
       icon: 'restaurant_menu',
-      enabled: this.ls.capCheck(2),
+      enabled: this.ls.capCheck("menu"),
     },
     {
       title: 'Wiadomości',
       href: 'news',
       icon: 'newspaper',
-      enabled: this.ls.capCheck(1),
+      enabled: this.ls.capCheck("news"),
     },
     {
       title: 'Konto',
@@ -48,7 +48,7 @@ export class AppViewComponent implements OnInit {
   }
 
   subscribeToNotif() {
-    if (this.swPush.isEnabled && this.ls.capCheck(4)) {
+    if (this.swPush.isEnabled && this.ls.capCheck("notif")) {
       this.swPush
         .requestSubscription({
           serverPublicKey: this.ls.vapid,

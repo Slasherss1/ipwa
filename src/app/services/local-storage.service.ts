@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { News } from '../types/news.model'
 import { User } from '../types/user'
+import { Capabilities } from '../types/capability'
 
 @Injectable({
   providedIn: 'root',
@@ -78,9 +79,9 @@ export class LocalStorageService {
     return this.admin ? true : false
   }
 
-  set capFlag(n: number | null) {
+  set capFlag(n: Capabilities) {
     if (n) {
-      localStorage.setItem('cap', n.toString())
+      localStorage.setItem('cap', JSON.stringify(n))
     } else {
       localStorage.removeItem('cap')
     }
@@ -89,26 +90,21 @@ export class LocalStorageService {
   get capFlag() {
     const cap = localStorage.getItem('cap')
     if (cap) {
-      return Number(cap)
+      return JSON.parse(cap)
     } else {
-      return null
+      return {
+        clean: false,
+        groups: false,
+        key: false,
+        menu: false,
+        news: false,
+        notif: false
+      }
     }
   }
 
-  public capCheck(perm: number) {
-    return (this.capFlag! & perm) == perm
-  }
-
-  public get newsCheck(): { hash: string; count: number } {
-    const nc = localStorage.getItem('newsCheck')
-    if (nc) {
-      return JSON.parse(nc)
-    } else {
-      return { hash: '', count: 0 }
-    }
-  }
-  public set newsCheck(value: { hash: string; count: number }) {
-    localStorage.setItem('newsCheck', JSON.stringify(value))
+  public capCheck(perm: keyof Capabilities) {
+    return perm in (this.capFlag ?? {}) ? this.capFlag[perm] : false
   }
 
   public get defaultItems(): { sn: string[]; kol: string[] } {

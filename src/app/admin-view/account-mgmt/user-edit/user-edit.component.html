@@ -47,23 +47,23 @@
           <mat-form-field>
             <mat-label>Uprawnienia</mat-label>
             <mat-select multiple formControlName="flags">
-              @if (ls.capCheck(1)) {
+              @if (ls.capCheck("news")) {
                 <mat-option value="news">Wiadomości</mat-option>
               }
-              @if (ls.capCheck(2)) {
+              @if (ls.capCheck("menu")) {
                 <mat-option value="menu">Jadłospis</mat-option>
               }
-              @if (ls.capCheck(4)) {
+              @if (ls.capCheck("notif")) {
                 <mat-option value="notif">Powiadomienia</mat-option>
               }
-              @if (ls.capCheck(8)) {
+              @if (ls.capCheck("groups")) {
                 <mat-option value="groups">Grupy</mat-option>
               }
               <mat-option value="accs">Konta</mat-option>
-              @if (ls.capCheck(32)) {
+              @if (ls.capCheck("key")) {
                 <mat-option value="keys">Klucze</mat-option>
               }
-              @if (ls.capCheck(16)) {
+              @if (ls.capCheck("clean")) {
                 <mat-option value="grades">Czystość</mat-option>
               }
             </mat-select>
