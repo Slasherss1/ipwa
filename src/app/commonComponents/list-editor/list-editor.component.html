@@ -10,7 +10,7 @@
       </li>
     }
     @empty {
-      <li>[Puste]</li>
+      <li><i>[Kliknij aby edytować.]</i></li>
     }
   </ul>
 }
@@ -22,7 +22,7 @@
     <div cdkDropList class="vertical" (cdkDropListDropped)="drop($event)">
       @for (item of workList; track $index) {
         <span cdkDrag>
-          <input type="text" [(ngModel)]="workList[$index]" [attr.list]="dataList" (keyup.enter)="addPos($index)" #input>
+          <input type="text" [(ngModel)]="workList[$index]" [attr.list]="dataList" (keyup.enter)="addPos($index)" (keyup.backspace)="autoRemPos($index)" #input>
           @if (dropdown) {
             <select [(ngModel)]="workList[$index]">
               @for (option of options; track option) {
