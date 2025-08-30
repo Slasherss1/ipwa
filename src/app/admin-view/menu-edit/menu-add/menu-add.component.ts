@@ -33,12 +33,12 @@ export class MenuAddComponent {
   submit() {
     switch (this.type) {
       case 'day':
-        this.dialogRef.close({ type: 'day', value: this.day().toISODate() })
+        this.dialogRef.close({ type: 'day', value: this.day() })
         break
       case 'week':
         this.dialogRef.close({
           type: 'week',
-          value: { start: this.range.value.start?.toISODate(), count: 5 },
+          value: { start: this.range.value.start, count: 5 },
         })
         break
       default:
