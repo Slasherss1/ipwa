@@ -29,12 +29,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (this.ls.loggedIn) {
       this.sync.subscribe()
-      this.sync.newsEvents.subscribe(v => {
-        this.sb.open(v === "create" ? "Nowe wiadomości" : "Zmieniono treść wiadomości", 'Zamknij', {
-          duration: 5000,
-          verticalPosition: 'bottom',
-        })
-      })
       this.sync.notifEvents.subscribe(v => {
         this.sync.notifCheck()
       })

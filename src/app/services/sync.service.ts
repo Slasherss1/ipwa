@@ -33,9 +33,6 @@ export class SyncService {
     this.http.get<any>(environment.apiEndpoint + "/sync", { withCredentials: true }).pipe(repeat()).subscribe({
       next: v => {
         switch (v.type) {
-          case "news":
-            this.newsEvents.next(v.operation)
-            break;
           case "notif":
             this.notifEvents.next()
             break;
@@ -49,7 +46,6 @@ export class SyncService {
     })
   }
 
-  public newsEvents = new Subject<any>()
   public notifEvents = new Subject<void>()
 
   notifCheck() {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { effect, Injectable, signal } from '@angular/core'
 import { News } from '../types/news.model'
 import { User } from '../types/user'
 import { Capabilities } from '../types/capability'
@@ -37,14 +37,6 @@ export class LocalStorageService {
 
   get room(): string | undefined {
     return this.user?.room
-  }
-
-  get news(): News[] {
-    return JSON.parse(localStorage.getItem('news')!)
-  }
-
-  set news(news: News[]) {
-    localStorage.setItem('news', JSON.stringify(news))
   }
 
   get loggedIn() {
@@ -120,7 +112,33 @@ export class LocalStorageService {
     localStorage.setItem('defaultItems', JSON.stringify(value))
   }
 
-  public newsflag: number | false = false
+  public get newsDate(): Date {
+    return new Date(localStorage.getItem("newsDate")!)
+  }
+
+  public set newsDate(value: string) {
+    localStorage.setItem("newsDate", value)
+  }
+
+  public newsFlag = signal<number | null>(this._getNewsFlag())
+  private syncNewsFlag = effect(() => this._setNewsFlag)
+
+  private _getNewsFlag(): number | null {
+    const item = localStorage.getItem("newsFlag")
+    if (item) {
+      return Number(item)
+    } else {
+      return null
+    }
+  }
+
+  private _setNewsFlag(value: number | null) {
+    if (value) {
+      localStorage.setItem("newsFlag", value.toString())
+    } else {
+      localStorage.removeItem("newsFlag")
+    }
+  }
 
   public get vapid(): string {
     return localStorage.getItem('vapid')!

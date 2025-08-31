@@ -7,6 +7,7 @@ import { LocalStorageService } from './local-storage.service'
 import { Status } from '../types/status'
 import { User } from '../types/user'
 import { Capabilities } from '../types/capability'
+import _ from "underscore"
 
 @Injectable({
   providedIn: 'root',
@@ -81,8 +82,9 @@ export class AuthClient {
       )
       .subscribe(data => {
         this.ls.admin = data.admin
-        if (this.ls.capFlag != data.features) {
+        if (!_.isEqual(this.ls.capFlag, data.features)) {
           this.ls.capFlag = data.features
+          window.location.reload()
         }
         this.ls.user = data.user
         this.ls.vapid = data.vapid

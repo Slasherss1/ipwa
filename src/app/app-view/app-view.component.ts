@@ -31,6 +31,7 @@ export class AppViewComponent implements OnInit {
       title: 'Wiadomości',
       href: 'news',
       icon: 'newspaper',
+      badge: this.ls.newsFlag,
       enabled: this.ls.capCheck("news"),
     },
     {
@@ -63,5 +64,16 @@ export class AppViewComponent implements OnInit {
     this.subscribeToNotif()
     this.sync.notifCheck()
     this.ac.check()
+    this.us.getNews()
+    this.us.news.subscribe(i => {
+      const newsWithDates = i.map(v => ({ ...v, date: new Date(v.date) }))
+      const newestDate = newsWithDates.sort((a, b) => b.date.getTime() - a.date.getTime())[0].date
+      if (this.ls.newsDate.getTime() < newestDate.getTime()) {
+        this.ls.newsFlag.set(newsWithDates.filter(v => {
+          return v.date.getTime() > this.ls.newsDate.getTime()
+        }).length)
+        this.ls.newsDate = newestDate.toISOString()
+      }
+    })
   }
 }

@@ -1,4 +1,4 @@
-@if (loading) {
+@if (newsapi.newsState() != 2) {
   <mat-spinner></mat-spinner>
 }
 @for (item of news; track item) {
