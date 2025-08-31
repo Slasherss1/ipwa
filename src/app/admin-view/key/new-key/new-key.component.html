@@ -1,19 +1,23 @@
 <mat-dialog-content>
-    <form (ngSubmit)="send()" [formGroup]="form">
-        <mat-form-field color="accent">
-            <mat-label>Sala</mat-label>
-            <mat-select formControlName="room" required>
-                @for (item of rooms; track $index) {
-                    <mat-option [value]="item">{{item}}</mat-option>
-                }
-            </mat-select>
-            <mat-error *ngIf="form.controls['room'].hasError('required')">Wymagane</mat-error>
-        </mat-form-field>
-        <mat-form-field color="accent">
-            <mat-label>Wypożyczający</mat-label>
-            <app-user-search formControlName="user" required/>
-            <mat-error *ngIf="form.controls['user'].hasError('required')">Wymagane</mat-error>
-        </mat-form-field>
-        <button mat-button>Wyślij</button>
-    </form>
+  <form (ngSubmit)="send()" [formGroup]="form">
+    <mat-form-field>
+      <mat-label>Sala</mat-label>
+      <mat-select formControlName="room" required>
+        @for (item of rooms; track $index) {
+          <mat-option [value]="item">{{item}}</mat-option>
+        }
+      </mat-select>
+      @if (form.controls['room'].hasError('required')) {
+        <mat-error>Wymagane</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Wypożyczający</mat-label>
+      <app-user-search formControlName="user" required/>
+      @if (form.controls['user'].hasError('required')) {
+        <mat-error>Wymagane</mat-error>
+      }
+    </mat-form-field>
+    <button mat-button>Wyślij</button>
+  </form>
 </mat-dialog-content>

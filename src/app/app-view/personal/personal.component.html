@@ -1,42 +1,69 @@
+<div class="info">
+  @if (ls.user?.fname) {
+    <h1>{{ls.user?.fname}} {{ls.user?.surname}}</h1>
+  } @else {
+    <h1>Użytkownik: {{ls.user?.uname}}</h1>
+  }
+  @if (ls.user?.room) {
+    <h2>Pokój: {{ls.user?.room}}</h2>
+  }
+  @if (ls.capCheck("clean") && ls.hasRoom()) {
+    <button matButton="tonal" (click)="openClean()">Ocena za czystość
+      @if (clean.dailyClean()) {
+        : <span [appGradeColor]="clean.dailyClean()">{{clean.dailyClean()}}</span>
+      }
+    </button>
+  }
+</div>
 <mat-action-list>
-     <button mat-list-item (click)="logout()">
-         <mat-icon matListItemIcon color="primary">logout</mat-icon>
-         <div matListItemTitle>Wyloguj</div>
-     </button>
-     <button mat-list-item (click)="openPassChange()">
-         <mat-icon matListItemIcon color="primary">manage_accounts</mat-icon>
-         <div matListItemTitle>Zmiana hasła</div>
-     </button>
-     <button mat-list-item (click)="checkUpdate()">
-        <div matListItemIcon [ngSwitch]="checking">
-            <mat-spinner diameter="25" *ngSwitchCase="true"></mat-spinner>
-            <mat-icon *ngSwitchCase="false">update</mat-icon>
-            <mat-icon *ngSwitchCase="'err'" color="warn">error</mat-icon>
-            <mat-icon *ngSwitchCase="'aval'">upgrade</mat-icon>
-        </div>
-        <div matListItemTitle>Sprawdź dostępność aktualizacji</div>
-        <div matListItemLine>Aktualna wersja: {{version}}</div>
-     </button>
-     <button mat-list-item (click)="openKey()" *ngIf="ls.capCheck(32)">
-        <mat-icon matListItemIcon>key</mat-icon>
-        <div matListItemTitle>Klucze</div>
-     </button>
-     <button mat-list-item *ngIf="ls.capCheck(16) && ls.hasRoom()" (click)="openClean()">
-        <mat-icon matListItemIcon>cleaning_services</mat-icon>
-        <div matListItemTitle>Oceny za czystość</div>
-     </button>
-     <button mat-list-item (click)="goToAdmin()" *ngIf="ls.admin">
-         <mat-icon matListItemIcon color="accent">admin_panel_settings</mat-icon>
-         <div matListItemTitle>Panel administracyjny</div>
-         <div matListItemLine>Poprzednio Tryb edycji</div>
-     </button>
-     <button mat-list-item (click)="openExtra()">
-        <mat-icon matListItemIcon>settings_applications</mat-icon>
-        <div matListItemTitle>Dodatkowe ustawienia</div>
-     </button>
-     <button mat-list-item (click)="openAbout()">
-        <mat-icon matListItemIcon>info</mat-icon>
-        <div matListItemTitle>O programie</div>
-        <div matListItemLine>Autor, licencja, źródło</div>
-     </button>
+  @if (ls.admin) {
+    <button mat-list-item (click)="goToAdmin()">
+      <mat-icon matListItemIcon>admin_panel_settings</mat-icon>
+      <div matListItemTitle>Panel administracyjny</div>
+      <div matListItemLine>Poprzednio Tryb edycji</div>
+    </button>
+  }
+  @if (ls.capCheck("key")) {
+    <button mat-list-item (click)="openKey()">
+      <mat-icon matListItemIcon>key</mat-icon>
+      <div matListItemTitle>Klucze</div>
+    </button>
+  }
+  <button mat-list-item (click)="checkUpdate()">
+    <div matListItemIcon>
+      @switch (checking) {
+        @case (true) {
+          <mat-spinner diameter="25"></mat-spinner>
+        }
+        @case (false) {
+          <mat-icon>update</mat-icon>
+        }
+        @case ('err') {
+          <mat-icon class="error-color">error</mat-icon>
+        }
+        @case ('aval') {
+          <mat-icon>upgrade</mat-icon>
+        }
+      }
+    </div>
+    <div matListItemTitle>Sprawdź dostępność aktualizacji</div>
+    <div matListItemLine>Aktualna wersja: {{version}}</div>
+  </button>
+  <button mat-list-item (click)="openAbout()">
+    <mat-icon matListItemIcon>info</mat-icon>
+    <div matListItemTitle>O programie</div>
+    <div matListItemLine>Autor, licencja, źródło</div>
+  </button>
+  <button mat-list-item (click)="openPassChange()">
+    <mat-icon matListItemIcon>manage_accounts</mat-icon>
+    <div matListItemTitle>Zmiana hasła</div>
+  </button>
+  <button mat-list-item (click)="openExtra()">
+    <mat-icon matListItemIcon>settings_applications</mat-icon>
+    <div matListItemTitle>Dodatkowe ustawienia</div>
+  </button>
+  <button mat-list-item (click)="logout()">
+    <mat-icon matListItemIcon>logout</mat-icon>
+    <div matListItemTitle>Wyloguj</div>
+  </button>
 </mat-action-list>

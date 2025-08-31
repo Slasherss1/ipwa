@@ -1,41 +1,41 @@
 :host {
-    display: flex;
-    flex-direction: column;
-    overflow: none;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: none;
+  height: 100%;
 }
 
 #cards {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    overflow: auto;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: auto;
 }
 
 #alrg {
-    align-self: center;
+  align-self: center;
 }
 
 mat-spinner {
-    align-self: center;
+  align-self: center;
 }
 
 mat-card {
-    margin: 15px;
-    padding: 1ch;
+  margin: 15px;
+  padding: 1ch;
 }
 
 #no-data {
-    color: #777;
-    @media (prefers-color-scheme: dark) {
-        color: #AAA
-    }
+  color: #777;
+  @media (prefers-color-scheme: dark) {
+    color: #aaa;
+  }
 }
 
 mat-card-title {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 app-date-selector {
-    width: 100%;
+  width: 100%;
 }

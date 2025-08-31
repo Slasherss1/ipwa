@@ -1,61 +1,95 @@
 <div id="cards">
-    <mat-spinner *ngIf="loading"></mat-spinner>
-    <mat-card *ngIf="gettitle">
-        <mat-card-header>
-            <mat-card-title>{{gettitle}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content></mat-card-content>
+  @if (loading) {
+    <mat-spinner></mat-spinner>
+  }
+  @if (gettitle) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{gettitle}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content></mat-card-content>
     </mat-card>
-    <mat-card *ngIf="getsn">
-        <mat-card-header>
-            <mat-card-title>Śniadanie</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <ul>
-                <li *ngFor="let i of ls.defaultItems.sn">{{i}}</li>
-                <li *ngFor="let i of getsn.fancy">{{capitalize(i)}}</li>
-                <li *ngIf="getsn.second">{{capitalize(getsn.second)}}</li>
-            </ul>
-        </mat-card-content>
+  }
+  @if (getsn) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Śniadanie</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <ul>
+          @for (i of ls.defaultItems.sn; track i) {
+            <li>{{i}}</li>
+          }
+          @for (i of getsn.fancy; track i) {
+            <li>{{capitalize(i)}}</li>
+          }
+          @if (getsn.second) {
+            <li>{{capitalize(getsn.second)}}</li>
+          }
+        </ul>
+      </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="getob">
-        <mat-card-header>
-            <mat-card-title>Obiad</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <ul>
-                <li *ngIf="getob.soup">Z: {{getob.soup}}</li>
-                <li *ngIf="getob.vege" style="color: #43A047">V: {{getob.vege}}</li>
-                <li *ngIf="getob.meal">{{getob.meal}}</li>
-                <li *ngFor="let i of getob.condiments">{{i}}</li>
-                <li *ngIf="getob.drink">{{getob.drink}}</li>
-                <li *ngFor="let i of getob.other">{{i}}</li>
-            </ul>
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-icon-button (click)="vote('ob', '+')"><mat-icon [color]="menu!.obv == '+' ? 'primary' : null">thumb_up</mat-icon></button>
-            <span *ngIf="menu?.stat?.ob != 'NaN'">{{menu?.stat?.ob}}%</span>
-            <button mat-icon-button (click)="vote('ob', '-')"><mat-icon [color]="menu!.obv == '-' ? 'warn' : null">thumb_down</mat-icon></button>
-        </mat-card-actions>
+  }
+  @if (getob) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Obiad</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <ul>
+          @if (getob.soup) {
+            <li>Z: {{getob.soup}}</li>
+          }
+          @if (getob.vege) {
+            <li style="color: #43A047">V: {{getob.vege}}</li>
+          }
+          @if (getob.meal) {
+            <li>{{getob.meal}}</li>
+          }
+          @for (i of getob.condiments; track i) {
+            <li>{{i}}</li>
+          }
+          @if (getob.drink) {
+            <li>{{getob.drink}}</li>
+          }
+          @for (i of getob.other; track i) {
+            <li>{{i}}</li>
+          }
+        </ul>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-icon-button (click)="vote('ob', '+')"><mat-icon [color]="menu!.obv === '+' ? 'primary' : null">thumb_up</mat-icon></button>
+        @if (menu?.stat?.ob !== 'NaN') {
+          <span>{{menu?.stat?.ob}}%</span>
+        }
+        <button mat-icon-button (click)="vote('ob', '-')"><mat-icon [color]="menu!.obv === '-' ? 'warn' : null">thumb_down</mat-icon></button>
+      </mat-card-actions>
     </mat-card>
-    <mat-card *ngIf="getkol">
-        <mat-card-header>
-            <mat-card-title>Kolacja</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <ul [innerHTML]="getkol"></ul>
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-icon-button (click)="vote('kol', '+')"><mat-icon [color]="menu!.kolv == '+' ? 'primary' : null">thumb_up</mat-icon></button>
-            <span *ngIf="menu?.stat?.kol != 'NaN'">{{menu?.stat?.kol}}%</span>
-            <button mat-icon-button (click)="vote('kol', '-')"><mat-icon [color]="menu!.kolv == '-' ? 'warn' : null">thumb_down</mat-icon></button>
-        </mat-card-actions>
+  }
+  @if (getkol) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Kolacja</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <ul [innerHTML]="getkol"></ul>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-icon-button (click)="vote('kol', '+')"><mat-icon [color]="menu!.kolv === '+' ? 'primary' : null">thumb_up</mat-icon></button>
+        @if (menu?.stat?.kol !== 'NaN') {
+          <span>{{menu?.stat?.kol}}%</span>
+        }
+        <button mat-icon-button (click)="vote('kol', '-')"><mat-icon [color]="menu!.kolv === '-' ? 'warn' : null">thumb_down</mat-icon></button>
+      </mat-card-actions>
     </mat-card>
-    <mat-card *ngIf="!(getkol || getob || getsn || loading || gettitle)">
-        <mat-card-content id="no-data">
-            Brak danych, wybierz inny dzień.
-        </mat-card-content>
+  }
+  @if (!(getkol || getob || getsn || loading || gettitle)) {
+    <mat-card>
+      <mat-card-content id="no-data">
+        Brak danych, wybierz inny dzień.
+      </mat-card-content>
     </mat-card>
-    <button id="alrg" mat-icon-button (click)="alrg()"><mat-icon color="primary">info</mat-icon></button>
+  }
+  <button id="alrg" mat-icon-button (click)="alrg()"><mat-icon>info</mat-icon></button>
 </div>
 <app-date-selector [(date)]="day" [filter]="filter"></app-date-selector>

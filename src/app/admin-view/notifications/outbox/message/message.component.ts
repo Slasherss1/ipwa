@@ -1,31 +1,23 @@
-import { Component, Input } from '@angular/core';
-import { AdminCommService } from 'src/app/admin-view/admin-comm.service';
+import { Component, inject, Input } from '@angular/core'
+import { NotificationsService } from '../../notifications.service';
+import { Message } from '../../notifications.model';
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
-  styleUrl: './message.component.scss'
+  styleUrl: './message.component.scss',
+  standalone: false,
 })
 export class MessageComponent {
-  @Input() item!: {_id: string, sentDate: moment.Moment, title: string}
-  body?: string
-  rcpts?: {_id: string, uname: string, room?: string, fname?: string, surname?: string}[]
-  loading: boolean = false
-  constructor (readonly acu: AdminCommService) {}
+  protected acu = inject(NotificationsService)
+
+  @Input() item!: Message
 
   getMessage() {
-    this.loading = true
-    this.acu.notif.outbox.getBody(this.item._id).subscribe(v => {
-      this.body = v
-      this.loading = false
-    })
+    this.acu.getMessageBody(this.item._id)
   }
 
   getRcpts() {
-    this.loading = true
-    this.acu.notif.outbox.getRcpts(this.item._id).subscribe(v => {
-      this.rcpts = v
-      this.loading = false
-    })
+    this.acu.getMessageRcpts(this.item._id)
   }
 }

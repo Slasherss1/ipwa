@@ -1,52 +1,46 @@
-import { Injectable } from '@angular/core';
-import { News } from '../types/news';
+import { effect, Injectable, signal } from '@angular/core'
+import { News } from '../types/news.model'
+import { User } from '../types/user'
+import { Capabilities } from '../types/capability'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalStorageService {
+  get user() {
+    return JSON.parse(localStorage.getItem('user')!) ?? undefined
+  }
 
-  constructor() { }
+  set user(value: User | undefined) {
+    if (!value) {
+      localStorage.removeItem('user')
+    } else {
+      localStorage.setItem('user', JSON.stringify(value))
+    }
+  }
 
-  permChecker(neededPermNumber: number) {
-    return ((Number.parseInt(localStorage.getItem("admin")!) & neededPermNumber) == neededPermNumber)
+  permChecker(perm: string) {
+    return this.admin?.includes(perm) ?? false
   }
 
   logOut() {
-    this.loggedIn = undefined
-    this.admin = undefined
+    localStorage.clear()
   }
 
   public hasRoom() {
-    if (localStorage.getItem('room')) {
+    if (this.room) {
       return true
     } else {
       return false
     }
   }
 
-  get room() {
-    return localStorage.getItem('room') ?? undefined
-  }
-
-  set room(value: string | undefined) {
-    if (!value) {
-      localStorage.removeItem('room')
-    } else {
-      localStorage.setItem('room', value)
-    }
-  }
-
-  get news(): News[] {
-    return JSON.parse(localStorage.getItem('news')!)
-  }
-
-  set news(news: News[]) {
-    localStorage.setItem('news', JSON.stringify(news))
+  get room(): string | undefined {
+    return this.user?.room
   }
 
   get loggedIn() {
-    if (localStorage.getItem("loggedIn")) {
+    if (localStorage.getItem('loggedIn')) {
       return true
     }
     return
@@ -54,92 +48,102 @@ export class LocalStorageService {
 
   set loggedIn(is: true | undefined) {
     if (is) {
-      localStorage.setItem("loggedIn", "true")
+      localStorage.setItem('loggedIn', 'true')
     } else {
-      localStorage.removeItem("loggedIn")
+      localStorage.removeItem('loggedIn')
     }
   }
 
-  set admin(newInt: number | undefined) {
-    if (newInt) {
-      localStorage.setItem("admin", newInt.toString())
+  set admin(perms: string[] | undefined) {
+    if (perms) {
+      localStorage.setItem('admin', JSON.stringify(perms))
     } else {
       localStorage.removeItem('admin')
     }
   }
 
   get admin() {
-    var lsa = localStorage.getItem("admin")
-    return lsa ? Number.parseInt(lsa) : undefined
+    const lsa = localStorage.getItem('admin')
+    return lsa ? JSON.parse(lsa) : undefined
   }
 
-  set amgreg(toggle: boolean) {
-    if (toggle) {
-      localStorage.setItem('amgrb', "true")
-    } else {
-      localStorage.removeItem('amgrb')
-    }
+  get isAdmin(): boolean {
+    return this.admin ? true : false
   }
 
-  get amgreg() {
-    if (localStorage.getItem("amgrb") == "true") {
-      return true
-    }
-    return false
-  }
-
-  set capFlag(n: number | null) {
+  set capFlag(n: Capabilities) {
     if (n) {
-      localStorage.setItem('cap', n.toString())
+      localStorage.setItem('cap', JSON.stringify(n))
     } else {
       localStorage.removeItem('cap')
     }
   }
 
   get capFlag() {
-    var cap = localStorage.getItem('cap')
+    const cap = localStorage.getItem('cap')
     if (cap) {
-      return Number(cap)
+      return JSON.parse(cap)
+    } else {
+      return {
+        clean: false,
+        groups: false,
+        key: false,
+        menu: false,
+        news: false,
+        notif: false
+      }
+    }
+  }
+
+  public capCheck(perm: keyof Capabilities) {
+    return perm in (this.capFlag ?? {}) ? this.capFlag[perm] : false
+  }
+
+  public get defaultItems(): { sn: string[]; kol: string[] } {
+    const di = localStorage.getItem('defaultItems')
+    if (di) {
+      return JSON.parse(di)
+    } else {
+      return { sn: [], kol: [] }
+    }
+  }
+
+  public set defaultItems(value: { sn: string[]; kol: string[] }) {
+    localStorage.setItem('defaultItems', JSON.stringify(value))
+  }
+
+  public get newsDate(): Date {
+    return new Date(localStorage.getItem("newsDate")!)
+  }
+
+  public set newsDate(value: string) {
+    localStorage.setItem("newsDate", value)
+  }
+
+  public newsFlag = signal<number | null>(this._getNewsFlag())
+  private syncNewsFlag = effect(() => this._setNewsFlag)
+
+  private _getNewsFlag(): number | null {
+    const item = localStorage.getItem("newsFlag")
+    if (item) {
+      return Number(item)
     } else {
       return null
     }
   }
 
-  public capCheck(perm: number) {
-    return ((this.capFlag! & perm) == perm)
-  }
-
-  public get newsCheck(): { hash: string; count: number; } {
-    let nc = localStorage.getItem("newsCheck")
-    if (nc) {
-      return JSON.parse(nc)
+  private _setNewsFlag(value: number | null) {
+    if (value) {
+      localStorage.setItem("newsFlag", value.toString())
     } else {
-      return {hash: "", count: 0}
+      localStorage.removeItem("newsFlag")
     }
   }
-  public set newsCheck(value: { hash: string; count: number; }) {
-    localStorage.setItem("newsCheck", JSON.stringify(value))
-  }
-
-  public get defaultItems(): {sn: string[]; kol: string[];} {
-    let di = localStorage.getItem('defaultItems')
-    if (di) {
-      return JSON.parse(di)
-    } else {
-      return {sn: [], kol: []}
-    }
-  }
-
-  public set defaultItems(value: {sn: string[]; kol: string[];}) {
-    localStorage.setItem('defaultItems', JSON.stringify(value))
-  }
-
-  public newsflag: number | false = false;
 
   public get vapid(): string {
     return localStorage.getItem('vapid')!
   }
   public set vapid(value: string) {
-    localStorage.setItem("vapid", value)
+    localStorage.setItem('vapid', value)
   }
 }

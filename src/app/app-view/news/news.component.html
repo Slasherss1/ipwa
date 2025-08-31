@@ -1,17 +1,25 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
-<mat-card *ngFor="let item of news">
+@if (newsapi.newsState() != 2) {
+  <mat-spinner></mat-spinner>
+}
+@for (item of news; track item) {
+  <mat-card>
     <mat-card-header>
-        <mat-icon *ngIf="item.pinned">push_pin</mat-icon>
-        <mat-card-title>{{item.title}}</mat-card-title>
+      @if (item.pinned) {
+        <mat-icon>push_pin</mat-icon>
+      }
+      <mat-card-title>{{item.title}}</mat-card-title>
     </mat-card-header>
     <mat-card-content [innerHTML]="item.content">
     </mat-card-content>
     <mat-card-footer>
-        <p>{{item.date | date:'d-LL-yyyy HH:mm'}}</p>
+      <p>{{fullName(item)}} {{item.date | date:'d-LL-yyyy HH:mm'}}</p>
     </mat-card-footer>
-</mat-card>
-<mat-card *ngIf="news.length == 0">
+  </mat-card>
+}
+@empty {
+  <mat-card>
     <p>
-        Brak wiadomości.
+      Brak wiadomości.
     </p>
-</mat-card>
+  </mat-card>
+}

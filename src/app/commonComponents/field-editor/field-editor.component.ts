@@ -1,33 +1,43 @@
-import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  inject,
+  Input,
+  Output,
+} from '@angular/core'
 
 @Component({
   selector: 'app-field-editor',
   templateUrl: './field-editor.component.html',
-  styleUrl: './field-editor.component.scss'
+  styleUrl: './field-editor.component.scss',
+  standalone: false,
 })
 export class FieldEditorComponent {
-  @HostBinding('tabindex') tabindex = 0;
-  @Input() word!: string;
-  @Output() wordChange = new EventEmitter<string>();
-  @Input() category!: string;
-  @Input() list?: string;
+  private elRef = inject(ElementRef)
 
-  constructor (private elRef: ElementRef) { }
+  @HostBinding('tabindex') tabindex = 0
+  @Input() word!: string
+  @Output() wordChange = new EventEmitter<string>()
+  @Input() category!: string
+  @Input() list?: string
 
-  focused = false;
+  focused = false
 
   @HostListener('click') focusin() {
     if (!this.focused) {
-      console.log("in");
+      console.log('in')
       this.focused = true
     }
   }
 
   @HostListener('focusout') focusout() {
-    console.log("out");
+    console.log('out')
   }
 
-  save(event: Event,v: string) {
+  save(event: Event, v: string) {
     this.wordChange.emit(v)
     this.elRef.nativeElement.blur()
     this.focused = false

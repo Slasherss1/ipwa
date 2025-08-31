@@ -1,5 +1,5 @@
 export const environment = {
-    apiEndpoint: "http://localhost:12230",
-    version: "testing",
-    production: false
-};
+  apiEndpoint: `http://${window.location.hostname}:12230`,
+  version: 'testing',
+  production: false,
+}

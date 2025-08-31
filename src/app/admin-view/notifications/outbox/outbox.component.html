@@ -1,6 +1,9 @@
 <p>Wysłane wiadomości:</p>
 <div class="cardContainer">
-    @for (item of messages; track $index) {
-        <app-message [item]="item"></app-message>
-    }
+  @if (ns.state() !== 2) {
+    <app-load-shade [state]="ns.state()" [error]="ns.error()" (refresh)="ns.refreshOutbox()"></app-load-shade>
+  }
+  @for (item of messages; track $index) {
+      <app-message [item]="item"></app-message>
+  }
 </div>

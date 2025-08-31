@@ -1,13 +1,16 @@
-interface UKey {
-    room: string;
-    taken: boolean;
+import { DateTime } from 'luxon'
+import { User } from './user'
+
+export interface UKey {
+  room: string
+  taken: boolean
 }
 
-interface AKey {
-    room: string;
-    whom?: {_id: string, uname: string, room: string};
-    borrow?: moment.Moment;
-    tb?: moment.Moment;
-}
+export type AKeyAPI = Omit<AKey, "borrow" | "tb"> & {borrow: string, tb?: string}
 
-export { UKey, AKey }
+export interface AKey {
+  room: string
+  whom?: User
+  borrow: DateTime
+  tb?: DateTime
+}

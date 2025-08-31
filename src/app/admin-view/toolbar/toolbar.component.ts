@@ -1,25 +1,25 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { MatDrawer } from '@angular/material/sidenav';
-import { Title } from '@angular/platform-browser';
-import { ToolbarService } from './toolbar.service';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { Component, inject, Input, ViewChild } from '@angular/core'
+import { MatDrawer } from '@angular/material/sidenav'
+import { Title } from '@angular/platform-browser'
+import { ToolbarService } from './toolbar.service'
+import { MatMenuTrigger } from '@angular/material/menu'
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrl: './toolbar.component.scss'
+  styleUrl: './toolbar.component.scss',
+  standalone: false,
 })
 export class ToolbarComponent {
-  @Input() drawer!: MatDrawer;
-  @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
+  readonly title = inject(Title)
+  protected toolbar = inject(ToolbarService)
+
+  @Input() drawer!: MatDrawer
+  @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger
 
   protected _menu?: typeof this.toolbar.menu
 
-  constructor(readonly title: Title, protected toolbar: ToolbarService) {
-    
-  }
-
-  openMenu () {
+  openMenu() {
     this._menu = this.toolbar.menu
     this.trigger.openMenu()
   }

@@ -1,14 +1,20 @@
-<mat-toolbar color="accent">
-    <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
-    <span>{{title.getTitle()}}</span>
-    <span style="flex: 1 1 auto"></span>
-    <button mat-icon-button *ngIf="toolbar.menu" [matMenuTriggerFor]="menu" (click)="openMenu()"><mat-icon>more_vert</mat-icon></button>
+<mat-toolbar>
+  <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
+  <span>{{title.getTitle()}}</span>
+  <span style="flex: 1 1 auto"></span>
+  @if (toolbar.menu) {
+    <button mat-icon-button [matMenuTriggerFor]="menu" (click)="openMenu()"><mat-icon>more_vert</mat-icon></button>
+  }
 </mat-toolbar>
 <mat-menu #menu="matMenu">
-    @for (item of _menu; track $index) {
-        <button mat-menu-item *ngIf="item.check ?? true" (click)="toolbar.comp[item.fn]()">
-            <mat-icon *ngIf="item.icon">{{item.icon}}</mat-icon>
-            <span>{{item.title}}</span>
-        </button>
+  @for (item of _menu; track $index) {
+    @if (item.check ?? true) {
+      <button mat-menu-item (click)="toolbar.comp[item.fn]()">
+        @if (item.icon) {
+          <mat-icon>{{item.icon}}</mat-icon>
+        }
+        <span>{{item.title}}</span>
+      </button>
     }
+  }
 </mat-menu>

@@ -1,38 +1,48 @@
 mat-card {
-    margin: 15px;
-    padding: 1ch;
-    width: 100%;
+  margin: 15px;
+  padding: 1ch;
 }
 
 mat-card-title {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 mat-card-footer p {
-    font-size: 0.8rem;
-    color: #4a4a4a;
-    @media (prefers-color-scheme: dark) {
-        color: #999999
-    }
-    margin-bottom: 0;
-    text-align: end;
+  font-size: 0.8rem;
+  color: #4a4a4a;
+  margin-bottom: 0;
+  text-align: end;
+  @media (prefers-color-scheme: dark) {
+    color: #999999;
+  }
 }
 
 mat-card-content p {
-    white-space: pre-line;
+  white-space: pre-line;
 }
 
 mat-card p {
-    margin: 15px;
+  margin: 15px;
 }
 
 button {
-    margin-right: 4pt;
+  margin-right: 4pt;
 }
 
 :host {
-    padding: 8pt;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.mainc {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.newPost {
+  margin: 1ch;
 }

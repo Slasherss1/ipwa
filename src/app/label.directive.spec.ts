@@ -1,8 +1,12 @@
-import { LabelDirective } from './label.directive';
+import { TestBed } from '@angular/core/testing'
+import { LabelDirective } from './label.directive'
 
 describe('LabelDirective', () => {
   it('should create an instance', () => {
-    const directive = new LabelDirective();
-    expect(directive).toBeTruthy();
-  });
-});
+    let directive
+    TestBed.runInInjectionContext(() => {
+      directive = new LabelDirective()
+    })
+    expect(directive).toBeTruthy()
+  })
+})

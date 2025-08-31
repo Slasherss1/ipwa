@@ -1,23 +1,30 @@
 :host {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mainc {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 mat-paginator {
-    margin-top: auto;
+  margin-top: auto;
 }
 
 mat-form-field {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 #upper-bar {
-    display: flex;
+  display: flex;
 }
 
 button[mat-icon-button] {
-    margin-left: 4pt;
-    margin-right: 4pt;
-    margin-top: 4pt;
+  margin-left: 4pt;
+  margin-right: 4pt;
+  margin-top: 4pt;
 }

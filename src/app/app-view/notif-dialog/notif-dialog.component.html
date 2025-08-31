@@ -3,8 +3,8 @@
     <p>
         {{data.message.body}}
     </p>
-    <div>{{data.sentDate.format("[Wysłano] dddd DD MMMM YYYYr. o HH:mm")}}</div>
+    <div>Wysłano {{date.toFormat("cccc dd LLLL yyyyr. 'o' HH:mm")}}</div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" (click)="ack()">Odczytano</button>
+    <button matButton="outlined" (click)="ack()">Odczytano</button>
 </mat-dialog-actions>

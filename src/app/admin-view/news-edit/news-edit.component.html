@@ -1,30 +1,43 @@
-<button mat-raised-button (click)="newPost()" color="accent">Nowy post</button>
-<mat-spinner *ngIf="loading"></mat-spinner>
-<mat-card *ngFor="let item of news">
-    <mat-card-header>
+<button matButton="outlined" (click)="newPost()" class="newPost">Nowy post</button>
+<div class="mainc">
+  @if (ac.state() !== 2) {
+    <app-load-shade [state]="ac.state()" [error]="ac.error()" (refresh)="ac.refresh()"/>
+  }
+  @for (item of ac.news | async; track item) {
+    <mat-card>
+      <mat-card-header>
         <mat-card-title>{{item.title}}</mat-card-title>
-        <mat-icon *ngIf="item.pinned">push_pin</mat-icon>
-        <mat-card-subtitle>{{item._id}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content [innerHTML]="item.formatted">
-    </mat-card-content>
-    <mat-card-actions>
+        @if (item.pinned) {
+          <mat-icon>push_pin</mat-icon>
+        }
+      </mat-card-header>
+      <mat-card-content [innerHTML]="item.formatted"></mat-card-content>
+      <mat-card-actions>
         <button mat-mini-fab (click)="editPost(item)"><mat-icon>edit</mat-icon></button>
         <button mat-mini-fab (click)="pinToggle(item)"><mat-icon>push_pin</mat-icon></button>
-        <button mat-mini-fab (click)="visibleToggle(item)">
-            <div [ngSwitch]="item.visible">
-                <mat-icon *ngSwitchCase="true">visibility</mat-icon>
-                <mat-icon *ngSwitchDefault>visibility_off</mat-icon>
-            </div>
-        </button>
+        @switch (item.visible) {
+          @case (true) {
+              <button mat-mini-fab (click)="visibleToggle(item)">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            }
+            @default {
+              <button mat-mini-fab (click)="visibleToggle(item)" class="error-color">
+                <mat-icon>visibility_off</mat-icon>
+              </button>
+            }
+          }
         <button mat-mini-fab (click)="delete(item._id)"><mat-icon>delete_forever</mat-icon></button>
-    </mat-card-actions>
-    <mat-card-footer>
-        <p>{{item.date | date:'d-LL-yyyy HH:mm'}}</p>
-    </mat-card-footer>
-</mat-card>
-<mat-card *ngIf="news.length == 0">
-    <p>
+      </mat-card-actions>
+      <mat-card-footer>
+        <p>{{fullName(item)}} {{item.date | date:'d-LL-yyyy HH:mm'}}</p>
+      </mat-card-footer>
+    </mat-card>
+  } @empty {
+    <mat-card>
+      <p>
         Brak wiadomości.
-    </p>
-</mat-card>
+      </p>
+    </mat-card>
+  }
+</div>

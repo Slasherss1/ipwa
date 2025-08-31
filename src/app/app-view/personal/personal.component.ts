@@ -1,35 +1,39 @@
-import { Component } from '@angular/core';
-import { AuthClient } from '../../services/auth.client';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component';
-import { environment } from 'src/environments/environment';
-import { LogoutConfirmationComponent } from './logout-confirmation/logout-confirmation.component';
-import { AppUpdateService } from 'src/app/services/app-update.service';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { KeyComponent } from './key/key.component';
-import { CleanComponent } from './clean/clean.component';
-import { AboutComponent } from './about/about.component';
-import { ExtraComponent } from './extra/extra.component';
+import { Component, inject } from '@angular/core'
+import { AuthClient } from '../../services/auth.client'
+import { Router } from '@angular/router'
+import { MatDialog } from '@angular/material/dialog'
+import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component'
+import { environment } from 'src/environments/environment'
+import { LogoutConfirmationComponent } from './logout-confirmation/logout-confirmation.component'
+import { AppUpdateService } from 'src/app/services/app-update.service'
+import { LocalStorageService } from 'src/app/services/local-storage.service'
+import { KeyComponent } from './key/key.component'
+import { CleanComponent } from './clean/clean.component'
+import { AboutComponent } from './about/about.component'
+import { ExtraComponent } from './extra/extra.component'
+import { CleanService } from './clean/clean.service'
 
 @Component({
   selector: 'app-personal',
   templateUrl: './personal.component.html',
-  styleUrls: ['./personal.component.scss']
+  styleUrls: ['./personal.component.scss'],
+  standalone: false,
 })
 export class PersonalComponent {
+  private ac = inject(AuthClient)
+  private router = inject(Router)
+  private dialog = inject(MatDialog)
+  private update = inject(AppUpdateService)
+  protected clean = inject(CleanService)
+  protected ls = inject(LocalStorageService)
+
   updateaval: boolean | unknown = false
-  checking: boolean | "err" | "aval" = false
-  constructor (private ac: AuthClient, private router: Router, private dialog: MatDialog, readonly update: AppUpdateService, protected ls: LocalStorageService) {}
-  public version: any = environment.version;
+  checking: boolean | 'err' | 'aval' = false
+  public version = environment.version
   protected logout() {
-    let dialogRef = this.dialog.open(LogoutConfirmationComponent)
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.ac.logout().subscribe(() => {
-            this.router.navigateByUrl("/login")
-            this.ls.logOut()
-        })
+    this.dialog.open(LogoutConfirmationComponent).afterClosed().subscribe(async (v) => {
+      if (v === true) {
+        await this.ac.logout()
       }
     })
   }
@@ -47,19 +51,19 @@ export class PersonalComponent {
   }
 
   protected goToAdmin() {
-    this.router.navigateByUrl("admin")
+    this.router.navigateByUrl('admin')
   }
 
   protected async checkUpdate() {
     this.checking = true
     this.update.checkForUpdate().subscribe({
-      next: (v) => {
+      next: v => {
         this.checking = false
         if (v) {
-          this.checking = "aval"
+          this.checking = 'aval'
         }
       },
-      error: () => this.checking = "err"
+      error: () => (this.checking = 'err'),
     })
     this.ac.check()
   }

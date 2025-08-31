@@ -1,40 +1,40 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { AppViewComponent } from './app-view.component';
-import { AuthClient } from '../services/auth.client';
-import { SwPush } from '@angular/service-worker';
-import { UpdatesService } from '../services/updates.service';
-import { MatTabsModule } from '@angular/material/tabs';
-import { RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { of } from 'rxjs';
+import { AppViewComponent } from './app-view.component'
+import { AuthClient } from '../services/auth.client'
+import { SwPush } from '@angular/service-worker'
+import { UpdatesService } from '../services/updates.service'
+import { MatTabsModule } from '@angular/material/tabs'
+import { RouterModule } from '@angular/router'
+import { MatIconModule } from '@angular/material/icon'
+import { of } from 'rxjs'
 
 describe('AppViewComponent', () => {
-  let component: AppViewComponent;
-  let fixture: ComponentFixture<AppViewComponent>;
+  let component: AppViewComponent
+  let fixture: ComponentFixture<AppViewComponent>
 
   beforeEach(() => {
     const authSpy = jasmine.createSpyObj('AuthClient', ['check'])
     const pushSpy = jasmine.createSpyObj('SwPush', ['requestSubscription'])
     const updatesSpy = jasmine.createSpyObj('UpdatesService', {
-      newsCheck: of()
+      newsCheck: of(),
     })
     TestBed.configureTestingModule({
       declarations: [AppViewComponent],
       providers: [
-        {provide: AuthClient, useValue: authSpy},
-        {provide: SwPush, useValue: pushSpy},
-        {provide: UpdatesService, useValue: updatesSpy}
+        { provide: AuthClient, useValue: authSpy },
+        { provide: SwPush, useValue: pushSpy },
+        { provide: UpdatesService, useValue: updatesSpy },
       ],
-      imports: [MatTabsModule, RouterModule.forRoot([]), MatIconModule]
-    });
-    fixture = TestBed.createComponent(AppViewComponent);
-    component = fixture.componentInstance;
+      imports: [MatTabsModule, RouterModule.forRoot([]), MatIconModule],
+    })
+    fixture = TestBed.createComponent(AppViewComponent)
+    component = fixture.componentInstance
 
-    fixture.detectChanges();
-  });
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

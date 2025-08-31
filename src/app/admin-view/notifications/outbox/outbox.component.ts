@@ -1,42 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { AdminCommService } from '../../admin-comm.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { ToolbarService } from '../../toolbar/toolbar.service';
-import * as moment from 'moment';
+import { Component, inject, OnInit } from '@angular/core'
+import { Router, ActivatedRoute } from '@angular/router'
+import { ToolbarService } from '../../toolbar/toolbar.service'
+import { NotificationsService } from '../notifications.service'
+import { Message } from '../notifications.model'
 
 @Component({
   selector: 'app-outbox',
   templateUrl: './outbox.component.html',
-  styleUrl: './outbox.component.scss'
+  styleUrl: './outbox.component.scss',
+  standalone: false,
 })
 export class OutboxComponent implements OnInit {
+  protected ns = inject(NotificationsService)
+  private toolbar = inject(ToolbarService)
+  private router = inject(Router)
+  private route = inject(ActivatedRoute)
 
-  messages!: {
-    _id: string;
-    sentDate: moment.Moment;
-    title: string;
-  }[]
+  messages!: Message[]
 
-  constructor (private readonly acs: AdminCommService, private toolbar: ToolbarService, private router: Router, private route: ActivatedRoute ) {
+  constructor() {
     this.toolbar.comp = this
     this.toolbar.menu = [
-      { title: "Powiadomienia", fn: "goBack", icon: "arrow_back" }
+      { title: 'Powiadomienia', fn: 'goBack', icon: 'arrow_back' },
     ]
   }
 
   goBack() {
-    this.router.navigate(['../'], {relativeTo: this.route})
+    this.router.navigate(['../'], { relativeTo: this.route })
   }
 
   ngOnInit(): void {
-    this.acs.notif.outbox.getSent().subscribe((v) => {
-      this.messages = v.map(i => {
-        return {
-          ...i, 
-          sentDate: moment(i.sentDate)
-        }
-      })
+    this.ns.refreshOutbox()
+    this.ns.msgs.subscribe(v => {
+      this.messages = v
     })
   }
-
 }

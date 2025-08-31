@@ -1,16 +1,18 @@
 <mat-card>
-    <mat-card-content>
-        <form [formGroup]="form">
-            <mat-form-field appearance="outline">
-                <mat-label>Login</mat-label>
-                <input type="text" matInput formControlName="uname">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>Hasło</mat-label>
-                <input type="password" matInput formControlName="pass">
-            </mat-form-field>
-            <button mat-stroked-button color="primary" (click)="submit()">Zaloguj</button>
-            <p *ngIf="error" style="color: red;">{{error}}</p>
-        </form>
-    </mat-card-content>
+  <mat-card-content>
+    <form [formGroup]="form">
+      <mat-form-field appearance="outline">
+        <mat-label>Login</mat-label>
+        <input type="text" matInput formControlName="uname">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Hasło</mat-label>
+        <input type="password" matInput formControlName="pass">
+      </mat-form-field>
+      <button mat-stroked-button (click)="submit()">Zaloguj</button>
+      @if (error) {
+        <p style="color: red;">{{error}}</p>
+      }
+    </form>
+  </mat-card-content>
 </mat-card>

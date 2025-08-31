@@ -3,11 +3,11 @@
         <router-outlet></router-outlet>
     </div>
 </mat-tab-nav-panel>
-<nav mat-tab-nav-bar id="bot-navigation" [tabPanel]="tp" color="primary">
+<nav mat-tab-nav-bar id="bot-navigation" [tabPanel]="tp">
     @for (link of LINKS; track link) {
         <a mat-tab-link [routerLink]="link.href" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
             <div>
-                <div><mat-icon>{{link.icon}}</mat-icon></div>
+                <div><mat-icon [matBadge]="link.badge && link.badge()">{{link.icon}}</mat-icon></div>
                 <div>{{link.title}}</div>
             </div>
         </a>

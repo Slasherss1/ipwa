@@ -1,28 +1,25 @@
-import { Injectable } from "@angular/core";
-import { DateRange, MatDateRangeSelectionStrategy } from "@angular/material/datepicker";
-import * as moment from "moment";
+import { Injectable } from '@angular/core'
+import {
+  DateRange,
+  MatDateRangeSelectionStrategy,
+} from '@angular/material/datepicker'
+import { DateTime } from 'luxon'
 
 @Injectable()
-export class FDSelection implements MatDateRangeSelectionStrategy<moment.Moment> {
-    selectionFinished(date: moment.Moment | null): DateRange<moment.Moment> {
-        return this._cr(date)
-    }
-    createPreview(activeDate: moment.Moment | null): DateRange<moment.Moment> {
-        return this._cr(activeDate)
-    }
-
-    private _cr(date: moment.Moment | null) {
-        if (date) {
-            const start = moment(date).startOf('week')
-            const end = moment(date).isoWeekday(5).endOf('day')
-            return new DateRange<moment.Moment>(start, end)
-        }
-        return new DateRange<moment.Moment>(null, null)
-    }
-    
-}
-
-export const weekendFilter = (date: moment.Moment | null): boolean => {
-    const day = date?.isoWeekday()
-    return day !== 6 && day !== 7
+export class FDSelection implements MatDateRangeSelectionStrategy<DateTime> {
+  selectionFinished(date: DateTime | null): DateRange<DateTime> {
+    return this._cr(date)
   }
+  createPreview(activeDate: DateTime | null): DateRange<DateTime> {
+    return this._cr(activeDate)
+  }
+
+  private _cr(date: DateTime | null) {
+    if (date) {
+      const start = date.toUTC().startOf('week')
+      const end = date.toUTC().set({ weekday: 5 }).endOf('day')
+      return new DateRange<DateTime>(start, end)
+    }
+    return new DateRange<DateTime>(null, null)
+  }
+}

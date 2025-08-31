@@ -1,18 +1,14 @@
 :host {
-    display: flex;
-    align-items: center;
-    gap: 1ch;
-}
-
-.room {
-    color: gray;
+  display: flex;
+  align-items: center;
+  gap: 1ch;
 }
 
 input {
-    border: none;
-    background: none;
-    padding: 0;
-    outline: 0;
-    font: inherit;
-    color: currentColor;
+  border: none;
+  background: none;
+  padding: 0;
+  outline: 0;
+  font: inherit;
+  color: currentColor;
 }

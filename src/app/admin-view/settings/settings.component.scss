@@ -1,4 +1,11 @@
 :host {
-    margin: 15px;
-    display: block;
+  margin: 15px;
+  display: block;
+}
+
+.slide-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: fit-content;
 }

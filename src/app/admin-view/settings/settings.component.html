@@ -1,7 +1,6 @@
 <mat-accordion>
     <!-- #region Rooms-->
     <mat-expansion-panel>
-        <!-- TODO: Make more ergonomic -->
         <mat-expansion-panel-header>
             <mat-panel-title>Pokoje</mat-panel-title>
             <mat-panel-description>Numery wszystkich pokoi</mat-panel-description>
@@ -61,7 +60,7 @@
         <mat-expansion-panel-header>
             <mat-panel-title>Bezpieczeństwo</mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-tab-group color="accent">
+        <mat-tab-group>
             <mat-tab label="Konta">
                 <p>
                     Domyślne hasło użytkownika po wygenerowaniu konto to <code>pierwszelogowanie</code><br>
@@ -69,31 +68,48 @@
                 </p>
                 <form [formGroup]="accSec" (submit)="saveAccSecTimeouts()">
                     <p>Ograniczenia logowania</p>
-                    <mat-form-field color="accent">
+                    <mat-form-field>
                         <mat-label>Dozwolone próby logowania</mat-label>
                         <input matInput type="number" formControlName="attempts">
                     </mat-form-field><br>
-                    <mat-form-field color="accent">
+                    <mat-form-field>
                         <mat-label>Okres liczenia prób</mat-label>
                         <input matInput type="number" formControlName="time">
                         <mat-hint>Podaj w minutach</mat-hint>
                     </mat-form-field><br>
-                    <mat-form-field color="accent">
+                    <mat-form-field>
                         <mat-label>Czas blokady konta</mat-label>
                         <input matInput type="number" formControlName="lockout">
                         <mat-hint>Podaj w minutach</mat-hint>
                     </mat-form-field><br>
-                    <button mat-flat-button color="accent">Zapisz</button>
+                    <button mat-flat-button>Zapisz</button>
                 </form>
             </mat-tab>
         </mat-tab-group>
     </mat-expansion-panel>
     <!-- #endregion -->
-    <!-- #region Program control-->
+    <!-- #region Modules-->
     <mat-expansion-panel>
         <mat-expansion-panel-header>
+            <mat-panel-title>Moduły</mat-panel-title>
+            <mat-panel-description>Włączanie/Wyłączanie poszczególnych funkcji programu</mat-panel-description>
+        </mat-expansion-panel-header>
+        <form class="slide-form" [formGroup]="modules" (submit)="saveModules()">
+            <mat-slide-toggle formControlName="news">Wiadomości</mat-slide-toggle>
+            <mat-slide-toggle formControlName="menu">Jadłospis</mat-slide-toggle>
+            <mat-slide-toggle formControlName="notif">Powiadomienia</mat-slide-toggle>
+            <mat-slide-toggle formControlName="groups">Grupy</mat-slide-toggle>
+            <mat-slide-toggle formControlName="clean">Czystość</mat-slide-toggle>
+            <mat-slide-toggle formControlName="key">Klucze</mat-slide-toggle>
+            <button mat-flat-button>Zapisz</button>
+        </form>
+    </mat-expansion-panel>
+    <!-- #endregion -->
+    <!-- #region Program control-->
+    <mat-expansion-panel class="error-color">
+        <mat-expansion-panel-header>
             <mat-panel-title>Sterowanie programem</mat-panel-title>
-            <mat-panel-description><span style="color: red;">Zachowaj szczególną ostrożność przy tych ustawieniach!</span></mat-panel-description>
+            <mat-panel-description>Zachowaj szczególną ostrożność przy tych ustawieniach!</mat-panel-description>
         </mat-expansion-panel-header>
         <!-- <button mat-fab extended color="warn">
             <mat-icon>power_settings_new</mat-icon>

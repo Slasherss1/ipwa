@@ -1,28 +1,34 @@
 <app-date-selector [(date)]="date" [filter]="filter" (dateChange)="downloadData()"></app-date-selector>
 <app-room-chooser [rooms]="rooms" (room)="roomNumber($event)"/>
 <form [formGroup]="form">
-    <p>Czystość pokoju {{room}} na dzień {{date.format("dddd")}}</p>
-    <p>Ocena: {{grade}}</p>
-    <div id="buttons">
-        <button mat-mini-fab (click)="downloadData()" color="accent"><mat-icon>cancel</mat-icon></button>
-        <button mat-mini-fab (click)="attendence()" color="accent"><mat-icon>overview</mat-icon></button>
-        <button mat-mini-fab (click)="save()" color="accent"><mat-icon>save</mat-icon></button>
-        <button mat-mini-fab color="warn" (click)="remove()" *ngIf="id"><mat-icon>delete</mat-icon></button>
+  <p>Czystość pokoju {{room}} na {{date().toFormat("cccc, D")}}</p>
+  <p>Ocena: <span [appGradeColor]="grade">{{grade}}</span></p>
+  <div id="buttons">
+    <button mat-mini-fab (click)="downloadData()"><mat-icon>cancel</mat-icon></button>
+    <button mat-mini-fab (click)="attendence()"><mat-icon>overview</mat-icon></button>
+    <button mat-mini-fab (click)="save()"><mat-icon>save</mat-icon></button>
+    @if (id) {
+      <button mat-mini-fab class="error-color" (click)="remove()"><mat-icon>delete</mat-icon></button>
+    }
+  </div>
+  @for (item of things.controls; track item; let i = $index) {
+    <div formArrayName="things" id="things">
+      <div formGroupName="{{i}}">
+        <mat-checkbox formControlName="cb" #cb>
+          <span control="label"></span>
+          @if (cb.checked) {
+            <span>
+              <button mat-icon-button (click)="group.sub(i)"><mat-icon>remove</mat-icon></button>
+              <span control="weight"></span>
+              <button mat-icon-button (click)="group.add(i)"><mat-icon>add</mat-icon></button>
+            </span>
+          }
+        </mat-checkbox>
+      </div>
     </div>
-    <div *ngFor="let item of things.controls; let i = index" formArrayName="things" id="things">
-        <div formGroupName="{{i}}">
-            <mat-checkbox formControlName="cb" #cb>
-                <span control="label"></span>
-                <span *ngIf="cb.checked">
-                    <button mat-icon-button (click)="group.sub(i)"><mat-icon>remove</mat-icon></button>
-                    <span control="weight"></span>
-                    <button mat-icon-button (click)="group.add(i)"><mat-icon>add</mat-icon></button>
-                </span>
-            </mat-checkbox>
-        </div>
-    </div>
-    <mat-form-field style="width: 100%;">
-        <mat-label>Dodatkowe uwagi</mat-label>
-        <textarea matNativeControl cdkTextareaAutosize formControlName="tips"></textarea>
-    </mat-form-field>
+  }
+  <mat-form-field style="width: 100%;">
+    <mat-label>Dodatkowe uwagi</mat-label>
+    <textarea matNativeControl cdkTextareaAutosize formControlName="tips"></textarea>
+  </mat-form-field>
 </form>

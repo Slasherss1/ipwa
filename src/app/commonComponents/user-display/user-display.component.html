@@ -1,0 +1,8 @@
+@if (fname()) {
+  {{fname()}} {{surname()}}
+  @if (room()) {
+    <span class="room">({{room()}})</span>
+  }
+} @else {
+  {{uname()}}
+}

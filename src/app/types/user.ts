@@ -1,15 +1,7 @@
-import { Moment } from "moment";
-
-export default interface User {
-    _id: string;
-    uname: string;
-    pass: string;
-    room?: string;
-    admin?: number;
-    locked?: boolean;
-    fname?: string;
-    surname?: string;
-    groups: string[];
-    regDate: Moment;
-    defaultPage?: string;
+export interface User {
+  _id: string
+  fname: string
+  surname: string
+  uname: string
+  room: string
 }
