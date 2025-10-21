@@ -55,7 +55,7 @@ export class LocalStorageService {
   }
 
   set admin(perms: string[] | undefined) {
-    if (perms) {
+    if (perms && perms.length != 0) {
       localStorage.setItem('admin', JSON.stringify(perms))
     } else {
       localStorage.removeItem('admin')
