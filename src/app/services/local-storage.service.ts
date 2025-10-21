@@ -55,7 +55,7 @@ export class LocalStorageService {
   }
 
   set admin(perms: string[] | undefined) {
-    if (perms) {
+    if (perms && perms.length != 0) {
       localStorage.setItem('admin', JSON.stringify(perms))
     } else {
       localStorage.removeItem('admin')
@@ -80,23 +80,27 @@ export class LocalStorageService {
   }
 
   get capFlag() {
-    const cap = localStorage.getItem('cap')
-    if (cap) {
-      return JSON.parse(cap)
-    } else {
-      return {
-        clean: false,
-        groups: false,
-        key: false,
-        menu: false,
-        news: false,
-        notif: false
+    const capItem = localStorage.getItem('cap')
+    if (capItem) {
+      const cap = JSON.parse(capItem)
+      if (typeof cap == "object") {
+        return cap
+      } else {
+        localStorage.removeItem('cap')
       }
+    }
+    return {
+      clean: false,
+      groups: false,
+      key: false,
+      menu: false,
+      news: false,
+      notif: false
     }
   }
 
   public capCheck(perm: keyof Capabilities) {
-    return perm in (this.capFlag ?? {}) ? this.capFlag[perm] : false
+    return perm in this.capFlag ? this.capFlag[perm] : false
   }
 
   public get defaultItems(): { sn: string[]; kol: string[] } {
