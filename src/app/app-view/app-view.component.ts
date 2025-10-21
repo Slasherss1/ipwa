@@ -67,7 +67,7 @@ export class AppViewComponent implements OnInit {
     this.us.getNews()
     this.us.news.subscribe(i => {
       const newsWithDates = i.map(v => ({ ...v, date: new Date(v.date) }))
-      const newestDate = newsWithDates.sort((a, b) => b.date.getTime() - a.date.getTime())[0].date
+      const newestDate = newsWithDates.sort((a, b) => b.date.getTime() - a.date.getTime())[0]?.date ?? new Date(0)
       if (this.ls.newsDate.getTime() < newestDate.getTime()) {
         this.ls.newsFlag.set(newsWithDates.filter(v => {
           return v.date.getTime() > this.ls.newsDate.getTime()
