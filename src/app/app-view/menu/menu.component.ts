@@ -61,10 +61,6 @@ export class MenuComponent {
     return false
   }
 
-  capitalize(str: string) {
-    return str.charAt(0).toUpperCase() + str.substring(1)
-  }
-
   updateMenu(silent?: boolean) {
     this.loading = !silent
     if (!silent) this.menu = undefined

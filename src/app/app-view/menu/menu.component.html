@@ -21,10 +21,10 @@
             <li>{{i}}</li>
           }
           @for (i of getsn.fancy; track i) {
-            <li>{{capitalize(i)}}</li>
+            <li>{{i | capitalize}}</li>
           }
           @if (getsn.second) {
-            <li>{{capitalize(getsn.second)}}</li>
+            <li>{{getsn.second | capitalize}}</li>
           }
         </ul>
       </mat-card-content>

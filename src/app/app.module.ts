@@ -88,7 +88,7 @@ import { StartAdminComponent } from './admin-view/start/start.component'
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
 import { LoadShadeComponent } from './commonComponents/load-shade/load-shade.component'
 import { GradeColorDirective } from './grade-color.directive';
-import { UserDisplayComponent } from './commonComponents/user-display/user-display.component'
+import { CapitalizePipe } from "./capitalize.pipe";
 
 @NgModule({
   declarations: [
@@ -187,6 +187,7 @@ import { UserDisplayComponent } from './commonComponents/user-display/user-displ
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    CapitalizePipe
   ],
   providers: [
     provideLuxonDateAdapter(),
@@ -194,4 +195,4 @@ import { UserDisplayComponent } from './commonComponents/user-display/user-displ
     provideHttpClient(withInterceptorsFromDi()),
   ],
 })
-export class AppModule {}
+export class AppModule { }
