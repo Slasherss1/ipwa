@@ -7,6 +7,7 @@ import { filterLook, weekendFilter } from '../../util'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { DateTime } from 'luxon'
 import { toObservable } from '@angular/core/rxjs-interop'
+import { PollDialogComponent } from './poll-dialog/poll-dialog.component'
 
 @Component({
   selector: 'app-menu',
@@ -81,9 +82,12 @@ export class MenuComponent {
     return 'inherit'
   }
 
-  vote(type: 'ob' | 'kol', vote: '-' | '+' | 'n') {
-    this.uc.postVote(this.menu!.day.toISO()!, type, vote).subscribe(() => {
-      this.updateMenu(true)
+  openPoll(type: "sn" | "ob" | "kol") {
+    this.bs.open(PollDialogComponent, {
+      data: {
+        menu: this.menu,
+        type
+      }
     })
   }
 }

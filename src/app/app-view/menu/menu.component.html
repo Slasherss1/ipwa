@@ -28,6 +28,12 @@
           }
         </ul>
       </mat-card-content>
+      <mat-card-actions>
+        <button mat-icon-button (click)="openPoll('sn')"><mat-icon>star</mat-icon></button>
+        <!-- @if (menu?.stat?.sn !== 'NaN') {
+          <span>{{menu?.stat?.sn}}%</span>
+        } -->
+      </mat-card-actions>
     </mat-card>
   }
   @if (getob) {
@@ -58,11 +64,10 @@
         </ul>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-icon-button (click)="vote('ob', '+')"><mat-icon [color]="menu!.obv === '+' ? 'primary' : null">thumb_up</mat-icon></button>
+        <button mat-icon-button (click)="openPoll('ob')"><mat-icon>star</mat-icon></button>
         @if (menu?.stat?.ob !== 'NaN') {
           <span>{{menu?.stat?.ob}}%</span>
         }
-        <button mat-icon-button (click)="vote('ob', '-')"><mat-icon [color]="menu!.obv === '-' ? 'warn' : null">thumb_down</mat-icon></button>
       </mat-card-actions>
     </mat-card>
   }
@@ -75,11 +80,10 @@
         <ul [innerHTML]="getkol"></ul>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-icon-button (click)="vote('kol', '+')"><mat-icon [color]="menu!.kolv === '+' ? 'primary' : null">thumb_up</mat-icon></button>
+        <button mat-icon-button (click)="openPoll('kol')"><mat-icon>star</mat-icon></button>
         @if (menu?.stat?.kol !== 'NaN') {
           <span>{{menu?.stat?.kol}}%</span>
         }
-        <button mat-icon-button (click)="vote('kol', '-')"><mat-icon [color]="menu!.kolv === '-' ? 'warn' : null">thumb_down</mat-icon></button>
       </mat-card-actions>
     </mat-card>
   }

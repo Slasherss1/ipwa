@@ -18,8 +18,6 @@ export interface Menu {
     other: string[]
   }
   kol?: string
-  kolv?: '+' | '-' | 'n'
-  obv?: '+' | '-' | 'n'
   stat?: { kol?: string; ob?: string }
   dayTitle?: string
 }

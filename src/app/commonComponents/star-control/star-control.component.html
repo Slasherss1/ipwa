@@ -1,0 +1,9 @@
+<div>
+  <input type="number" min="1" max="5" [formControl]="control" style="display: none;">
+  @for (i of [1,2,3,4,5]; track $index) {
+    <app-star [i]="i" [(value)]="value" [disabled]="disabled" [display]="display()"/>
+  }
+  @if (value && !display()) {
+    <button mat-icon-button (click)="value = null" [disabled]="disabled"><mat-icon>clear</mat-icon></button>
+  }
+</div>

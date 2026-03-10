@@ -88,6 +88,10 @@ import { StartAdminComponent } from './admin-view/start/start.component'
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
 import { LoadShadeComponent } from './commonComponents/load-shade/load-shade.component'
 import { GradeColorDirective } from './grade-color.directive';
+import { UserDisplayComponent } from './commonComponents/user-display/user-display.component';
+import { PollDialogComponent } from './app-view/menu/poll-dialog/poll-dialog.component';
+import { StarControlComponent } from './commonComponents/star-control/star-control.component';
+import { StarComponent } from './commonComponents/star-control/star/star.component'
 import { CapitalizePipe } from "./capitalize.pipe";
 
 @NgModule({
@@ -143,6 +147,9 @@ import { CapitalizePipe } from "./capitalize.pipe";
     LoadShadeComponent,
     GradeColorDirective,
     UserDisplayComponent,
+    PollDialogComponent,
+    StarControlComponent,
+    StarComponent,
   ],
   bootstrap: [AppComponent],
   imports: [
