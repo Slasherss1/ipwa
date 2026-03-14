@@ -4,9 +4,12 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>{{item.name | capitalize}}</mat-card-title>
+    @if (item.controls.dirty) {
+      <button mat-icon-button (click)="resetGroup(item)"><mat-icon>delete</mat-icon></button>
+    }
   </mat-card-header>
   <mat-card-content>
-    <form [formGroup]="item.value">
+    <form [formGroup]="item.controls">
       <app-star-control formControlName="rating"></app-star-control>
       <mat-chip-listbox multiple formControlName="tags">
         @for (opt of TAGS[item.type]; track $index) {
@@ -22,4 +25,9 @@
 </mat-card>
 }
 <mat-divider></mat-divider>
-<button (click)="close()">Zamknij</button>
+<div class="actions">
+  <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
+  <span class="align-end">
+    <button mat-icon-button (click)="save()"><mat-icon>send</mat-icon></button>
+  </span>
+</div>

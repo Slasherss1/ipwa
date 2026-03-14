@@ -2,3 +2,21 @@ mat-form-field, textarea {
   width: 100%;
   height: fit-content;
 }
+
+div.actions {
+  display: flex;
+  align-items: center;
+  margin-top: 1em;
+  span.align-end {
+    margin-left: auto;
+  }
+}
+
+h1 {
+  text-align: center;
+}
+
+mat-card-header {
+  display: flex;
+  align-items: center;
+}

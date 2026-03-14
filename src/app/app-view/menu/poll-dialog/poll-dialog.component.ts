@@ -10,13 +10,24 @@ const TAGS = {
   soup: ['Wada zupy 1', 'Wada zupy 2', 'Wada zupy 3'],
   cd: ['Wada dodatku 1', 'Wada dodatku 2', 'Wada dodatku 3'],
   dr: ['Wada napoju 1', 'Wada napoju 2', 'Wada napoju 3'],
-  null: []
+  other: []
 } as const
 
 class PollItem {
+  get value() {
+    if (this.controls.dirty) {
+      return {
+        name: this.name,
+        type: this.type,
+        value: this.controls.value
+      }
+    }
+    return;
+  }
+
   name: string;
   type: keyof typeof TAGS;
-  value: FormGroup<{
+  controls: FormGroup<{
     rating: FormControl<number | null>,
     tags: FormControl<string[]>,
     comment: FormControl<string | null>
@@ -25,7 +36,7 @@ class PollItem {
   constructor(name: string, type: keyof typeof TAGS) {
     this.name = name
     this.type = type
-    this.value = new FormGroup({
+    this.controls = new FormGroup({
       rating: new FormControl<number | null>(null),
       tags: new FormControl<string[]>([], { nonNullable: true }),
       comment: new FormControl('')
@@ -67,7 +78,7 @@ export class PollDialogComponent {
         this.generateItem(wd.meal, 'ob')
         wd.condiments.forEach(v => this.generateItem(v, 'cd'))
         this.generateItem(wd.drink, 'dr')
-        wd.other.forEach(v => this.generateItem(v, 'null'))
+        wd.other.forEach(v => this.generateItem(v, 'other'))
         break
       }
       case 'kol':
@@ -76,7 +87,16 @@ export class PollDialogComponent {
     }
   }
 
+  save() {
+    console.table(this.items.map(v => v.value).filter(Boolean))
+  }
+
   close() {
     this.ref.dismiss();
+  }
+
+  resetGroup(item: PollItem) {
+    item.controls.reset()
+    item.controls.markAsPristine()
   }
 }
