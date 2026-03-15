@@ -73,16 +73,35 @@ export class ListEditorComponent implements OnChanges {
     this.workList.splice(index, 1)
   }
 
-  autoRemPos(index: number) {
+  autoRemPos(event: Event, index: number) {
     if (index == 0) return;
     if (this.workList[index].length != 0) return;
+    event.preventDefault()
     this.remPos(index)
     this.cdRef.detectChanges()
     this.inputList.get(index - 1)?.nativeElement.focus()
   }
 
+  prev(index: number) {
+    if (index == 0) return;
+    this.inputList.get(index - 1)?.nativeElement.focus()
+  }
+
+  next(index: number) {
+    if (this.workList[index+1] === undefined) {
+      this.addPos(index)
+    } else {
+      this._next(index)
+    }
+  }
+
   addPos(index: number) {
     this.workList.splice(index + 1, 0, '')
+    this._next(index)
+  }
+
+  private _next(index: number) {
+    this.inputList.notifyOnChanges()
     this.cdRef.detectChanges()
     this.inputList.get(index + 1)?.nativeElement.focus()
   }
