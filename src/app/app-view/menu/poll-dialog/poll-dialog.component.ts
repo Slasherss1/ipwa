@@ -88,7 +88,7 @@ export class PollDialogComponent {
   }
 
   save() {
-    console.table(this.items.map(v => v.value).filter(Boolean))
+    this.ref.dismiss(this.items.map(v => v.value).filter(Boolean))
   }
 
   close() {

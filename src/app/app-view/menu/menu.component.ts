@@ -88,6 +88,8 @@ export class MenuComponent {
         menu: this.menu,
         type
       }
+    }).afterDismissed().subscribe((v) => {
+      if (v) console.log(v)
     })
   }
 }
