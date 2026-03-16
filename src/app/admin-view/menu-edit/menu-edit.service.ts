@@ -21,27 +21,22 @@ export class MenuEditService {
   private _error = signal<string | undefined>(undefined);
   public readonly error = this._error.asReadonly();
 
-  private seDates: {
+  seDates = signal<{
     start: DateTime | null,
     end: DateTime | null
-  } = {
-      start: null,
-      end: null
-    }
-
-  public setDates(start: DateTime | null, end: DateTime | null) {
-    this.seDates.start = start
-    this.seDates.end = end
-  }
+  }>({
+    start: null,
+    end: null
+  })
 
   public refresh() {
     this.getMenu()
   }
 
   private getMenu() {
-    if (!(this.seDates.start && this.seDates.end)) return
+    if (!(this.seDates().start && this.seDates().end)) return
     this._state.set(STATE.PENDING)
-    const body = { start: this.seDates.start.toString(), end: this.seDates.end.toString() }
+    const body = { start: this.seDates().start!.toString(), end: this.seDates().end!.toString() }
     this.http.get
       <MenuAPI[]>
       (environment.apiEndpoint + `/admin/menu`, { withCredentials: true, params: body })

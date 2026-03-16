@@ -93,6 +93,8 @@ import { PollDialogComponent } from './app-view/menu/poll-dialog/poll-dialog.com
 import { StarControlComponent } from './commonComponents/star-control/star-control.component';
 import { StarComponent } from './commonComponents/star-control/star/star.component'
 import { CapitalizePipe } from "./capitalize.pipe";
+import { MenuStatsComponent } from './admin-view/menu-edit/menu-stats/menu-stats.component';
+import { MenuItemStatsDialogComponent } from './admin-view/menu-edit/menu-stats/menu-item-stats-dialog/menu-item-stats-dialog.component';
 
 @NgModule({
   declarations: [
@@ -150,6 +152,8 @@ import { CapitalizePipe } from "./capitalize.pipe";
     PollDialogComponent,
     StarControlComponent,
     StarComponent,
+    MenuStatsComponent,
+    MenuItemStatsDialogComponent,
   ],
   bootstrap: [AppComponent],
   imports: [

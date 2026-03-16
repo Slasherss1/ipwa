@@ -1,0 +1,12 @@
+<div id="upper-bar">
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Wybierz tydzień</mat-label>
+    <mat-date-range-input [rangePicker]="picker" [formGroup]="range">
+      <input matStartDate formControlName="start">
+      <input matEndDate formControlName="end">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+  <button mat-icon-button (click)="ss.refresh()"><mat-icon>search</mat-icon></button>
+</div>
