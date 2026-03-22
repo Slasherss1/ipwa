@@ -10,3 +10,113 @@
   </mat-form-field>
   <button mat-icon-button (click)="ss.refresh()"><mat-icon>search</mat-icon></button>
 </div>
+
+<div class="mainc">
+  @switch (ss.state()) {
+  @case (0) {
+  <p>Wybierz zakres dat powyżej i kliknij szukaj</p>
+  }
+  @case (1) {
+  <div class="spinner">
+    <mat-spinner />
+  </div>
+  }
+  @case (2) {
+  <table mat-table [dataSource]="dataSource">
+    <div matColumnDef="day">
+      <th mat-header-cell *matHeaderCellDef>Dzień</th>
+      <td mat-cell *matCellDef="let element">
+        <span>{{element.day.toFormat('dd.LL.yyyy')}}r.</span>
+        <p>{{element.day.toFormat('cccc') | titlecase }}</p>
+        <p>
+          {{element.dayTitle}}
+        </p>
+        <!-- <app-field-editor category="Nazwa" [(word)]="element.dayTitle" (wordChange)="editTitle(element._id)"/><br><hr> -->
+        <!-- <button (click)="remove(element._id)">Usuń dzień</button> -->
+      </td>
+    </div>
+    <div matColumnDef="sn">
+      <th mat-header-cell *matHeaderCellDef>Śniadanie</th>
+      <td mat-cell *matCellDef="let element">
+        <ul class="non-editable">
+          @for (i of ls.defaultItems.sn; track i) {
+          <li>{{i}}</li>
+          }
+        </ul>
+        <hr>
+        <ul>
+          @for (i of element.sn.fancy; track $index) {
+          <li>{{i}}</li>
+          }
+        </ul>
+        <!-- <app-list-editor [(list)]="element.sn.fancy" (edit)="editSn(element._id)" dataList="sn-fancy"/><hr> -->
+        <ul>
+          <li>{{element.sn.second}}</li>
+        </ul>
+      </td>
+    </div>
+    <div matColumnDef="ob">
+      <th mat-header-cell *matHeaderCellDef>Obiad</th>
+      <td mat-cell *matCellDef="let element">
+        <ul>
+          <!-- <li><app-field-editor category="Zupa" [(word)]="element.ob.soup" list="ob-soup" (wordChange)="editOb(element._id)"/></li> -->
+          <li>{{element.ob.soup}}</li>
+          <!-- <li><app-field-editor category="Vege" [(word)]="element.ob.vege" list="ob-vege" (wordChange)="editOb(element._id)"/></li> -->
+          <li>{{element.ob.vege}}</li>
+          <!-- <li><app-field-editor category="Danie główne" [(word)]="element.ob.meal" list="ob-meal" (wordChange)="editOb(element._id)"/></li> -->
+          <li>{{element.ob.meal}}</li>
+        </ul>
+        <hr>
+        <!-- <app-list-editor [(list)]="element.ob.condiments" (edit)="editOb(element._id)" dataList="ob-condiments"/><hr> -->
+        <ul>
+          @for (i of element.ob.condiments; track $index) {
+          <li>{{i}}</li>
+          }
+        </ul>
+        <ul>
+          <li>{{element.ob.drink}}</li>
+        </ul>
+        <hr>
+        <ul>
+          @for (i of element.ob.other; track $index) {
+          <li>{{i}}</li>
+          }
+        </ul>
+      </td>
+    </div>
+    <div matColumnDef="kol">
+      <th mat-header-cell *matHeaderCellDef>Kolacja</th>
+      <td mat-cell *matCellDef="let element">
+        <div>
+          @switch (element.day.weekday) {
+          @default {
+          <div>
+            <ul class="non-editable">
+              @for (i of ls.defaultItems.kol; track i) {
+              <li>{{i}}</li>
+              }
+            </ul>
+            <hr>
+            <ul>
+              <!-- <li><app-field-editor category="Kolacja" [(word)]="element.kol" list="kol"
+                  (wordChange)="editKol(element._id)" /></li> -->
+              <li>{{element.kol}}</li>
+            </ul>
+          </div>
+          }
+          @case (5) {
+          <div class="non-editable">
+            <p>Kolacja w domu!</p>
+          </div>
+          }
+          }
+        </div>
+      </td>
+    </div>
+
+    <tr mat-header-row *matHeaderRowDef="dcols"></tr>
+    <tr mat-row *matRowDef="let row; columns: dcols"></tr>
+  </table>
+  }
+  }
+</div>

@@ -4,6 +4,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { MAT_DATE_RANGE_SELECTION_STRATEGY } from '@angular/material/datepicker';
 import { FDSelection } from 'src/app/fd.da';
+import { MatTableDataSource } from '@angular/material/table';
+import { Menu } from 'src/app/types/menu';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-menu-stats',
@@ -16,16 +19,23 @@ import { FDSelection } from 'src/app/fd.da';
 })
 export class MenuStatsComponent {
   protected ss = inject(MenuEditService)
+  protected ls = inject(LocalStorageService)
+
+  dcols: string[] = ['day', 'sn', 'ob', 'kol']
 
   range = new FormGroup({
     start: new FormControl<DateTime | null>(null),
     end: new FormControl<DateTime | null>(null),
   })
+  dataSource: MatTableDataSource<Menu> = new MatTableDataSource<Menu>()
 
   constructor() {
     this.range.setValue(this.ss.seDates())
     this.range.valueChanges.subscribe(v => {
       this.ss.seDates.set({ start: v.start!, end: v.end! })
+    })
+    this.ss.menuItems.subscribe(v => {
+      this.dataSource.data = v
     })
   }
 }

@@ -12,9 +12,7 @@
   <button mat-icon-button (click)="addDate()"><mat-icon>add</mat-icon></button>
   <button mat-icon-button (click)="print()"><mat-icon>print</mat-icon></button>
 </div>
-@if (loading) {
-  <mat-spinner></mat-spinner>
-}
+
 <div class="mainc">
   @switch (ac.state()) {
     @case (0) {

@@ -40,7 +40,6 @@ export class MenuEditComponent implements OnDestroy {
     start: new FormControl<DateTime | null>(null),
     end: new FormControl<DateTime | null>(null),
   })
-  loading = false
   public options?: MenuOptions
 
   constructor() {
