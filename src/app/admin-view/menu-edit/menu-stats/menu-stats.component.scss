@@ -16,3 +16,8 @@ button[mat-icon-button] {
   height: 100%;
   position: relative;
 }
+
+.non-editable {
+  color: gray;
+  font-style: italic;
+}
