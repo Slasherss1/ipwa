@@ -43,11 +43,11 @@
         </ul>
         <ul>
           @for (i of element.sn.fancy; track $index) {
-          <li>{{i}}</li>
+          <li><button mat-button><mat-icon>bar_chart</mat-icon><span>{{i}}</span></button></li>
           }
         </ul>
         @if (element.sn.second) {
-        <ul>
+        <ul class="non-editable">
           <li>{{element.sn.second}}</li>
         </ul>
         }
@@ -58,28 +58,28 @@
       <td mat-cell *matCellDef="let element">
         <ul>
           @if (element.ob.soup) {
-          <li>{{element.ob.soup}}</li>
+          <li><button mat-button><mat-icon>bar_chart</mat-icon><span>{{element.ob.soup}}</span></button></li>
           }
           @if (element.ob.vege) {
-          <li>{{element.ob.vege}}</li>
+          <li><button mat-button><mat-icon>bar_chart</mat-icon><span>{{element.ob.vege}}</span></button></li>
           }
           @if (element.ob.meal) {
-          <li>{{element.ob.meal}}</li>
+          <li><button mat-button><mat-icon>bar_chart</mat-icon><span>{{element.ob.meal}}</span></button></li>
           }
         </ul>
         <ul>
           @for (i of element.ob.condiments; track $index) {
-          <li>{{i}}</li>
+          <li><button mat-button><mat-icon>bar_chart</mat-icon><span>{{i}}</span></button></li>
           }
         </ul>
         <ul>
           @if (element.ob.drink) {
-          <li>{{element.ob.drink}}</li>
+          <li><button mat-button><mat-icon>bar_chart</mat-icon><span>{{element.ob.drink}}</span></button></li>
           }
         </ul>
         <ul>
           @for (i of element.ob.other; track $index) {
-          <li>{{i}}</li>
+          <li><button mat-button><mat-icon>bar_chart</mat-icon><span>{{i}}</span></button></li>
           }
         </ul>
       </td>
@@ -98,7 +98,7 @@
             </ul>
             <ul>
               @if (element.kol) {
-              <li>{{element.kol}}</li>
+              <li><button mat-button><mat-icon>bar_chart</mat-icon><span>{{element.kol}}</span></button></li>
               }
             </ul>
           </div>
