@@ -7,6 +7,8 @@ import { FDSelection } from 'src/app/fd.da';
 import { MatTableDataSource } from '@angular/material/table';
 import { Menu } from 'src/app/types/menu';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MenuItemStatsDialogComponent } from './menu-item-stats-dialog/menu-item-stats-dialog.component';
 
 @Component({
   selector: 'app-menu-stats',
@@ -20,6 +22,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 export class MenuStatsComponent {
   protected ss = inject(MenuEditService)
   protected ls = inject(LocalStorageService)
+  protected dialog = inject(MatDialog)
 
   dcols: string[] = ['day', 'sn', 'ob', 'kol']
 
@@ -36,6 +39,12 @@ export class MenuStatsComponent {
     })
     this.ss.menuItems.subscribe(v => {
       this.dataSource.data = v
+    })
+  }
+
+  openDialog(date: DateTime, item: string) {
+    this.dialog.open(MenuItemStatsDialogComponent, {
+      data: { date, item }
     })
   }
 }
