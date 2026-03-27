@@ -30,9 +30,6 @@
       </mat-card-content>
       <mat-card-actions>
         <button mat-icon-button (click)="openPoll('sn')"><mat-icon>star</mat-icon></button>
-        <!-- @if (menu?.stat?.sn !== 'NaN') {
-          <span>{{menu?.stat?.sn}}%</span>
-        } -->
       </mat-card-actions>
     </mat-card>
   }
@@ -65,9 +62,6 @@
       </mat-card-content>
       <mat-card-actions>
         <button mat-icon-button (click)="openPoll('ob')"><mat-icon>star</mat-icon></button>
-        @if (menu?.stat?.ob !== 'NaN') {
-          <span>{{menu?.stat?.ob}}%</span>
-        }
       </mat-card-actions>
     </mat-card>
   }
@@ -81,9 +75,6 @@
       </mat-card-content>
       <mat-card-actions>
         <button mat-icon-button (click)="openPoll('kol')"><mat-icon>star</mat-icon></button>
-        @if (menu?.stat?.kol !== 'NaN') {
-          <span>{{menu?.stat?.kol}}%</span>
-        }
       </mat-card-actions>
     </mat-card>
   }

@@ -1,6 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { DateTime } from 'luxon';
+import { UpdatesService } from 'src/app/services/updates.service';
 import { Menu } from 'src/app/types/menu';
 
 const TAGS = {
@@ -33,13 +35,13 @@ class PollItem {
     comment: FormControl<string | null>
   }>
 
-  constructor(name: string, type: keyof typeof TAGS) {
+  constructor(name: string, type: keyof typeof TAGS, value?: typeof this.controls.value) {
     this.name = name
     this.type = type
     this.controls = new FormGroup({
-      rating: new FormControl<number | null>(null),
-      tags: new FormControl<string[]>([], { nonNullable: true }),
-      comment: new FormControl('')
+      rating: new FormControl<number | null>(value?.rating ?? null),
+      tags: new FormControl<string[]>(value?.tags ?? [], { nonNullable: true }),
+      comment: new FormControl(value?.comment ?? '')
     })
   }
 }
@@ -50,21 +52,34 @@ class PollItem {
   templateUrl: './poll-dialog.component.html',
   styleUrl: './poll-dialog.component.scss'
 })
-export class PollDialogComponent {
-  data = inject(MAT_BOTTOM_SHEET_DATA) as { menu: Menu, type: 'sn' | 'ob' | 'kol' }
+export class PollDialogComponent implements OnInit {
+  data = inject(MAT_BOTTOM_SHEET_DATA) as { menu: Menu, type: 'sn' | 'ob' | 'kol', date: DateTime }
   ref = inject(MatBottomSheetRef)
-
+  protected update = inject(UpdatesService)
   protected TAGS = TAGS
+
+  private _serverData: any[] = []
 
   items = [] as PollItem[]
 
   private generateItem(name: string | undefined, type: keyof typeof TAGS) {
     if (name) {
-      this.items.push(new PollItem(name, type))
+      this.items.push(new PollItem(name, type, this._serverData.find((v) => v.name == name)))
     }
   }
 
-  constructor() {
+  private async getData() {
+    return new Promise<void>((resolve) => {
+      this.update.getVote(this.data.date).subscribe((v) => {
+        this._serverData = v ?? []
+        resolve()
+      })
+    })
+  }
+
+  async ngOnInit() {
+    await this.getData()
+
     switch (this.data.type) {
       case 'sn':
         this.data.menu.sn.fancy.forEach((item) => {

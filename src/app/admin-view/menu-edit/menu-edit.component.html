@@ -61,9 +61,6 @@
               <li><app-field-editor category="Napój" [(word)]="element.ob.drink" list="ob-drink" (wordChange)="editOb(element._id)"/></li>
             </ul><hr>
             <app-list-editor [(list)]="element.ob.other" (edit)="editOb(element._id)" dataList="ob-other"/>
-            <button (click)="getStat(element.day, 'ob')">
-              Opinie wychowanków
-            </button>
           </td>
         </div>
         <div matColumnDef="kol">
@@ -81,9 +78,6 @@
                     <ul>
                       <li><app-field-editor category="Kolacja" [(word)]="element.kol" list="kol" (wordChange)="editKol(element._id)"/></li>
                     </ul>
-                    <button (click)="getStat(element.day, 'kol')">
-                      Opinie wychowanków
-                    </button>
                   </div>
                 }
                 @case (5) {

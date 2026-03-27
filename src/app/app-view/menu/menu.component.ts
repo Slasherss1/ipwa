@@ -86,10 +86,15 @@ export class MenuComponent {
     this.bs.open(PollDialogComponent, {
       data: {
         menu: this.menu,
-        type
+        type,
+        date: this.day()
       }
     }).afterDismissed().subscribe((v) => {
-      if (v) console.log(v)
+      if (v) console.log(v); else return
+      this.uc.postVote(this.day(), v).subscribe(s => {
+        console.log(s);
+
+      })
     })
   }
 }

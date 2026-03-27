@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { MenuEditService } from '../menu-edit.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DateTime } from 'luxon';
@@ -9,6 +9,7 @@ import { Menu } from 'src/app/types/menu';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MenuItemStatsDialogComponent } from './menu-item-stats-dialog/menu-item-stats-dialog.component';
+import { ToolbarService } from '../../toolbar/toolbar.service';
 
 @Component({
   selector: 'app-menu-stats',
@@ -19,9 +20,10 @@ import { MenuItemStatsDialogComponent } from './menu-item-stats-dialog/menu-item
     { provide: MAT_DATE_RANGE_SELECTION_STRATEGY, useClass: FDSelection },
   ],
 })
-export class MenuStatsComponent {
+export class MenuStatsComponent implements OnDestroy {
   protected ss = inject(MenuEditService)
   protected ls = inject(LocalStorageService)
+  protected tb = inject(ToolbarService)
   protected dialog = inject(MatDialog)
 
   dcols: string[] = ['day', 'sn', 'ob', 'kol']
@@ -40,6 +42,19 @@ export class MenuStatsComponent {
     this.ss.menuItems.subscribe(v => {
       this.dataSource.data = v
     })
+    this.tb.comp = this
+    this.tb.menu = [
+      {
+        fn: "",
+        title: "Edytowanie jadłospisu",
+        icon: "arrow_back"
+      }
+    ]
+  }
+
+  ngOnDestroy(): void {
+    this.tb.comp = undefined
+    this.tb.menu = undefined
   }
 
   openDialog(date: DateTime, item: string) {

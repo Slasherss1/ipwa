@@ -154,18 +154,6 @@ export class MenuEditComponent implements OnDestroy {
       .subscribe(s => this.refreshIfGood(s))
   }
 
-  getStat(day: DateTime, m: 'ob' | 'kol') {
-    this.ac
-      .stat(day, m)
-      .subscribe(s =>
-        this.sb.open(
-          `${s.y} / ${s.y + s.n} = ${((s.y / (s.y + s.n)) * 100).toFixed(2)}%`,
-          'Zamknij',
-          { duration: 2500 }
-        )
-      )
-  }
-
   remove(id: string) {
     this.ac.rm(id).subscribe(s => this.refreshIfGood(s))
   }
