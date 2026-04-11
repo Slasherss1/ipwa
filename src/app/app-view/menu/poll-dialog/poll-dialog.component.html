@@ -1,4 +1,12 @@
-<h1>Karta oceny</h1>
+<div class="header">
+  <div class="spacer"></div>
+  <h1>Karta oceny</h1>
+  @if (loading) {
+    <mat-spinner diameter="40" class="spacer"/>
+  } @else {
+    <div class="spacer"></div>
+  }
+</div>
 @for (item of items; track $index) {
 <mat-divider></mat-divider>
 <mat-card>

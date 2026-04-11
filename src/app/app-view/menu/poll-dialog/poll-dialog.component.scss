@@ -12,8 +12,17 @@ div.actions {
   }
 }
 
-h1 {
-  text-align: center;
+div.header {
+  display: flex;
+  align-items: center;
+
+  .spacer {
+    flex: 1;
+  }
+
+  h1 {
+    flex: 2;
+  }
 }
 
 mat-card-header {

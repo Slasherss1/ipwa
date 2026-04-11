@@ -60,7 +60,7 @@ export class UpdatesService {
       }
     });
     return this.http.post<Status>(
-      environment.apiEndpoint + `/app/menu/${date}`,
+      environment.apiEndpoint + `/app/menu/${date.toUTC(undefined, {keepLocalTime: true}).toISODate()}`,
       all,
       { withCredentials: true }
     )
