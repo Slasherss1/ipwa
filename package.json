@@ -30,7 +30,7 @@
     "marked": "^12.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "underscore": "^1.13.7",
+    "underscore": "^1.13.8",
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
