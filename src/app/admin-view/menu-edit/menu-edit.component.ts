@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnDestroy } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { MAT_DATE_RANGE_SELECTION_STRATEGY } from '@angular/material/datepicker'
 import { FDSelection } from 'src/app/fd.da'
@@ -13,6 +13,8 @@ import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { DateTime } from 'luxon'
 import { MenuEditService } from './menu-edit.service'
 import { MenuOptions } from './menu-edit.model'
+import { ToolbarService } from '../toolbar/toolbar.service'
+import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'app-menu-edit',
@@ -23,10 +25,13 @@ import { MenuOptions } from './menu-edit.model'
   ],
   standalone: false,
 })
-export class MenuEditComponent {
+export class MenuEditComponent implements OnDestroy {
   protected ac = inject(MenuEditService)
   private dialog = inject(MatDialog)
   private sb = inject(MatSnackBar)
+  private tb = inject(ToolbarService)
+  private router = inject(Router)
+  private route = inject(ActivatedRoute)
   readonly ls = inject(LocalStorageService)
 
   dcols: string[] = ['day', 'sn', 'ob', 'kol']
@@ -35,16 +40,30 @@ export class MenuEditComponent {
     start: new FormControl<DateTime | null>(null),
     end: new FormControl<DateTime | null>(null),
   })
-  loading = false
   public options?: MenuOptions
 
   constructor() {
+    this.range.setValue(this.ac.seDates())
     this.range.valueChanges.subscribe(v => {
-      this.ac.setDates(v.start!, v.end!)
+      this.ac.seDates.set({start: v.start!, end: v.end!})
     })
     this.ac.menuItems.subscribe(v => {
       this.dataSource.data = v
     })
+    this.refresh()
+    this.tb.comp = this
+    this.tb.menu = [
+      { title: "Badanie opinii", icon: "analytics", fn: "statistics"}
+    ]
+  }
+
+  ngOnDestroy(): void {
+    this.tb.comp = undefined
+    this.tb.menu = undefined
+  }
+
+  statistics() {
+    this.router.navigate(['stats'], { relativeTo: this.route })
   }
 
   print() {
@@ -133,18 +152,6 @@ export class MenuEditComponent {
     this.ac
       .editTitle(id, this.dataSource.data.find(v => v._id == id)?.dayTitle)
       .subscribe(s => this.refreshIfGood(s))
-  }
-
-  getStat(day: DateTime, m: 'ob' | 'kol') {
-    this.ac
-      .stat(day, m)
-      .subscribe(s =>
-        this.sb.open(
-          `${s.y} / ${s.y + s.n} = ${((s.y / (s.y + s.n)) * 100).toFixed(2)}%`,
-          'Zamknij',
-          { duration: 2500 }
-        )
-      )
   }
 
   remove(id: string) {

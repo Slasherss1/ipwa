@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { repeat, retry, Subject } from 'rxjs';
+import { repeat, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LocalStorageService } from './local-storage.service';
 import { UpdatesService } from './updates.service';
@@ -26,8 +26,6 @@ export class SyncService {
   private ls = inject(LocalStorageService)
   private us = inject(UpdatesService)
   private sb = inject(MatSnackBar)
-
-  constructor() { }
 
   subscribe() {
     this.http.get<any>(environment.apiEndpoint + "/sync", { withCredentials: true }).pipe(repeat()).subscribe({

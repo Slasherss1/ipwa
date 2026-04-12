@@ -21,6 +21,7 @@ import { AttendenceSummaryComponent } from './admin-view/grades/attendence-summa
 import { NotificationsComponent } from './admin-view/notifications/notifications.component'
 import { OutboxComponent } from './admin-view/notifications/outbox/outbox.component'
 import { StartAdminComponent } from './admin-view/start/start.component'
+import { MenuStatsComponent } from './admin-view/menu-edit/menu-stats/menu-stats.component'
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -51,8 +52,19 @@ const routes: Routes = [
       },
       {
         path: 'menu',
-        title: 'Edytowanie jadłospisu',
-        component: MenuEditComponent,
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            title: 'Edytowanie jadłospisu',
+            component: MenuEditComponent,
+          },
+          {
+            path: 'stats',
+            title: 'Badanie opinii',
+            component: MenuStatsComponent
+          }
+        ]
       },
       {
         path: 'accounts',
@@ -103,4 +115,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

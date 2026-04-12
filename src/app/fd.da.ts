@@ -16,8 +16,8 @@ export class FDSelection implements MatDateRangeSelectionStrategy<DateTime> {
 
   private _cr(date: DateTime | null) {
     if (date) {
-      const start = date.toUTC().startOf('week')
-      const end = date.toUTC().set({ weekday: 5 }).endOf('day')
+      const start = date.toUTC(undefined, {keepLocalTime: true}).startOf('week')
+      const end = date.toUTC(undefined, {keepLocalTime: true}).set({ weekday: 5 }).endOf('day')
       return new DateRange<DateTime>(start, end)
     }
     return new DateRange<DateTime>(null, null)

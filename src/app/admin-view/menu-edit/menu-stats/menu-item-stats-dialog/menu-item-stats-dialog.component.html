@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>
+  {{ data.date.toFormat('dd.LL.yyyy') }}<br />
+  {{ data.item }}
+</h2>
+
+<mat-dialog-content>
+  @switch (msi.state()) {
+  @case (1) {
+  <div class="spinner">
+    <mat-spinner />
+  </div>
+  }
+  @case (2) {
+  <p>Ilość opinii: {{ count }}</p>
+  <p>Ocena:</p>
+  <app-star-control [value]="rating" [display]="true"></app-star-control>
+  <p>Komentarze:</p>
+  @for (item of comments; track $index) {
+  <mat-card class="comment">
+    <mat-card-content>
+      {{item}}
+    </mat-card-content>
+  </mat-card>
+  }
+  @empty {
+    <p class="gray">Brak</p>
+  }
+  <p>Tagi:</p>
+  <mat-chip-set role="list">
+    @for (tag of tags | keyvalue; track tag.key) {
+    <mat-chip role="listitem">
+      {{tag.key}} — {{tag.value}}
+    </mat-chip>
+    }
+  </mat-chip-set>
+  }
+  @case (3) {
+  <p>Wystąpił błąd podczas ładowania statystyk: {{msi.error()}}</p>
+  }
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
