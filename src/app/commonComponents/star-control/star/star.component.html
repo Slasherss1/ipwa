@@ -1,0 +1,19 @@
+@if (display()) {
+  <span class="display">
+    @if ((value() ?? 0) >= i()) {
+     <mat-icon class="filled">star</mat-icon>
+    } @else if ((value() ?? 0) > i() - 1) {
+      <mat-icon class="filled">star_half</mat-icon>
+    } @else {
+      <mat-icon class="empty">star</mat-icon>
+    }
+  </span>
+} @else {
+  <button mat-icon-button (click)="value.set(i())" [disabled]="!disabled">
+    @if ((value() ?? 0) >= i()) {
+     <mat-icon class="filled">star</mat-icon>
+    } @else {
+      <mat-icon class="empty">star</mat-icon>
+    }
+  </button>
+}

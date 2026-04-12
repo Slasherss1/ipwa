@@ -88,7 +88,14 @@ import { StartAdminComponent } from './admin-view/start/start.component'
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
 import { LoadShadeComponent } from './commonComponents/load-shade/load-shade.component'
 import { GradeColorDirective } from './grade-color.directive';
-import { UserDisplayComponent } from './commonComponents/user-display/user-display.component'
+import { UserDisplayComponent } from './commonComponents/user-display/user-display.component';
+import { PollDialogComponent } from './app-view/menu/poll-dialog/poll-dialog.component';
+import { StarControlComponent } from './commonComponents/star-control/star-control.component';
+import { StarComponent } from './commonComponents/star-control/star/star.component'
+import { CapitalizePipe } from "./capitalize.pipe";
+import { MenuStatsComponent } from './admin-view/menu-edit/menu-stats/menu-stats.component';
+import { MenuItemStatsDialogComponent } from './admin-view/menu-edit/menu-stats/menu-item-stats-dialog/menu-item-stats-dialog.component';
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -143,6 +150,11 @@ import { UserDisplayComponent } from './commonComponents/user-display/user-displ
     LoadShadeComponent,
     GradeColorDirective,
     UserDisplayComponent,
+    PollDialogComponent,
+    StarControlComponent,
+    StarComponent,
+    MenuStatsComponent,
+    MenuItemStatsDialogComponent,
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -181,12 +193,14 @@ import { UserDisplayComponent } from './commonComponents/user-display/user-displ
     A11yModule,
     MatAutocompleteModule,
     MatBadgeModule,
+    MatTooltipModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    CapitalizePipe
   ],
   providers: [
     provideLuxonDateAdapter(),
@@ -194,4 +208,4 @@ import { UserDisplayComponent } from './commonComponents/user-display/user-displ
     provideHttpClient(withInterceptorsFromDi()),
   ],
 })
-export class AppModule {}
+export class AppModule { }

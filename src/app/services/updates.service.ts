@@ -49,14 +49,19 @@ export class UpdatesService {
     })
   }
 
-  postVote(date: string, type: 'ob' | 'kol', vote: '-' | '+' | 'n') {
-    return this.http.post(
-      environment.apiEndpoint + `/app/menu/${date}`,
-      {
-        doc: DateTime.now(),
-        tom: type,
-        vote: vote,
-      },
+  getVote(date: DateTime) {
+    return this.http.get<any>(environment.apiEndpoint + `/app/menu/${date.toISODate()}/stat`, {withCredentials: true})
+  }
+
+  postVote(date: DateTime, vote: any[]) {
+    const all = vote.map(element => {
+      return {
+        ...element
+      }
+    });
+    return this.http.post<Status>(
+      environment.apiEndpoint + `/app/menu/${date.toUTC(undefined, {keepLocalTime: true}).toISODate()}`,
+      all,
       { withCredentials: true }
     )
   }

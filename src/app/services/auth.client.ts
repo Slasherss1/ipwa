@@ -8,6 +8,7 @@ import { Status } from '../types/status'
 import { User } from '../types/user'
 import { Capabilities } from '../types/capability'
 import _ from "underscore"
+import { MenuTags } from '../types/menu'
 
 @Injectable({
   providedIn: 'root',
@@ -66,7 +67,8 @@ export class AuthClient {
           defaultItems: {
             sn: string[]
             kol: string[]
-          }
+          },
+          tags: MenuTags
         }
         vapid: string
       }>(environment.apiEndpoint + '/auth/check', { withCredentials: true })
@@ -90,6 +92,9 @@ export class AuthClient {
         this.ls.vapid = data.vapid
         if (data.menu.defaultItems) {
           this.ls.defaultItems = data.menu.defaultItems
+        }
+        if (data.menu.tags) {
+          this.ls.menuTags = data.menu.tags
         }
       })
   }

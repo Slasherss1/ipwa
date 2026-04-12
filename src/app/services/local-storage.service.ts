@@ -1,7 +1,7 @@
 import { effect, Injectable, signal } from '@angular/core'
-import { News } from '../types/news.model'
 import { User } from '../types/user'
 import { Capabilities } from '../types/capability'
+import { MenuTags } from '../types/menu'
 
 @Injectable({
   providedIn: 'root',
@@ -149,5 +149,12 @@ export class LocalStorageService {
   }
   public set vapid(value: string) {
     localStorage.setItem('vapid', value)
+  }
+
+  get menuTags() : MenuTags {
+    return JSON.parse(localStorage.getItem('menuTags') || '{}')
+  }
+  set menuTags(v: MenuTags) {
+    localStorage.setItem('menuTags', JSON.stringify(v))
   }
 }

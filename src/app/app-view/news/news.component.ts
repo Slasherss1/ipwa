@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { UpdatesService } from '../../services/updates.service'
 import { LocalStorageService } from 'src/app/services/local-storage.service'
 import { News } from 'src/app/types/news.model'
