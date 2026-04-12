@@ -11,6 +11,7 @@
   </div>
   }
   @case (2) {
+  <p>Ilość opinii: {{ count }}</p>
   <p>Ocena:</p>
   <app-star-control [value]="rating" [display]="true"></app-star-control>
   <p>Komentarze:</p>
@@ -28,7 +29,7 @@
   <mat-chip-set role="list">
     @for (tag of tags | keyvalue; track tag.key) {
     <mat-chip role="listitem">
-      {{tag.key}}: {{tag.value}}
+      {{tag.key}} — {{tag.value}}
     </mat-chip>
     }
   </mat-chip-set>

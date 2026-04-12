@@ -16,6 +16,7 @@ export class MenuItemStatsDialogComponent implements OnInit {
   protected rating = 0;
   protected comments: string[] = [];
   protected tags: Record<string, number> = {}
+  protected count = 0;
 
   ngOnInit(): void {
     this.msi.date.set(this.data.date)
@@ -26,6 +27,7 @@ export class MenuItemStatsDialogComponent implements OnInit {
       this.rating = v.value.rating ?? 0
       this.comments = v.value.comments ?? []
       this.tags = v.value.tags ?? {}
+      this.count = v.value.count ?? 0
     })
   }
 

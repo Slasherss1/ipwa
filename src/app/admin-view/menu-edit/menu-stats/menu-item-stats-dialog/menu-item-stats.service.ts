@@ -16,6 +16,7 @@ export class MenuItemStatsService {
     name: '',
     type: 'other',
     value: {
+      count: 0,
       comments: [],
       rating: 0,
       tags: {}

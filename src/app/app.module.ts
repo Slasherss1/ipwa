@@ -95,6 +95,7 @@ import { StarComponent } from './commonComponents/star-control/star/star.compone
 import { CapitalizePipe } from "./capitalize.pipe";
 import { MenuStatsComponent } from './admin-view/menu-edit/menu-stats/menu-stats.component';
 import { MenuItemStatsDialogComponent } from './admin-view/menu-edit/menu-stats/menu-item-stats-dialog/menu-item-stats-dialog.component';
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -192,6 +193,7 @@ import { MenuItemStatsDialogComponent } from './admin-view/menu-edit/menu-stats/
     A11yModule,
     MatAutocompleteModule,
     MatBadgeModule,
+    MatTooltipModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
