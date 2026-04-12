@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { FormBuilder } from '@angular/forms'
 import { SettingsService } from './settings.service'
 import { Capabilities } from 'src/app/types/capability'
+import { MenuTags } from 'src/app/types/menu'
 
 @Component({
   selector: 'app-settings',
@@ -18,7 +19,18 @@ export class SettingsComponent implements OnInit {
   usettings: IUSettings = {
     cleanThings: [],
     keyrooms: [],
-    menu: { defaultItems: { kol: [], sn: [] } },
+    menu: {
+      defaultItems: { kol: [], sn: [] },
+      tags: {
+        sn: [],
+        ob: [],
+        kol: [],
+        soup: [],
+        cd: [],
+        dr: [],
+        other: [],
+      }
+    },
     rooms: [],
     security: { loginTimeout: { attempts: 0, lockout: 0, time: 0 } },
     modules: {
@@ -31,6 +43,8 @@ export class SettingsComponent implements OnInit {
     }
   }
   reloadTimeout = false
+
+  selectedMenuItem: 'sn' | 'ob' | 'kol' | null = null
 
   accSec = this.fb.nonNullable.group({
     attempts: this.fb.nonNullable.control(1),
@@ -148,7 +162,8 @@ export interface IUSettings {
     defaultItems: {
       sn: string[]
       kol: string[]
-    }
+    },
+    tags: MenuTags
   }
   security: {
     loginTimeout: {

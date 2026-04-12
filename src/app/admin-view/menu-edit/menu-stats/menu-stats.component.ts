@@ -10,6 +10,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MenuItemStatsDialogComponent } from './menu-item-stats-dialog/menu-item-stats-dialog.component';
 import { ToolbarService } from '../../toolbar/toolbar.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu-stats',
@@ -25,6 +26,8 @@ export class MenuStatsComponent implements OnDestroy {
   protected ls = inject(LocalStorageService)
   protected tb = inject(ToolbarService)
   protected dialog = inject(MatDialog)
+  protected router = inject(Router)
+  protected route = inject(ActivatedRoute)
 
   dcols: string[] = ['day', 'sn', 'ob', 'kol']
 
@@ -45,7 +48,7 @@ export class MenuStatsComponent implements OnDestroy {
     this.tb.comp = this
     this.tb.menu = [
       {
-        fn: "",
+        fn: "goBack",
         title: "Edytowanie jadłospisu",
         icon: "arrow_back"
       }
@@ -61,5 +64,8 @@ export class MenuStatsComponent implements OnDestroy {
     this.dialog.open(MenuItemStatsDialogComponent, {
       data: { date, item }
     })
+  }
+  goBack() {
+    this.router.navigate(['../'], { relativeTo: this.route })
   }
 }

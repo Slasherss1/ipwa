@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 
-export type MenuAPI = Omit<Menu, "day"> & {day: string}
+export type MenuAPI = Omit<Menu, "day"> & { day: string }
 
 export interface Menu {
   _id: string
@@ -20,4 +20,14 @@ export interface Menu {
   kol?: string
   stat?: { kol?: string; ob?: string }
   dayTitle?: string
+}
+
+export interface MenuTags {
+  sn: string[],
+  ob: string[],
+  kol: string[],
+  soup: string[],
+  cd: string[],
+  dr: string[],
+  other: void[]
 }

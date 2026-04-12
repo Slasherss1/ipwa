@@ -3,18 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { DateTime } from 'luxon';
 import { filter, Observable, Subject } from 'rxjs';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { UpdatesService } from 'src/app/services/updates.service';
-import { Menu } from 'src/app/types/menu';
-
-const TAGS = {
-  sn: ['Wada śniadania 1', 'Wada śniadania 2', 'Wada śniadania 3'],
-  ob: ['Wada obiadu 1', 'Wada obiadu 2', 'Wada obiadu 3'],
-  kol: ['Wada kolacji 1', 'Wada kolacji 2', 'Wada kolacji 3'],
-  soup: ['Wada zupy 1', 'Wada zupy 2', 'Wada zupy 3'],
-  cd: ['Wada dodatku 1', 'Wada dodatku 2', 'Wada dodatku 3'],
-  dr: ['Wada napoju 1', 'Wada napoju 2', 'Wada napoju 3'],
-  other: []
-} as const
+import { Menu, MenuTags } from 'src/app/types/menu';
 
 class PollItem {
   get value() {
@@ -43,14 +34,14 @@ class PollItem {
   }
 
   name: string;
-  type: keyof typeof TAGS;
+  type: keyof MenuTags;
   controls: FormGroup<{
     rating: FormControl<number | null>,
     tags: FormControl<string[]>,
     comment: FormControl<string | null>
   }>
 
-  constructor(name: string, type: keyof typeof TAGS, value?: typeof this.controls.value) {
+  constructor(name: string, type: keyof MenuTags, value?: typeof this.controls.value) {
     this.name = name
     this.type = type
     this.controls = new FormGroup({
@@ -70,14 +61,15 @@ class PollItem {
 export class PollDialogComponent implements OnInit {
   data = inject(MAT_BOTTOM_SHEET_DATA) as { menu: Menu, type: 'sn' | 'ob' | 'kol', date: DateTime }
   ref = inject(MatBottomSheetRef)
+  protected ls = inject(LocalStorageService)
   protected update = inject(UpdatesService)
-  protected TAGS = TAGS
+  protected TAGS = this.ls.menuTags
 
   protected loading = false;
 
   items = [] as PollItem[]
 
-  private generateItem(name: string | undefined, type: keyof typeof TAGS, value: Observable<{ name: string, rating: number | null; tags: string[]; comment: string | null; }>) {
+  private generateItem(name: string | undefined, type: keyof MenuTags, value: Observable<{ name: string, rating: number | null; tags: string[]; comment: string | null; }>) {
     if (name) {
       this.items.push(new PollItem(name, type).setValue(value.pipe(filter(v=>v.name === name))))
     }
